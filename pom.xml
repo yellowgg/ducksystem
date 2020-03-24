@@ -45,6 +45,47 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!--。。。。。。。。。。。。。。。。。。。。。。。。。。。lombok。。。。。。。。。。。。。。。。。。。。。。。。-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.10</version>
+        </dependency>
+        <!--。。。。。。。。。。。。。。。。。。。。。。。。。。。丝袜哥。。。。。。。。。。。。。。。。。。。。。。。。-->
+        <!--    使用过程中遇到的坑    https://ego1st.cn/SwaggerNullError/-->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>2.9.2</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.swagger</groupId>
+                    <artifactId>io.swagger:swagger-models:1.5.20</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-models</artifactId>
+            <version>1.5.22</version>
+        </dependency>
+        <!-- ...................................springboot 热部署启动依赖包 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+            <scope>true</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.directory.studio</groupId>
+            <artifactId>org.apache.commons.collections</artifactId>
+            <version>3.2.1</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -52,6 +93,10 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <!-- 配置此项为true -->
+                    <fork>true</fork>
+                </configuration>
             </plugin>
         </plugins>
     </build>

@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.yellowgg.ducksystem.mapper.AdminandroleMapper">
+  <resultMap id="BaseResultMap" type="cn.yellowgg.ducksystem.entity.association.AdminAndRole">
+    <!--@mbg.generated-->
+    <!--@Table adminandrole-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="gmtCreate" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmtModify" jdbcType="TIMESTAMP" property="gmtModify" />
+    <result column="isDelete" jdbcType="INTEGER" property="isDelete" />
+    <result column="adminId" jdbcType="BIGINT" property="adminId" />
+    <result column="roleId" jdbcType="BIGINT" property="roleId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, gmtCreate, gmtModify, isDelete, adminId, roleId
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from adminandrole
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from adminandrole
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.yellowgg.ducksystem.entity.association.AdminAndRole" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into adminandrole (gmtCreate, gmtModify, isDelete, 
+      adminId, roleId)
+    values (#{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=INTEGER}, 
+      #{adminId,jdbcType=BIGINT}, #{roleId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.yellowgg.ducksystem.entity.association.AdminAndRole" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into adminandrole
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="gmtCreate != null">
+        gmtCreate,
+      </if>
+      <if test="gmtModify != null">
+        gmtModify,
+      </if>
+      <if test="isDelete != null">
+        isDelete,
+      </if>
+      <if test="adminId != null">
+        adminId,
+      </if>
+      <if test="roleId != null">
+        roleId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null">
+        #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="adminId != null">
+        #{adminId,jdbcType=BIGINT},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.yellowgg.ducksystem.entity.association.AdminAndRole">
+    <!--@mbg.generated-->
+    update adminandrole
+    <set>
+      <if test="gmtCreate != null">
+        gmtCreate = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null">
+        gmtModify = #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        isDelete = #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="adminId != null">
+        adminId = #{adminId,jdbcType=BIGINT},
+      </if>
+      <if test="roleId != null">
+        roleId = #{roleId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.yellowgg.ducksystem.entity.association.AdminAndRole">
+    <!--@mbg.generated-->
+    update adminandrole
+    set gmtCreate = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmtModify = #{gmtModify,jdbcType=TIMESTAMP},
+      isDelete = #{isDelete,jdbcType=INTEGER},
+      adminId = #{adminId,jdbcType=BIGINT},
+      roleId = #{roleId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update adminandrole
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="gmtCreate = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.gmtCreate,jdbcType=TIMESTAMP}
+        </foreach>
+      </trim>
+      <trim prefix="gmtModify = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.gmtModify,jdbcType=TIMESTAMP}
+        </foreach>
+      </trim>
+      <trim prefix="isDelete = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.isDelete,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="adminId = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.adminId,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="roleId = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.roleId,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=BIGINT}
+    </foreach>
+  </update>
+  <update id="updateBatchSelective" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update adminandrole
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="gmtCreate = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.gmtCreate != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.gmtCreate,jdbcType=TIMESTAMP}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="gmtModify = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.gmtModify != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.gmtModify,jdbcType=TIMESTAMP}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="isDelete = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.isDelete != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.isDelete,jdbcType=INTEGER}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="adminId = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.adminId != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.adminId,jdbcType=BIGINT}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="roleId = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.roleId != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.roleId,jdbcType=BIGINT}
+          </if>
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=BIGINT}
+    </foreach>
+  </update>
+  <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into adminandrole
+    (gmtCreate, gmtModify, isDelete, adminId, roleId)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.gmtCreate,jdbcType=TIMESTAMP}, #{item.gmtModify,jdbcType=TIMESTAMP}, #{item.isDelete,jdbcType=INTEGER}, 
+        #{item.adminId,jdbcType=BIGINT}, #{item.roleId,jdbcType=BIGINT})
+    </foreach>
+  </insert>
+  <insert id="insertOrUpdate" keyColumn="id" keyProperty="id" parameterType="cn.yellowgg.ducksystem.entity.association.AdminAndRole" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into adminandrole
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      gmtCreate,
+      gmtModify,
+      isDelete,
+      adminId,
+      roleId,
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      #{gmtCreate,jdbcType=TIMESTAMP},
+      #{gmtModify,jdbcType=TIMESTAMP},
+      #{isDelete,jdbcType=INTEGER},
+      #{adminId,jdbcType=BIGINT},
+      #{roleId,jdbcType=BIGINT},
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=BIGINT},
+      </if>
+      gmtCreate = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmtModify = #{gmtModify,jdbcType=TIMESTAMP},
+      isDelete = #{isDelete,jdbcType=INTEGER},
+      adminId = #{adminId,jdbcType=BIGINT},
+      roleId = #{roleId,jdbcType=BIGINT},
+    </trim>
+  </insert>
+  <insert id="insertOrUpdateSelective" keyColumn="id" keyProperty="id" parameterType="cn.yellowgg.ducksystem.entity.association.AdminAndRole" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into adminandrole
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="gmtCreate != null">
+        gmtCreate,
+      </if>
+      <if test="gmtModify != null">
+        gmtModify,
+      </if>
+      <if test="isDelete != null">
+        isDelete,
+      </if>
+      <if test="adminId != null">
+        adminId,
+      </if>
+      <if test="roleId != null">
+        roleId,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null">
+        #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="adminId != null">
+        #{adminId,jdbcType=BIGINT},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=BIGINT},
+      </if>
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=BIGINT},
+      </if>
+      <if test="gmtCreate != null">
+        gmtCreate = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null">
+        gmtModify = #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        isDelete = #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="adminId != null">
+        adminId = #{adminId,jdbcType=BIGINT},
+      </if>
+      <if test="roleId != null">
+        roleId = #{roleId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+</mapper>

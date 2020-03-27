@@ -1,8 +1,8 @@
-package cn.yellowgg.ducksystem.entity;
+package cn.yellowgg.ducksystem.entity.base;
 
+import cn.yellowgg.ducksystem.constant.UtilConstants;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
  * @Date: Created in 2020/3/24 14:42
  */
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 public class BaseEntity {
     private Long id;
@@ -21,5 +20,14 @@ public class BaseEntity {
     /**
      * 软删除 （0：未删除 1：已删除）
      */
-    private int isDelete;
+    private Integer isDelete;
+
+    public BaseEntity() {
+        /**
+         * 去掉后面的毫秒值
+         */
+        setGmtCreate(LocalDateTime.now().withNano(0));
+        setGmtModify(LocalDateTime.now().withNano(0));
+        setIsDelete(UtilConstants.Number.ZERO);
+    }
 }

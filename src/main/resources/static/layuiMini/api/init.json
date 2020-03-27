@@ -1,0 +1,57 @@
+{
+  "clearInfo": {
+    "clearUrl": "static/layuiMini/api/clear.json"
+  },
+  "homeInfo": {
+    "title": "首页",
+    "icon": "fa fa-home",
+    "href": "financeHome"
+  },
+  "logoInfo": {
+    "title": "小黄鸭",
+    "image": "static/images/logo.png",
+    "href": ""
+  },
+  "menuInfo": [
+    {
+      "title": "常规管理",
+      "icon": "fa fa-address-book",
+      "child": [
+        {
+          "title": "汇率管理",
+          "href": "",
+          "icon": "fa fa-money",
+          "target": "_self",
+          "child": [
+            {
+              "title": "汇率列表",
+              "href": "currencyRateListPage",
+              "icon": "fa fa-th-list",
+              "target": "_self"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "常规管理",
+      "icon": "fa fa-address-book",
+      "child": [
+        {
+          "title": "汇率管理",
+          "href": "",
+          "icon": "fa fa-money",
+          "target": "_self",
+          "child": [
+            {
+              "title": "汇率列表",
+              "href": "currencyRateListPage",
+              "icon": "fa fa-th-list",
+              "target": "_self"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

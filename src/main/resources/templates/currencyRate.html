@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>货币汇率</title>
+    <link href="@{'/public/layui-2.5.5/css/layui.css'}" rel="stylesheet" type="text/css"/>
+    <style type="text/css">
+        body {
+            padding: 20px;
+        }
+
+        .layui-table-view .layui-table {
+            position: relative;
+            width: 100%;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+<form class="layui-form layui-form-pane" action="/FinanceMgr/editCurrencyRate" id="currencyRateForm" method="post"
+      lay-filter="currencyRateForm" onsubmit="return false;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">源货币</label>
+        <div class="layui-input-inline">
+            <select lay-filter="sourceCurrency" name="currencyRate.sourceMonetary" id="sourceCurrency"
+                    lay-verify="required" lay-search>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">目标货币</label>
+        <div class="layui-input-inline">
+            <select lay-filter="targetCurrency" name="currencyRate.targetMonetary" id="targetCurrency"
+                    lay-verify="required" lay-search>
+                <option value="31">中国人民币(CNY)</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">汇率</label>
+        <div class="layui-input-inline">
+            <input type="text" name="currencyRate.exchangeRate" id="rate" required lay-verify="rateVerify"
+                   placeholder="请输入汇率" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item" style="width: 450px">
+        <label class="layui-form-label">有效期</label>
+        <div class="layui-input-block">
+            <input type="text" name="validTime" readonly id="validTime" required lay-verify="required"
+                   class="layui-input"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="submit">立即保存</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置
+            </button>
+            <button type="button" id="bttips" lay-filter="bttips" class="layui-btn layui-btn-primary" onclick="tips()">
+                提示
+            </button>
+        </div>
+    </div>
+</form>
+<table class="layui-hide" id="currencyRateTable" lay-filter="currencyRateTable"></table>
+</body>
+<script type="text/javascript" src="@{'/public/layui-2.5.5/layui.js'}"></script>
+<script type="text/javascript">
+    // 提示
+    function tips() {
+        layer.tips('不能删除，不能修改，要想修改找开发，新的开始日期必须为最近的结束时间+1天', '#bttips', {
+            tips: [1, '#009688'],
+            time: 4000
+        });
+    }
+
+    // 表格
+    layui.use(['table', 'jquery', 'layer', 'laydate', 'form'], function () {
+        var table = layui.table,
+            $ = layui.$,
+            layer = layui.layer,
+            laydate = layui.laydate,
+            form = layui.form;
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#validTime' //指定元素
+            , range: '--' // 开启左右面板范围选择
+            , theme: 'grid'
+        });
+
+        // 加载第一个下拉框的数据
+        var htm = '<option value="">直接选择或搜索选择</option>';
+        #{list monetaryNames,as:'n'}
+        htm += '<option value = "' + ${n.key} +'">${n.value}</option>';
+        #{/list}
+        $("#sourceCurrency").append(htm);
+        form.render();
+
+        // //执行一个 table 实例
+        var tableReload = table.render({
+            elem: '#currencyRateTable'
+            , url: '/FinanceMgr/currencyRateItemList' //数据接口
+            , page: true //开启分页
+            , toolbar: false //不开工具栏了，基本用不到这些工具
+            , even: true // 隔行背景
+            , text: "无数据"
+            , cols: [[ //表头
+                {type: 'radio', fixed: 'left', hide: true}
+                , {field: 'id', title: 'ID', sort: true, id: "aaa", align: 'center'}
+                , {field: 'sourceMonetaryName', sort: true, title: '源货币', align: 'center'}
+                , {field: 'targetMonetaryName', sort: true, title: '目标货币', align: 'center'}
+                , {field: 'exchangeRate', title: '汇率', sort: true, align: 'center'}
+                , {field: 'startTimeValidTableShow', title: '有效期开始时间', sort: true, align: 'center'}
+                , {field: 'endTimeValidTableShow', title: '有效期结束时间', sort: true, align: 'center'}
+            ]]
+            , response: {
+                statusName: 'resultCode' //数据状态的字段名称，默认：code
+                , statusCode: 200 //成功的状态码，默认：0
+                , msgName: 'msg' //状态信息的字段名称，默认：msg
+                , countName: 'totalCount' //数据总数的字段名称，默认：count
+                , dataName: 'obj' //数据列表的字段名称，默认：data
+            }
+        });
+
+        //监听行单击事件（单击事件为：rowDouble）
+        table.on('row(currencyRateTable)', function (obj) {
+            var data = obj.data;
+            var form = layui.form;
+            //给表单赋值
+            form.val("currencyRateForm", { // 即 class="layui-form" 所在元素属性 lay-filter="" 对应的值
+                "currencyRate.sourceMonetary": data.sourceMonetary // "name": "value"
+                , "currencyRate.targetMonetary": data.targetMonetary
+                , "currencyRate.exchangeRate": data.exchangeRate
+                , "validTime": data.startTimeValidShow + " -- " + data.endTimeValidShow
+            });
+        });
+
+        // 表格的重载
+        function tableReloadmethod(sourceId, targetId) {
+            tableReload.reload({
+                where: { //设定异步数据接口的额外参数，任意设
+                    sourceId: sourceId
+                    , targetId: targetId
+                }
+                , page: true
+                , response: {
+                    statusName: 'resultCode' //数据状态的字段名称，默认：code
+                    , statusCode: 200 //成功的状态码，默认：0
+                    , msgName: 'msg' //状态信息的字段名称，默认：msg
+                    , countName: 'totalCount' //数据总数的字段名称，默认：count
+                    , dataName: 'obj' //数据列表的字段名称，默认：data
+                }
+            });
+        }
+
+        // 监听源货币的下拉框 看看所选择的国家有没有在数据库中
+        form.on('select(sourceCurrency)', function (data) {
+            //获取源货币的id
+            var sourceId = data.value;
+            // 获取目标货币的id
+            var targetId = $("#targetCurrency").val();
+            //重载数据
+            tableReloadmethod(sourceId, targetId);
+            //通过2个id回去查
+            $.post('/FinanceMgr/getRecordByRateId?sourceId=' + sourceId + '&targetId=' + targetId, {}, function (result) {
+                if (result.obj) {
+                    $("#rate").val(result.obj.exchangeRate);
+                    $("#validTime").val(result.obj.startTimeValidShow + " -- " + result.obj.endTimeValidShow);
+                } else {
+                    $("#rate").val("");
+                    $("#validTime").val("");
+                }
+            });
+        });
+
+
+        // 表单验证
+        form.verify({
+            //数组的两个值分别代表：[正则匹配、匹配不符时的提示文字]
+            rateVerify: [
+                /^\d+(\.\d{1,8})?$/
+                , '汇率最多有8位小数，请重新输入😘'
+            ]
+        });
+
+
+        // 表单提交用ajax
+        form.on('submit(submit)', function (data) {
+            layer.msg('拜托请等一哈，数据可能有点多🙃', {
+                icon: 16
+                , shade: 0.01
+                , time: 120 * 1000 // 最长等待120秒
+            });
+            $.ajax({
+                url: "/FinanceMgr/saveCurrencyRate",
+                data: data.field,
+                type: "post",
+                dataType: "json",
+                success: function (result) {
+                    layer.close(layer.index);
+                    layer.open({
+                        title: '提示'
+                        , anim: 2
+                        ,
+                        content: result.success == false ? result.msg == null ? "服务器错误，请稍后重试" : result.msg : result.msg
+                        , yes: function () {
+                            tableReloadmethod(data.sourceMonetary, data.targetMonetary);
+                            layer.close(layer.index);
+                        }
+                    });
+                }
+            });
+            return false;
+        });
+    });
+</script>
+</html>

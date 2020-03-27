@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>导出异常流水号</title>
+    <link href="@{'/public/layui-2.5.5/css/layui.css'}" rel="stylesheet" type="text/css"/>
+    <style type="text/css">
+        body {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+<form class="layui-form layui-form-pane" id="serialNmberForm" method="post" lay-filter="serialNmberForm"
+      onsubmit="return false;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">异常类型</label>
+        <div class="layui-input-inline">
+            <select lay-filter="errorType" id="errorType" name="errorStatus"> </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">国家</label>
+        <div class="layui-input-inline">
+            <select lay-filter="country" id="country" name="countryId"> </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">处理状态</label>
+        <div class="layui-input-inline">
+            <select lay-filter="dealStatus" id="dealStatus" name="dealStatus"> </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">支付渠道</label>
+        <div class="layui-input-inline">
+            <select lay-filter="payType" id="payType" name="payType"> </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="submit">立即导出</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+</body>
+<script type="text/javascript" src="@{'/public/layui-2.5.5/layui.js'}"></script>
+<script type="text/javascript">
+    layui.use(['jquery', 'layer', 'form'], function () {
+        var $ = layui.$, layer = layui.layer, form = layui.form;
+        // 异常类型填充
+        {
+            var htm = "<option value=''></option>";
+        #{list allErrorStatusTypeMap,as:'n'}
+            htm += '<option value = "' + ${n.key} +'">${n.value}</option>';
+        #{/list}
+            $("#errorType").append(htm);
+            form.render();
+
+        }
+        // 国家填充
+        {
+            var htm = "<option value=''></option>";
+        #{list allCountryUnitMap,as:'n'}
+            htm += '<option value = "' + ${n.key} +'">${n.value}</option>';
+        #{/list}
+            $("#country").append(htm);
+            form.render();
+
+        }
+        // 处理状态填充
+        {
+            var htm = "<option value=''></option>";
+        #{list allDealStatusTypeMap,as:'n'}
+            htm += '<option value = "' + ${n.key} +'">${n.value}</option>';
+        #{/list}
+            $("#dealStatus").append(htm);
+            form.render();
+
+        }
+        // 支付渠道填充
+        {
+            var htm = "<option value=''></option>";
+        #{list payTypeMap,as:'n'}
+            htm += '<option value = "' + ${n.key} +'">${n.value}</option>';
+        #{/list}
+            $("#payType").append(htm);
+            form.render();
+
+        }
+
+        // 表单提交用ajax
+        form.on('submit(submit)', function (data) {
+            layer.msg('拜托请等一哈，数据可能有点多🙃', {
+                icon: 16
+                , shade: 0.01
+                , time: 120 * 1000 // 最长等待120秒
+            });
+            $.ajax({
+                url: "/FinanceMgr/exportSerialNumber",
+                data: data.field,
+                type: "post",
+                dataType: "json",
+                success: function (result) {
+                    layer.close(layer.index);
+                    layer.open({
+                        title: '提示'
+                        , anim: 2
+                        ,
+                        content: result.success == false ? result.msg == null ? "服务器错误，请稍后重试" : result.msg : result.msg
+                        , yes: function () {
+                            if (result.obj!=null){
+                                window.location.href = result.obj;
+                            }
+                            layer.close(layer.index);
+                        }
+                    });
+                }
+            });
+            return false;
+        });
+    });
+
+
+</script>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>目的地结算毛利数据</title>
+    <link href="@{'/public/layui-2.5.5/css/layui.css'}" rel="stylesheet" type="text/css"/>
+    <style type="text/css">
+        body {
+            padding: 20px;
+        }
+
+        .layui-table-view .layui-table {
+            position: relative;
+            width: 100%;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+<form class="layui-form layui-form-pane" action="/FinanceMgr/editCurrencyRate" id="destProfitDataForm" method="post"
+      lay-filter="destProfitDataForm" onsubmit="return false;">
+    <div class="layui-form-item" style="width: 450px">
+        <label class="layui-form-label">账期</label>
+        <div class="layui-input-block">
+            <input type="text" name="billTime" readonly id="billTime" required lay-verify="required"
+                   class="layui-input"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="submit">一键导出</button>
+            <button class="layui-btn" lay-filter="find" id="find">查找记录</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置表单</button>
+        </div>
+    </div>
+</form>
+<table class="layui-hide" id="destProfitDataTable" lay-filter="destProfitDataTable"></table>
+</body>
+<script type="text/javascript" src="@{'/public/layui-2.5.5/layui.js'}"></script>
+<script type="text/javascript">
+
+    // 表格
+    layui.use(['table', 'jquery', 'layer', 'laydate', 'form'], function () {
+        var table = layui.table,
+            $ = layui.$,
+            layer = layui.layer,
+            laydate = layui.laydate,
+            form = layui.form;
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#billTime' //指定元素
+            , range: '--' // 开启左右面板范围选择
+            , theme: 'grid'
+        });
+
+        // 查找
+        $(document).on('click', '#find', function () {
+            var time = $("#billTime").val();
+            var startTime = "", endTime = "";
+            if (time != "") {
+                var arr = time.split(" -- ");
+                startTime = arr[0];
+                endTime = arr[1];
+            }
+            tableReloadmethod(startTime, endTime);
+        });
+
+        // //执行一个 table 实例
+        var tableReload = table.render({
+            elem: '#destProfitDataTable'
+            , url: '/FinanceMgr/destProfitDataItemList' //数据接口
+            , page: true //开启分页
+            , toolbar: false //不开工具栏了，基本用不到这些工具
+            , even: true // 隔行背景
+            , text: "无数据"
+            , cols: [[ //表头
+                {type: 'radio', fixed: 'left', hide: true}
+                , {field: 'id', title: 'ID', sort: true, id: "aaa", align: 'center'}
+                , {field: 'gmtCreateTime', title: '创建时间', sort: true, align: 'center'}
+                , {field: 'billTimeShow', title: '账期', sort: true, align: 'center'}
+                , {fixed: 'right', align: 'center', title: '下载', toolbar: '#downloadTh'}
+            ]]
+            , response: {
+                statusName: 'resultCode' //数据状态的字段名称，默认：code
+                , statusCode: 200 //成功的状态码，默认：0
+                , msgName: 'msg' //状态信息的字段名称，默认：msg
+                , countName: 'totalCount' //数据总数的字段名称，默认：count
+                , dataName: 'obj' //数据列表的字段名称，默认：data
+            }
+        });
+
+        // 表格的重载
+        function tableReloadmethod(startTime, endTime) {
+            tableReload.reload({
+                where: { //设定异步数据接口的额外参数，任意设
+                    startTime: startTime
+                    , endTime: endTime
+                }
+                , page: true
+                , response: {
+                    statusName: 'resultCode' //数据状态的字段名称，默认：code
+                    , statusCode: 200 //成功的状态码，默认：0
+                    , msgName: 'msg' //状态信息的字段名称，默认：msg
+                    , countName: 'totalCount' //数据总数的字段名称，默认：count
+                    , dataName: 'obj' //数据列表的字段名称，默认：data
+                }
+            });
+        }
+
+        //表格监听工具条
+        table.on('tool(destProfitDataTable)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'download1') {
+                window.location.href = data.deliveredCountryOrderUrl;
+            } else if (obj.event === 'download2') {
+                window.location.href = data.deliveredOrderUrl;
+            } else if (obj.event === 'download3') {
+                window.location.href = data.returnOrderUrl;
+            } else if (obj.event === 'download4') {
+                window.location.href = data.canceledOrderUrl;
+            }
+        });
+
+        // 表单提交用ajax
+        form.on('submit(submit)', function (data) {
+            layer.msg('拜托请等一哈，数据可能有点多😘', {
+                icon: 16
+                , shade: 0.01
+                , time: 120 * 1000 // 最长等待120秒
+            });
+            $.ajax({
+                url: "/FinanceMgr/exportDestProfitData",
+                data: data.field,
+                type: "post",
+                dataType: "json",
+                success: function (result) {
+                    layer.close(layer.index);
+                    layer.open({
+                        title: '提示'
+                        , anim: 2
+                        ,
+                        content: result.success == false ? result.msg == null ? "服务器错误，请稍后重试" : result.msg : result.msg
+                        , yes: function () {
+                            tableReloadmethod();
+                            layer.close(layer.index);
+                        }
+                    });
+                }
+            });
+            return false;
+        });
+    });
+</script>
+<script type="text/html" id="downloadTh">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="download1">妥投国家汇总订单</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="download2">妥投订单</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="download4">取消订单</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="download3">退货订单</a>
+</script>
+</html>

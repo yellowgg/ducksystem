@@ -10,7 +10,7 @@ Configuration:
       - name: log.path
         value: log
       - name: project.name
-        value: opendoc
+        value: ducksystem
       - name: log.pattern
         value: "%d{yyyy-MM-dd HH:mm:ss.SSS} -%5p ${PID:-} [%15.15t] %-30.30C{1.} : %m%n"
   Appenders:
@@ -126,11 +126,3 @@ Configuration:
         additivity: false
         AppenderRef:
           - ref: DB_ROLLING_FILE
-#    监听具体包下面的日志
-#    Logger: # 为com.xjj包配置特殊的Log级别，方便调试
-#      - name: com.xjj
-#        additivity: false
-#        level: ${sys:log.level.xjj}
-#        AppenderRef:
-#          - ref: CONSOLE
-#          - ref: ROLLING_FILE

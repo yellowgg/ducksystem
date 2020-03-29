@@ -17,6 +17,10 @@ public interface UtilConstants {
         public static final int THREE = 3;
     }
 
+    class RespCode {
+        public static final int SUCCESS = 200;
+    }
+
     /**
      * 日期格式常量
      */

@@ -1,6 +1,6 @@
 {
   "clearInfo": {
-    "clearUrl": "static/layuiMini/api/clear.json"
+    "clearUrl": "/layuiMini/api/clear.json"
   },
   "homeInfo": {
     "title": "首页",
@@ -9,7 +9,7 @@
   },
   "logoInfo": {
     "title": "小黄鸭",
-    "image": "static/images/logo.png",
+    "image": "/images/logo.png",
     "href": ""
   },
   "menuInfo": [

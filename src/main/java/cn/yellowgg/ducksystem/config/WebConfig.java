@@ -22,9 +22,11 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // 将/static/**访问映射到classpath:/mystatic/
-        registry.addResourceHandler("/static/**")
-                .addResourceLocations("classpath:/static/");
+        // 很多地方都能使默认配置失效，所以需要手动恢复静态资源路径的配置
+        registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
+        // swagger页面404的解决办法
+        registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
+        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
 
     }
 }

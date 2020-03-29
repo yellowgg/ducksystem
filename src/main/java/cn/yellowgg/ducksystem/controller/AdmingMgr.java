@@ -1,12 +1,13 @@
 package cn.yellowgg.ducksystem.controller;
 
-import cn.yellowgg.ducksystem.entity.perm.Permission;
-import cn.yellowgg.ducksystem.service.PermissionService;
+import cn.yellowgg.ducksystem.service.AdministratorService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * @Description: 后台管理
@@ -14,24 +15,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @Date: Created in 2020/3/25 17:05
  */
 @Controller
+@RequestMapping("/admin")
+@Api(tags = "后台管理控制器")
 public class AdmingMgr {
 
     @Autowired
-    PermissionService permissionService;
+    AdministratorService adminService;
 
-    @RequestMapping("/index")
-    public String index(Model model) {
-        String name = "xiaosha";
-        model.addAttribute("name", name);
+    @GetMapping("/index")
+    public String index() {
         return "index";
     }
 
-    @RequestMapping("/insert")
-    @ResponseBody
-    public String insertPerm(Permission permission) {
-        int insert = permissionService.insert(permission);
-        System.out.println(insert);
-        return "success";
+    @PostMapping("/login")
+    @ApiOperation(value = "登录")
+    public String login(String userName, String password) {
+        System.out.println(userName);
+        System.out.println(password);
+        return "index";
     }
 
 }

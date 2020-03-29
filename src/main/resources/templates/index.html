@@ -10,9 +10,9 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
-    <link rel="stylesheet" href="/static/layui-2.5.5/css/layui.css" media="all">
-    <link rel="stylesheet" href="/static/layuiMini/css/layuimini.css" media="all">
-    <link rel="stylesheet" href="/static/layuiMini/libs/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
+    <link rel="stylesheet" href="/layui-2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiMini/css/layuimini.css" media="all">
+    <link rel="stylesheet" href="/layuiMini/libs/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
     <style id="layuimini-bg-color">
     </style>
 </head>
@@ -90,14 +90,14 @@
 
 </div>
 
-<script src="/static/layui-2.5.5/layui.js" charset="utf-8"></script>
-<script src="/static/layuiMini/js/lay-config.js" charset="utf-8"></script>
+<script src="/layui-2.5.5/layui.js" charset="utf-8"></script>
+<script src="/layuiMini/js/lay-config.js" charset="utf-8"></script>
 <script>
     layui.use(['element', 'layer', 'layuimini'], function () {
         var $ = layui.jquery,
             layer = layui.layer;
 
-        layuimini.init('/static/layuiMini/api/init.json');
+        layuimini.init('/layuiMini/api/init.json');
 
         $('.login-out').on("click", function () {
             layer.msg('退出登录成功')

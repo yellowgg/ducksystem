@@ -1,452 +1,408 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.yellowgg.ducksystem.mapper.AdministratorMapper">
-    <resultMap id="BaseResultMap" type="cn.yellowgg.ducksystem.entity.perm.Administrator">
-        <!--@mbg.generated-->
-        <!--@Table administrator-->
-        <id column="id" jdbcType="BIGINT" property="id"/>
-        <result column="gmtCreate" jdbcType="TIMESTAMP" property="gmtCreate"/>
-        <result column="gmtModify" jdbcType="TIMESTAMP" property="gmtModify"/>
-        <result column="isDelete" jdbcType="INTEGER" property="isDelete"/>
-        <result column="email" jdbcType="VARCHAR" property="email"/>
-        <result column="password" jdbcType="VARCHAR" property="password"/>
-        <result column="realName" jdbcType="VARCHAR" property="realName"/>
-        <result column="userName" jdbcType="VARCHAR" property="userName"/>
-        <result column="salt" jdbcType="VARCHAR" property="salt"/>
-        <result column="lastLoginTime" jdbcType="TIMESTAMP" property="lastLoginTime"/>
-    </resultMap>
-    <sql id="Base_Column_List">
-        <!--@mbg.generated-->
-        id, gmtCreate, gmtModify, isDelete, email, `password`, realName, userName, salt,
-        lastLoginTime
-    </sql>
-    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-        <!--@mbg.generated-->
-        select
-        <include refid="Base_Column_List"/>
-        from administrator
-        where id = #{id,jdbcType=BIGINT}
-    </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-        <!--@mbg.generated-->
-        delete from administrator
-        where id = #{id,jdbcType=BIGINT}
-    </delete>
-    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.yellowgg.ducksystem.entity.perm.Administrator"
-            useGeneratedKeys="true">
-        <!--@mbg.generated-->
-        insert into administrator (gmtCreate, gmtModify, isDelete,
-        email, `password`, realName,
-        userName, salt, lastLoginTime
-        )
-        values (#{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=INTEGER},
-        #{email,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR},
-        #{userName,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, #{lastLoginTime,jdbcType=TIMESTAMP}
-        )
-    </insert>
-    <insert id="insertSelective" keyColumn="id" keyProperty="id"
-            parameterType="cn.yellowgg.ducksystem.entity.perm.Administrator" useGeneratedKeys="true">
-        <!--@mbg.generated-->
-        insert into administrator
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="gmtCreate != null">
-                gmtCreate,
-            </if>
-            <if test="gmtModify != null">
-                gmtModify,
-            </if>
-            <if test="isDelete != null">
-                isDelete,
-            </if>
-            <if test="email != null">
-                email,
-            </if>
-            <if test="password != null">
-                `password`,
-            </if>
-            <if test="realName != null">
-                realName,
-            </if>
-            <if test="userName != null">
-                userName,
-            </if>
-            <if test="salt != null">
-                salt,
-            </if>
-            <if test="lastLoginTime != null">
-                lastLoginTime,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="gmtCreate != null">
-                #{gmtCreate,jdbcType=TIMESTAMP},
-            </if>
-            <if test="gmtModify != null">
-                #{gmtModify,jdbcType=TIMESTAMP},
-            </if>
-            <if test="isDelete != null">
-                #{isDelete,jdbcType=INTEGER},
-            </if>
-            <if test="email != null">
-                #{email,jdbcType=VARCHAR},
-            </if>
-            <if test="password != null">
-                #{password,jdbcType=VARCHAR},
-            </if>
-            <if test="realName != null">
-                #{realName,jdbcType=VARCHAR},
-            </if>
-            <if test="userName != null">
-                #{userName,jdbcType=VARCHAR},
-            </if>
-            <if test="salt != null">
-                #{salt,jdbcType=VARCHAR},
-            </if>
-            <if test="lastLoginTime != null">
-                #{lastLoginTime,jdbcType=TIMESTAMP},
-            </if>
-        </trim>
-    </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="cn.yellowgg.ducksystem.entity.perm.Administrator">
-        <!--@mbg.generated-->
-        update administrator
-        <set>
-            <if test="gmtCreate != null">
-                gmtCreate = #{gmtCreate,jdbcType=TIMESTAMP},
-            </if>
-            <if test="gmtModify != null">
-                gmtModify = #{gmtModify,jdbcType=TIMESTAMP},
-            </if>
-            <if test="isDelete != null">
-                isDelete = #{isDelete,jdbcType=INTEGER},
-            </if>
-            <if test="email != null">
-                email = #{email,jdbcType=VARCHAR},
-            </if>
-            <if test="password != null">
-                `password` = #{password,jdbcType=VARCHAR},
-            </if>
-            <if test="realName != null">
-                realName = #{realName,jdbcType=VARCHAR},
-            </if>
-            <if test="userName != null">
-                userName = #{userName,jdbcType=VARCHAR},
-            </if>
-            <if test="salt != null">
-                salt = #{salt,jdbcType=VARCHAR},
-            </if>
-            <if test="lastLoginTime != null">
-                lastLoginTime = #{lastLoginTime,jdbcType=TIMESTAMP},
-            </if>
-        </set>
-        where id = #{id,jdbcType=BIGINT}
-    </update>
-    <update id="updateByPrimaryKey" parameterType="cn.yellowgg.ducksystem.entity.perm.Administrator">
-        <!--@mbg.generated-->
-        update administrator
-        set gmtCreate = #{gmtCreate,jdbcType=TIMESTAMP},
+  <resultMap id="BaseResultMap" type="cn.yellowgg.ducksystem.entity.perm.Administrator">
+    <!--@mbg.generated-->
+    <!--@Table administrator-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="gmtCreate" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmtModify" jdbcType="TIMESTAMP" property="gmtModify" />
+    <result column="isDelete" jdbcType="INTEGER" property="isDelete" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="realName" jdbcType="VARCHAR" property="realName" />
+    <result column="userName" jdbcType="VARCHAR" property="userName" />
+    <result column="lastLoginTime" jdbcType="TIMESTAMP" property="lastLoginTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, gmtCreate, gmtModify, isDelete, email, `password`, realName, userName, lastLoginTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from administrator
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from administrator
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.yellowgg.ducksystem.entity.perm.Administrator" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into administrator (gmtCreate, gmtModify, isDelete, 
+      email, `password`, realName, 
+      userName, lastLoginTime)
+    values (#{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=INTEGER}, 
+      #{email,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, 
+      #{userName,jdbcType=VARCHAR}, #{lastLoginTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.yellowgg.ducksystem.entity.perm.Administrator" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into administrator
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="gmtCreate != null">
+        gmtCreate,
+      </if>
+      <if test="gmtModify != null">
+        gmtModify,
+      </if>
+      <if test="isDelete != null">
+        isDelete,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="password != null">
+        `password`,
+      </if>
+      <if test="realName != null">
+        realName,
+      </if>
+      <if test="userName != null">
+        userName,
+      </if>
+      <if test="lastLoginTime != null">
+        lastLoginTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null">
+        #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null">
+        #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLoginTime != null">
+        #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.yellowgg.ducksystem.entity.perm.Administrator">
+    <!--@mbg.generated-->
+    update administrator
+    <set>
+      <if test="gmtCreate != null">
+        gmtCreate = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null">
         gmtModify = #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
         isDelete = #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="email != null">
         email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
         `password` = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null">
         realName = #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
         userName = #{userName,jdbcType=VARCHAR},
-        salt = #{salt,jdbcType=VARCHAR},
-        lastLoginTime = #{lastLoginTime,jdbcType=TIMESTAMP}
-        where id = #{id,jdbcType=BIGINT}
-    </update>
-    <update id="updateBatch" parameterType="java.util.List">
-        <!--@mbg.generated-->
-        update administrator
-        <trim prefix="set" suffixOverrides=",">
-            <trim prefix="gmtCreate = case" suffix="end,">
-                <foreach collection="list" index="index" item="item">
-                    when id = #{item.id,jdbcType=BIGINT} then #{item.gmtCreate,jdbcType=TIMESTAMP}
-                </foreach>
-            </trim>
-            <trim prefix="gmtModify = case" suffix="end,">
-                <foreach collection="list" index="index" item="item">
-                    when id = #{item.id,jdbcType=BIGINT} then #{item.gmtModify,jdbcType=TIMESTAMP}
-                </foreach>
-            </trim>
-            <trim prefix="isDelete = case" suffix="end,">
-                <foreach collection="list" index="index" item="item">
-                    when id = #{item.id,jdbcType=BIGINT} then #{item.isDelete,jdbcType=INTEGER}
-                </foreach>
-            </trim>
-            <trim prefix="email = case" suffix="end,">
-                <foreach collection="list" index="index" item="item">
-                    when id = #{item.id,jdbcType=BIGINT} then #{item.email,jdbcType=VARCHAR}
-                </foreach>
-            </trim>
-            <trim prefix="`password` = case" suffix="end,">
-                <foreach collection="list" index="index" item="item">
-                    when id = #{item.id,jdbcType=BIGINT} then #{item.password,jdbcType=VARCHAR}
-                </foreach>
-            </trim>
-            <trim prefix="realName = case" suffix="end,">
-                <foreach collection="list" index="index" item="item">
-                    when id = #{item.id,jdbcType=BIGINT} then #{item.realName,jdbcType=VARCHAR}
-                </foreach>
-            </trim>
-            <trim prefix="userName = case" suffix="end,">
-                <foreach collection="list" index="index" item="item">
-                    when id = #{item.id,jdbcType=BIGINT} then #{item.userName,jdbcType=VARCHAR}
-                </foreach>
-            </trim>
-            <trim prefix="salt = case" suffix="end,">
-                <foreach collection="list" index="index" item="item">
-                    when id = #{item.id,jdbcType=BIGINT} then #{item.salt,jdbcType=VARCHAR}
-                </foreach>
-            </trim>
-            <trim prefix="lastLoginTime = case" suffix="end,">
-                <foreach collection="list" index="index" item="item">
-                    when id = #{item.id,jdbcType=BIGINT} then #{item.lastLoginTime,jdbcType=TIMESTAMP}
-                </foreach>
-            </trim>
-        </trim>
-        where id in
-        <foreach close=")" collection="list" item="item" open="(" separator=", ">
-            #{item.id,jdbcType=BIGINT}
+      </if>
+      <if test="lastLoginTime != null">
+        lastLoginTime = #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.yellowgg.ducksystem.entity.perm.Administrator">
+    <!--@mbg.generated-->
+    update administrator
+    set gmtCreate = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmtModify = #{gmtModify,jdbcType=TIMESTAMP},
+      isDelete = #{isDelete,jdbcType=INTEGER},
+      email = #{email,jdbcType=VARCHAR},
+      `password` = #{password,jdbcType=VARCHAR},
+      realName = #{realName,jdbcType=VARCHAR},
+      userName = #{userName,jdbcType=VARCHAR},
+      lastLoginTime = #{lastLoginTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update administrator
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="gmtCreate = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.gmtCreate,jdbcType=TIMESTAMP}
         </foreach>
-    </update>
-    <update id="updateBatchSelective" parameterType="java.util.List">
-        <!--@mbg.generated-->
-        update administrator
-        <trim prefix="set" suffixOverrides=",">
-            <trim prefix="gmtCreate = case" suffix="end,">
-                <foreach collection="list" index="index" item="item">
-                    <if test="item.gmtCreate != null">
-                        when id = #{item.id,jdbcType=BIGINT} then #{item.gmtCreate,jdbcType=TIMESTAMP}
-                    </if>
-                </foreach>
-            </trim>
-            <trim prefix="gmtModify = case" suffix="end,">
-                <foreach collection="list" index="index" item="item">
-                    <if test="item.gmtModify != null">
-                        when id = #{item.id,jdbcType=BIGINT} then #{item.gmtModify,jdbcType=TIMESTAMP}
-                    </if>
-                </foreach>
-            </trim>
-            <trim prefix="isDelete = case" suffix="end,">
-                <foreach collection="list" index="index" item="item">
-                    <if test="item.isDelete != null">
-                        when id = #{item.id,jdbcType=BIGINT} then #{item.isDelete,jdbcType=INTEGER}
-                    </if>
-                </foreach>
-            </trim>
-            <trim prefix="email = case" suffix="end,">
-                <foreach collection="list" index="index" item="item">
-                    <if test="item.email != null">
-                        when id = #{item.id,jdbcType=BIGINT} then #{item.email,jdbcType=VARCHAR}
-                    </if>
-                </foreach>
-            </trim>
-            <trim prefix="`password` = case" suffix="end,">
-                <foreach collection="list" index="index" item="item">
-                    <if test="item.password != null">
-                        when id = #{item.id,jdbcType=BIGINT} then #{item.password,jdbcType=VARCHAR}
-                    </if>
-                </foreach>
-            </trim>
-            <trim prefix="realName = case" suffix="end,">
-                <foreach collection="list" index="index" item="item">
-                    <if test="item.realName != null">
-                        when id = #{item.id,jdbcType=BIGINT} then #{item.realName,jdbcType=VARCHAR}
-                    </if>
-                </foreach>
-            </trim>
-            <trim prefix="userName = case" suffix="end,">
-                <foreach collection="list" index="index" item="item">
-                    <if test="item.userName != null">
-                        when id = #{item.id,jdbcType=BIGINT} then #{item.userName,jdbcType=VARCHAR}
-                    </if>
-                </foreach>
-            </trim>
-            <trim prefix="salt = case" suffix="end,">
-                <foreach collection="list" index="index" item="item">
-                    <if test="item.salt != null">
-                        when id = #{item.id,jdbcType=BIGINT} then #{item.salt,jdbcType=VARCHAR}
-                    </if>
-                </foreach>
-            </trim>
-            <trim prefix="lastLoginTime = case" suffix="end,">
-                <foreach collection="list" index="index" item="item">
-                    <if test="item.lastLoginTime != null">
-                        when id = #{item.id,jdbcType=BIGINT} then #{item.lastLoginTime,jdbcType=TIMESTAMP}
-                    </if>
-                </foreach>
-            </trim>
-        </trim>
-        where id in
-        <foreach close=")" collection="list" item="item" open="(" separator=", ">
-            #{item.id,jdbcType=BIGINT}
+      </trim>
+      <trim prefix="gmtModify = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.gmtModify,jdbcType=TIMESTAMP}
         </foreach>
-    </update>
-    <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
-        <!--@mbg.generated-->
-        insert into administrator
-        (gmtCreate, gmtModify, isDelete, email, `password`, realName, userName, salt, lastLoginTime
-        )
-        values
-        <foreach collection="list" item="item" separator=",">
-            (#{item.gmtCreate,jdbcType=TIMESTAMP}, #{item.gmtModify,jdbcType=TIMESTAMP},
-            #{item.isDelete,jdbcType=INTEGER},
-            #{item.email,jdbcType=VARCHAR}, #{item.password,jdbcType=VARCHAR}, #{item.realName,jdbcType=VARCHAR},
-            #{item.userName,jdbcType=VARCHAR}, #{item.salt,jdbcType=VARCHAR}, #{item.lastLoginTime,jdbcType=TIMESTAMP}
-            )
+      </trim>
+      <trim prefix="isDelete = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.isDelete,jdbcType=INTEGER}
         </foreach>
-    </insert>
-    <insert id="insertOrUpdate" keyColumn="id" keyProperty="id"
-            parameterType="cn.yellowgg.ducksystem.entity.perm.Administrator" useGeneratedKeys="true">
-        <!--@mbg.generated-->
-        insert into administrator
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                id,
-            </if>
-            gmtCreate,
-            gmtModify,
-            isDelete,
-            email,
-            `password`,
-            realName,
-            userName,
-            salt,
-            lastLoginTime,
-        </trim>
-        values
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                #{id,jdbcType=BIGINT},
-            </if>
-            #{gmtCreate,jdbcType=TIMESTAMP},
-            #{gmtModify,jdbcType=TIMESTAMP},
-            #{isDelete,jdbcType=INTEGER},
-            #{email,jdbcType=VARCHAR},
-            #{password,jdbcType=VARCHAR},
-            #{realName,jdbcType=VARCHAR},
-            #{userName,jdbcType=VARCHAR},
-            #{salt,jdbcType=VARCHAR},
-            #{lastLoginTime,jdbcType=TIMESTAMP},
-        </trim>
-        on duplicate key update
-        <trim suffixOverrides=",">
-            <if test="id != null">
-                id = #{id,jdbcType=BIGINT},
-            </if>
-            gmtCreate = #{gmtCreate,jdbcType=TIMESTAMP},
-            gmtModify = #{gmtModify,jdbcType=TIMESTAMP},
-            isDelete = #{isDelete,jdbcType=INTEGER},
-            email = #{email,jdbcType=VARCHAR},
-            `password` = #{password,jdbcType=VARCHAR},
-            realName = #{realName,jdbcType=VARCHAR},
-            userName = #{userName,jdbcType=VARCHAR},
-            salt = #{salt,jdbcType=VARCHAR},
-            lastLoginTime = #{lastLoginTime,jdbcType=TIMESTAMP},
-        </trim>
-    </insert>
-    <insert id="insertOrUpdateSelective" keyColumn="id" keyProperty="id"
-            parameterType="cn.yellowgg.ducksystem.entity.perm.Administrator" useGeneratedKeys="true">
-        <!--@mbg.generated-->
-        insert into administrator
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                id,
-            </if>
-            <if test="gmtCreate != null">
-                gmtCreate,
-            </if>
-            <if test="gmtModify != null">
-                gmtModify,
-            </if>
-            <if test="isDelete != null">
-                isDelete,
-            </if>
-            <if test="email != null">
-                email,
-            </if>
-            <if test="password != null">
-                `password`,
-            </if>
-            <if test="realName != null">
-                realName,
-            </if>
-            <if test="userName != null">
-                userName,
-            </if>
-            <if test="salt != null">
-                salt,
-            </if>
-            <if test="lastLoginTime != null">
-                lastLoginTime,
-            </if>
-        </trim>
-        values
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                #{id,jdbcType=BIGINT},
-            </if>
-            <if test="gmtCreate != null">
-                #{gmtCreate,jdbcType=TIMESTAMP},
-            </if>
-            <if test="gmtModify != null">
-                #{gmtModify,jdbcType=TIMESTAMP},
-            </if>
-            <if test="isDelete != null">
-                #{isDelete,jdbcType=INTEGER},
-            </if>
-            <if test="email != null">
-                #{email,jdbcType=VARCHAR},
-            </if>
-            <if test="password != null">
-                #{password,jdbcType=VARCHAR},
-            </if>
-            <if test="realName != null">
-                #{realName,jdbcType=VARCHAR},
-            </if>
-            <if test="userName != null">
-                #{userName,jdbcType=VARCHAR},
-            </if>
-            <if test="salt != null">
-                #{salt,jdbcType=VARCHAR},
-            </if>
-            <if test="lastLoginTime != null">
-                #{lastLoginTime,jdbcType=TIMESTAMP},
-            </if>
-        </trim>
-        on duplicate key update
-        <trim suffixOverrides=",">
-            <if test="id != null">
-                id = #{id,jdbcType=BIGINT},
-            </if>
-            <if test="gmtCreate != null">
-                gmtCreate = #{gmtCreate,jdbcType=TIMESTAMP},
-            </if>
-            <if test="gmtModify != null">
-                gmtModify = #{gmtModify,jdbcType=TIMESTAMP},
-            </if>
-            <if test="isDelete != null">
-                isDelete = #{isDelete,jdbcType=INTEGER},
-            </if>
-            <if test="email != null">
-                email = #{email,jdbcType=VARCHAR},
-            </if>
-            <if test="password != null">
-                `password` = #{password,jdbcType=VARCHAR},
-            </if>
-            <if test="realName != null">
-                realName = #{realName,jdbcType=VARCHAR},
-            </if>
-            <if test="userName != null">
-                userName = #{userName,jdbcType=VARCHAR},
-            </if>
-            <if test="salt != null">
-                salt = #{salt,jdbcType=VARCHAR},
-            </if>
-            <if test="lastLoginTime != null">
-                lastLoginTime = #{lastLoginTime,jdbcType=TIMESTAMP},
-            </if>
-        </trim>
-    </insert>
+      </trim>
+      <trim prefix="email = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.email,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="`password` = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.password,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="realName = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.realName,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="userName = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.userName,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="lastLoginTime = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.lastLoginTime,jdbcType=TIMESTAMP}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=BIGINT}
+    </foreach>
+  </update>
+  <update id="updateBatchSelective" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update administrator
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="gmtCreate = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.gmtCreate != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.gmtCreate,jdbcType=TIMESTAMP}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="gmtModify = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.gmtModify != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.gmtModify,jdbcType=TIMESTAMP}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="isDelete = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.isDelete != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.isDelete,jdbcType=INTEGER}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="email = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.email != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.email,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="`password` = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.password != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.password,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="realName = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.realName != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.realName,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="userName = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.userName != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.userName,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="lastLoginTime = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.lastLoginTime != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.lastLoginTime,jdbcType=TIMESTAMP}
+          </if>
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=BIGINT}
+    </foreach>
+  </update>
+  <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into administrator
+    (gmtCreate, gmtModify, isDelete, email, `password`, realName, userName, lastLoginTime
+      )
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.gmtCreate,jdbcType=TIMESTAMP}, #{item.gmtModify,jdbcType=TIMESTAMP}, #{item.isDelete,jdbcType=INTEGER}, 
+        #{item.email,jdbcType=VARCHAR}, #{item.password,jdbcType=VARCHAR}, #{item.realName,jdbcType=VARCHAR}, 
+        #{item.userName,jdbcType=VARCHAR}, #{item.lastLoginTime,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
+  <insert id="insertOrUpdate" keyColumn="id" keyProperty="id" parameterType="cn.yellowgg.ducksystem.entity.perm.Administrator" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into administrator
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      gmtCreate,
+      gmtModify,
+      isDelete,
+      email,
+      `password`,
+      realName,
+      userName,
+      lastLoginTime,
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      #{gmtCreate,jdbcType=TIMESTAMP},
+      #{gmtModify,jdbcType=TIMESTAMP},
+      #{isDelete,jdbcType=INTEGER},
+      #{email,jdbcType=VARCHAR},
+      #{password,jdbcType=VARCHAR},
+      #{realName,jdbcType=VARCHAR},
+      #{userName,jdbcType=VARCHAR},
+      #{lastLoginTime,jdbcType=TIMESTAMP},
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=BIGINT},
+      </if>
+      gmtCreate = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmtModify = #{gmtModify,jdbcType=TIMESTAMP},
+      isDelete = #{isDelete,jdbcType=INTEGER},
+      email = #{email,jdbcType=VARCHAR},
+      `password` = #{password,jdbcType=VARCHAR},
+      realName = #{realName,jdbcType=VARCHAR},
+      userName = #{userName,jdbcType=VARCHAR},
+      lastLoginTime = #{lastLoginTime,jdbcType=TIMESTAMP},
+    </trim>
+  </insert>
+  <insert id="insertOrUpdateSelective" keyColumn="id" keyProperty="id" parameterType="cn.yellowgg.ducksystem.entity.perm.Administrator" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into administrator
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="gmtCreate != null">
+        gmtCreate,
+      </if>
+      <if test="gmtModify != null">
+        gmtModify,
+      </if>
+      <if test="isDelete != null">
+        isDelete,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="password != null">
+        `password`,
+      </if>
+      <if test="realName != null">
+        realName,
+      </if>
+      <if test="userName != null">
+        userName,
+      </if>
+      <if test="lastLoginTime != null">
+        lastLoginTime,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null">
+        #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null">
+        #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLoginTime != null">
+        #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=BIGINT},
+      </if>
+      <if test="gmtCreate != null">
+        gmtCreate = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null">
+        gmtModify = #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        isDelete = #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        `password` = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null">
+        realName = #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        userName = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLoginTime != null">
+        lastLoginTime = #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
 </mapper>

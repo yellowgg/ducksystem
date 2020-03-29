@@ -1,13 +1,18 @@
 package cn.yellowgg.ducksystem.controller;
 
 import cn.yellowgg.ducksystem.service.AdministratorService;
+import cn.yellowgg.ducksystem.service.base.ServiceResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * @Description: 后台管理
@@ -27,12 +32,22 @@ public class AdmingMgr {
         return "index";
     }
 
-    @PostMapping("/login")
+
+    @PostMapping(path = "/login", produces = "text/plain;charset=UTF-8")
     @ApiOperation(value = "登录")
-    public String login(String userName, String password) {
-        System.out.println(userName);
-        System.out.println(password);
-        return "index";
+    public @ResponseBody
+    String login(String userName, String password) {
+        Subject currentUser = SecurityUtils.getSubject();
+        if (!currentUser.isAuthenticated()) {
+            UsernamePasswordToken upToken = new UsernamePasswordToken(userName, password);
+            upToken.setRememberMe(true);
+            try {
+                currentUser.login(upToken);
+            } catch (Exception e) {
+                return ServiceResult.asFail("用户名或密码错误").toJson();
+            }
+        }
+        return ServiceResult.asSuccess("/admin/index").toJson();
     }
 
 }

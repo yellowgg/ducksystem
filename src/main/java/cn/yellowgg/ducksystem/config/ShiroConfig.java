@@ -1,5 +1,6 @@
 package cn.yellowgg.ducksystem.config;
 
+import cn.yellowgg.ducksystem.constant.UtilConstants;
 import cn.yellowgg.ducksystem.realm.MyRealm;
 import cn.yellowgg.ducksystem.utils.LogUtils;
 import com.google.common.collect.Maps;
@@ -45,11 +46,11 @@ public class ShiroConfig {
         // 登录接口
         fMap.put("/logout", "logout");
         fMap.put("/login", "anon");
-        //Shiro拦截器工厂类注入
-        shiroFilterFactoryBean.setFilterChainDefinitionMap(fMap);
+        // fMap.put("/**", "authc");
         shiroFilterFactoryBean.setLoginUrl("/login");
         shiroFilterFactoryBean.setSuccessUrl("/index");
         shiroFilterFactoryBean.setUnauthorizedUrl("/403");
+        shiroFilterFactoryBean.setFilterChainDefinitionMap(fMap);
         log.info("Shiro拦截器工厂类注入成功");
         return shiroFilterFactoryBean;
     }
@@ -119,7 +120,7 @@ public class ShiroConfig {
 
 
     /**
-     * 凭证匹配器
+     * 密码匹配器
      * （由于我们的密码校验交给Shiro的SimpleAuthenticationInfo进行处理了
      * 所以我们需要修改下doGetAuthenticationInfo中的代码;
      * ）
@@ -128,7 +129,7 @@ public class ShiroConfig {
     public HashedCredentialsMatcher hashedCredentialsMatcher() {
         HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
         hashedCredentialsMatcher.setHashAlgorithmName(Md5Hash.ALGORITHM_NAME);
-        hashedCredentialsMatcher.setHashIterations(3);
+        hashedCredentialsMatcher.setHashIterations(UtilConstants.Number.THREE);
         // true=Hex,false=base64
         hashedCredentialsMatcher.setStoredCredentialsHexEncoded(true);
         return hashedCredentialsMatcher;

@@ -1,6 +1,7 @@
 package cn.yellowgg.ducksystem.config;
 
 import cn.yellowgg.ducksystem.realm.MyRealm;
+import cn.yellowgg.ducksystem.utils.LogUtils;
 import com.google.common.collect.Maps;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
@@ -13,6 +14,7 @@ import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
+import org.slf4j.Logger;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +29,7 @@ import java.util.Map;
  */
 @Configuration
 public class ShiroConfig {
+    private static final transient Logger log = LogUtils.getPlatformLogger();
 
     @Bean
     public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
@@ -34,18 +37,20 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         Map<String, String> fMap = Maps.newHashMap();
         // 静态资源可匿名
-        fMap.put("/layui-2.5.5/**", "anon");
         fMap.put("/css/**", "anon");
+        fMap.put("/js/**", "anon");
+        fMap.put("/layui-2.5.5/**", "anon");
         fMap.put("/images/**", "anon");
         fMap.put("/layuiMini/**", "anon");
-        /*登录接口*/
-        fMap.put("/logout", "anon");
+        // 登录接口
+        fMap.put("/logout", "logout");
         fMap.put("/login", "anon");
         //Shiro拦截器工厂类注入
         shiroFilterFactoryBean.setFilterChainDefinitionMap(fMap);
         shiroFilterFactoryBean.setLoginUrl("/login");
         shiroFilterFactoryBean.setSuccessUrl("/index");
-        shiroFilterFactoryBean.setUnauthorizedUrl("/noAuth");
+        shiroFilterFactoryBean.setUnauthorizedUrl("/403");
+        log.info("Shiro拦截器工厂类注入成功");
         return shiroFilterFactoryBean;
     }
 

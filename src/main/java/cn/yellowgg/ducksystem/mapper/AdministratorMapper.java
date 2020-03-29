@@ -7,8 +7,9 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
+ * @Description:
  * @Author: yellowgg
- * @Date: Created in 2020/3/26 14:30
+ * @Date: Created in 2020/3/27 17:57
  */
 @Mapper
 public interface AdministratorMapper {

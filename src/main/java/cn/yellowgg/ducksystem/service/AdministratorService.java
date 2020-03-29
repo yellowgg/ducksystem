@@ -72,4 +72,9 @@ public class AdministratorService {
         return administratorMapper.batchInsert(list);
     }
 
+    public Administrator findByUserName(String userName) {
+        return administratorMapper.findByUserName(userName);
+    }
+
+
 }

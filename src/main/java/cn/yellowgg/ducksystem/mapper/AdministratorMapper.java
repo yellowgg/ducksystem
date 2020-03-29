@@ -7,14 +7,13 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * @Description:
+ * @Description: 按增删改查
  * @Author: yellowgg
  * @Date: Created in 2020/3/27 17:57
  */
 @Mapper
 public interface AdministratorMapper {
-    int deleteByPrimaryKey(Long id);
-
+    //region 增
     int insert(Administrator record);
 
     int insertOrUpdate(Administrator record);
@@ -23,8 +22,14 @@ public interface AdministratorMapper {
 
     int insertSelective(Administrator record);
 
-    Administrator selectByPrimaryKey(Long id);
+    int batchInsert(@Param("list") List<Administrator> list);
+    //endregion
 
+    //region 删
+    int deleteByPrimaryKey(Long id);
+    //endregion
+
+    //region 改
     int updateByPrimaryKeySelective(Administrator record);
 
     int updateByPrimaryKey(Administrator record);
@@ -32,6 +37,13 @@ public interface AdministratorMapper {
     int updateBatch(List<Administrator> list);
 
     int updateBatchSelective(List<Administrator> list);
+    //endregion
 
-    int batchInsert(@Param("list") List<Administrator> list);
+    //region 查
+    Administrator selectByPrimaryKey(Long id);
+
+    Administrator findByUserName(@Param("userName") String userName);
+
+
+    //endregion
 }

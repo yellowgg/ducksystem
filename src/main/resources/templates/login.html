@@ -4,11 +4,9 @@
     <meta charset="UTF-8">
     <title>小黄鸭后台_登录</title>
     <link rel="stylesheet" href="/css/style.css" type="text/css">
-
 </head>
 <body>
-
-<form class="form" action="/admin/login" autocomplete="on" method="post">
+<form class="layui-form" autocomplete="on" id="loginForm" lay-filter="loginForm">
     <div class="form-inner">
         <h2 align="center">🐥🐥登录🐥🐥</h2>
         <div class="input-wrapper">
@@ -46,20 +44,45 @@
           </svg></span>
                 <input type="password" id="login-password" data-lpignore="true">
             </div>
-            <input type="hidden" id="encryptedPwd" name="password"/>
         </div>
         <div class="btn-group">
-            <button type="submit" id="btn" class="btn btn--primary" onclick="subMit()"> 登录</button>
+            <button id="btn" type="button" lay-filter="btnSubmit" class="btn btn--primary">登录</button>
             <a class="btn--text" href="#0">忘记密码？</a>
         </div>
     </div>
 </form>
-<script type="text/javascript">
-    function subMit() {
-        $("#encryptedPwd").val($.md5($.md5($.md5($("input[id='login-password']").val()))));
-    }
-</script>
 <script src="/layuiMini/libs/jquery-3.4.1/jquery-3.4.1.min.js" type="text/javascript"></script>
+<script src="/layui-2.5.5/layui.js" type="text/javascript"></script>
 <script src="/js/md5.js" type="text/javascript"></script>
+<script type="text/javascript">
+    layui.use(['jquery', 'layer', 'form'], function () {
+        var $ = layui.$,
+            layer = layui.layer,
+            form = layui.form;
+
+        $("#btn").click(function () {
+            var data = form.val("loginForm");
+            data.password = $.md5($.md5($.md5($("input[id='login-password']").val())));
+            $.ajax({
+                url: "/admin/login",
+                type: "post",
+                data: data,
+                success: function (resp) {
+                    var data = JSON.parse(resp);
+                    console.log(data);
+                    if (data.success) {
+                        window.location.href = data.obj;
+                    } else {
+                        layer.msg(data.msg);
+                    }
+                },
+                error: function (resp) {
+                    var data = JSON.parse(resp);
+                    layer.msg('错误', data.msg);
+                }
+            });
+        })
+    });
+</script>
 </body>
 </html>

@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 @Data
 @ApiModel(value = "管理员", description = "后台管理系统登录的账户")
 @EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 public class Administrator extends BaseEntity {
     @ApiModelProperty(value = "用户名")
     private String userName;

@@ -8,10 +8,10 @@ import lombok.Setter;
  * @Author:yellowgg
  * @Date: Created in 2020/3/26 10:39
  */
+@Getter
+@Setter
 public class CustomException extends Exception {
 
-    @Setter
-    @Getter
     public String msg;
 
     public CustomException(String msg) {

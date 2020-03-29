@@ -1,8 +1,6 @@
 package cn.yellowgg.ducksystem.exception;
 
 import cn.yellowgg.ducksystem.utils.LogUtils;
-import org.apache.shiro.authc.IncorrectCredentialsException;
-import org.apache.shiro.authc.UnknownAccountException;
 import org.slf4j.Logger;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
@@ -27,16 +25,6 @@ public class CustomExceptionResolver implements HandlerExceptionResolver {
         CustomException customException;
         if (e instanceof CustomException) {
             customException = (CustomException) e;
-        } else if (e instanceof UnknownAccountException) {
-            //用户名错误异常
-            modelAndView.addObject("message", "没有该用户");
-            modelAndView.setViewName("/error");
-            return modelAndView;
-        } else if (e instanceof IncorrectCredentialsException) {
-            //用户名错误异常
-            modelAndView.addObject("message", "密码错误");
-            modelAndView.setViewName("/error");
-            return modelAndView;
         } else {
             customException = new CustomException(e.getMessage());
         }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>小黄鸭后台_登录</title>
-    <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 <form class="layui-form" autocomplete="on" id="loginForm" lay-filter="loginForm">
@@ -77,9 +77,15 @@
         $("#btn").click(function () {
             var data = form.val("loginForm");
             var pwd = $("input[id='login-password']").val();
-            if (!isBlank(pwd)) {
-                data.password = $.md5($.md5($.md5(pwd)));
+            if (isBlank(data.userName)) {
+                layer.msg("用户名不能为空");
+                return;
             }
+            if (isBlank(pwd)) {
+                layer.msg("密码不能为空");
+                return;
+            }
+            data.password = $.md5($.md5($.md5(pwd)));
             $.ajax({
                 url: "/login/logging",
                 type: "post",

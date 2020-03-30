@@ -24,7 +24,7 @@ import org.springframework.context.annotation.DependsOn;
 import java.util.Map;
 
 /**
- * @Description:
+ * @Description: shiro的配置类
  * @Author: yellowgg
  * @Date: Created in 2020/3/25 23:17
  */

@@ -10,10 +10,10 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
-    <link rel="stylesheet" href="/layui-2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layui-v2.5.6/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiMini/css/layuimini.css" media="all">
     <link rel="stylesheet" href="/layuiMini/libs/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
-    <style id="layuimini-bg-color">
+    <style id="layuimini-bg-color">l
     </style>
 </head>
 <body class="layui-layout-body layuimini-all">
@@ -90,10 +90,10 @@
 
 </div>
 
-<script src="/layui-2.5.5/layui.js" charset="utf-8"></script>
+<script src="/layui-v2.5.6/layui.js" charset="utf-8"></script>
 <script src="/layuiMini/js/lay-config.js" charset="utf-8"></script>
 <script type="text/javascript">
-    layui.use(['element', 'layer', 'layuimini'], function () {
+    layui.use(['layer', 'layuimini'], function () {
         var $ = layui.jquery,
             layer = layui.layer;
 
@@ -102,16 +102,6 @@
         $('.login-out').on("click", function () {
             layer.msg('退出登录成功')
         })
-    });
-
-    // 登陆页面禁止回退
-    $(function () {
-        if (window.location.href.indexOf("/admin/index") > -1) {
-            history.pushState(null, null, document.URL);
-            window.addEventListener('popstate', function () {
-                history.pushState(null, null, document.URL);
-            });
-        }
     });
 </script>
 </body>

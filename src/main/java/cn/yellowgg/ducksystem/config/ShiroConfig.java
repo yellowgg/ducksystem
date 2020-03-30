@@ -12,9 +12,7 @@ import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
-import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
-import org.apache.shiro.web.servlet.SimpleCookie;
 import org.slf4j.Logger;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.context.annotation.Bean;
@@ -40,7 +38,7 @@ public class ShiroConfig {
         // 静态资源可匿名
         fMap.put("/css/**", "anon");
         fMap.put("/js/**", "anon");
-        fMap.put("/layui-2.5.5/**", "anon");
+        fMap.put("/layui-v2.5.6/**", "anon");
         fMap.put("/images/**", "anon");
         fMap.put("/layuiMini/**", "anon");
         // 登录接口
@@ -63,7 +61,6 @@ public class ShiroConfig {
         securityManager.setRealm(myShiroRealm());
         //注入缓存管理器;
         securityManager.setCacheManager(ehCacheManager());
-        securityManager.setRememberMeManager(rememberMeManager());
         /*把securityManager注入SecurityUtils*/
         SecurityUtils.setSecurityManager(securityManager);
         return securityManager;
@@ -91,31 +88,6 @@ public class ShiroConfig {
         EhCacheManager cacheManager = new EhCacheManager();
         cacheManager.setCacheManagerConfigFile("classpath:ehcache-shiro.xml");
         return cacheManager;
-    }
-
-
-    /**
-     * cookie管理对象;
-     */
-    @Bean
-    public CookieRememberMeManager rememberMeManager() {
-        CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
-        cookieRememberMeManager.setCookie(rememberMeCookie());
-        return cookieRememberMeManager;
-    }
-
-    /**
-     * cookie对象;
-     *
-     * @return
-     */
-    @Bean
-    public SimpleCookie rememberMeCookie() {
-        //这个参数是cookie的名称，对应前端的checkbox的name = rememberMe
-        SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
-        // 记住我cookie生效时间15天 ,单位秒
-        simpleCookie.setMaxAge(129600);
-        return simpleCookie;
     }
 
 

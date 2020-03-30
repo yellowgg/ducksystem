@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -17,7 +18,8 @@ import java.time.LocalDateTime;
 @ApiModel(value = "管理员", description = "后台管理系统登录的账户")
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-public class Administrator extends BaseEntity {
+public class Administrator extends BaseEntity implements Serializable {
+
     @ApiModelProperty(value = "用户名")
     private String userName;
     @ApiModelProperty(value = "密码")

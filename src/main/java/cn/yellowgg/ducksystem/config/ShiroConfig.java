@@ -44,11 +44,11 @@ public class ShiroConfig {
         fMap.put("/images/**", "anon");
         fMap.put("/layuiMini/**", "anon");
         // 登录接口
-        fMap.put("/logout", "logout");
-        fMap.put("/login", "anon");
-        // fMap.put("/**", "authc");
-        shiroFilterFactoryBean.setLoginUrl("/login");
-        shiroFilterFactoryBean.setSuccessUrl("/index");
+        fMap.put("/login/logout", "logout");
+        fMap.put("/login/**", "anon");
+        fMap.put("/**", "authc");
+        shiroFilterFactoryBean.setLoginUrl("/login/page");
+        shiroFilterFactoryBean.setSuccessUrl("/admin/index");
         shiroFilterFactoryBean.setUnauthorizedUrl("/403");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(fMap);
         log.info("Shiro拦截器工厂类注入成功");

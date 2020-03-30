@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 import java.nio.charset.Charset;
@@ -25,7 +26,6 @@ public class ChineseGarbledConfig extends WebMvcConfigurationSupport {
         StringHttpMessageConverter converter = new StringHttpMessageConverter(Charset.forName("UTF-8"));
         return converter;
     }
-
 
     //2.1：解决中文乱码后，返回json时可能会出现No converter found for return value of type: xxxx
     //或这个：Could not find acceptable representation
@@ -50,5 +50,19 @@ public class ChineseGarbledConfig extends WebMvcConfigurationSupport {
         //解决： 添加解决中文乱码后的配置之后，返回json数据直接报错 500：no convertter for return value of type
         //或这个：Could not find acceptable representation
         converters.add(messageConverter());
+    }
+
+    /**
+     * 静态资源放行
+     * 本来这个方法是写在implements WebMvcConfigurer的类里的
+     * 但是WebMvcConfigurationSupport更强，所以移植过来
+     */
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        // 很多地方都能使默认配置失效，所以需要手动恢复静态资源路径的配置
+        registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
+        // swagger页面404的解决办法
+        registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
+        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 }

@@ -35,16 +35,12 @@ public class MyRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         log.info("----------身份验证：doGetAuthenticationInfo方法被调用----------");
         UsernamePasswordToken upToken = (UsernamePasswordToken) token;
-        String username = upToken.getUsername();
-        log.info("upToken中的username为{}", username);
-        String password = String.valueOf(upToken.getPassword());
-        log.info("upToken中的password为{}", password);
-        Administrator admin = adminService.findByUserName(username);
+        Administrator admin = adminService.findByUserName(upToken.getUsername());
         if (Objects.isNull(admin)) {
             throw new AuthenticationException("用户不存在");
         }
         //身份验证通过,返回一个身份信息
-        return new SimpleAuthenticationInfo(username, admin.getPassword(), getName());
+        return new SimpleAuthenticationInfo(admin.getUserName(), admin.getPassword(), getName());
     }
 
     /**
@@ -53,7 +49,7 @@ public class MyRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        log.info("----------doGetAuthorizationInfo方法被调用----------");
+        log.info("----------身份权限：doGetAuthorizationInfo方法被调用----------");
         //我们可以通过用户名从数据库获取权限/角色信息
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         //权限

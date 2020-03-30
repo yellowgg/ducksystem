@@ -92,7 +92,7 @@
 
 <script src="/layui-2.5.5/layui.js" charset="utf-8"></script>
 <script src="/layuiMini/js/lay-config.js" charset="utf-8"></script>
-<script>
+<script type="text/javascript">
     layui.use(['element', 'layer', 'layuimini'], function () {
         var $ = layui.jquery,
             layer = layui.layer;
@@ -102,6 +102,16 @@
         $('.login-out').on("click", function () {
             layer.msg('退出登录成功')
         })
+    });
+
+    // 登陆页面禁止回退
+    $(function () {
+        if (window.location.href.indexOf("/admin/index") > -1) {
+            history.pushState(null, null, document.URL);
+            window.addEventListener('popstate', function () {
+                history.pushState(null, null, document.URL);
+            });
+        }
     });
 </script>
 </body>

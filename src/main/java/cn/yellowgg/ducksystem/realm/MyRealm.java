@@ -43,6 +43,7 @@ public class MyRealm extends AuthorizingRealm {
         }
         List<Object> principals = Lists.newArrayList();
         principals.add(admin.getUserName());
+        admin.setPassword(null);
         principals.add(admin);
         //身份验证通过,返回一个身份信息
         return new SimpleAuthenticationInfo(principals, admin.getPassword(), getName());

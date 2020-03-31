@@ -4,6 +4,7 @@ import cn.yellowgg.ducksystem.entity.perm.Administrator;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -38,6 +39,10 @@ public interface AdministratorMapper {
     int updateBatch(List<Administrator> list);
 
     int updateBatchSelective(List<Administrator> list);
+
+    int updateLastLoginTimeByIdAndUserName(@Param("updatedLastLoginTime") LocalDateTime updatedLastLoginTime,
+                                           @Param("id") Long id, @Param("userName") String userName);
+
     //endregion
 
     //region 查

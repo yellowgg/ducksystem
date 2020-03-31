@@ -15,8 +15,12 @@ public class DucksystemApplication {
         /**
          * 已知错误：1. shiro的标签会失效
          */
-        System.setProperty("spring.devtools.restart.enabled", "false");
+        //closeHotSwap();
         SpringApplication.run(DucksystemApplication.class, args);
+    }
+
+    public static void closeHotSwap() {
+        System.setProperty("spring.devtools.restart.enabled", "false");
     }
 
 }

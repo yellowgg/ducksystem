@@ -1,39 +1,43 @@
 package cn.yellowgg.ducksystem.exception;
 
-import cn.yellowgg.ducksystem.utils.LogUtils;
-import org.slf4j.Logger;
-import org.springframework.web.servlet.HandlerExceptionResolver;
-import org.springframework.web.servlet.ModelAndView;
+import cn.yellowgg.ducksystem.constant.UtilConstants;
+import cn.yellowgg.ducksystem.service.base.ServiceResult;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.validation.ConstraintViolationException;
+import java.util.stream.Collectors;
 
 /**
  * @Description: 全局异常处理器
- * springmvc提供一个HandlerExceptionResolver接口
- * 只要实现该接口，并配置到spring 容器里，该类就能成为默认全局异常处理类
- * 全局异常处理器只有一个，配置多个也没用
  * @Author:yellowgg
  * @Date: Created in 2020/3/26 10:42
  */
-public class CustomExceptionResolver implements HandlerExceptionResolver {
+@ControllerAdvice
+public class CustomExceptionResolver {
 
-    private static final transient Logger log = LogUtils.getExceptionLogger();
+    /**
+     * 全局异常捕捉处理
+     */
 
-    public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object o, Exception e) {
-        ModelAndView modelAndView = new ModelAndView();
-        CustomException customException;
-        if (e instanceof CustomException) {
-            customException = (CustomException) e;
-        } else {
-            customException = new CustomException(e.getMessage());
-        }
-        //错误信息
-        String message = customException.getMessage();
-        log.error(message);
-        //错误信息传递和错误页面跳转
-        modelAndView.addObject("message", message);
-        modelAndView.setViewName("/error");
-        return modelAndView;
+    @ExceptionHandler(value = Exception.class)
+    public @ResponseBody
+    String errorHandler(Exception ex) {
+        return null;
     }
+
+    /**
+     * 拦截捕捉 参数校验异常
+     *
+     * @param ex javax.validation.ConstraintViolationException
+     */
+    @ExceptionHandler(ConstraintViolationException.class)
+    public @ResponseBody
+    String constraintViolationExceptionHandler(ConstraintViolationException ex) {
+        return ServiceResult.asFail(UtilConstants.RespCode.PRECONDITIONFAILED,
+                ex.getConstraintViolations().stream().map(x -> x.getMessage()).collect(Collectors.joining(",")))
+                .toJson();
+    }
+
 }

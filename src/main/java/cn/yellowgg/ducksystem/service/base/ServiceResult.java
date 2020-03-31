@@ -43,7 +43,14 @@ public class ServiceResult {
     }
 
     public static ServiceResult asFail(String msg) {
-        return new ServiceResult(UtilConstants.RespCode.SUCCESS, msg, null, false);
+        return new ServiceResult(UtilConstants.RespCode.FAIL, msg, null, false);
+    }
+
+    /**
+     * @param code 状态码
+     */
+    public static ServiceResult asFail(Integer code, String msg) {
+        return new ServiceResult(code, msg, null, false);
     }
 
     public String toJson() {

@@ -1,10 +1,12 @@
 package cn.yellowgg.ducksystem.service;
 
+import cn.yellowgg.ducksystem.constant.UtilConstants;
 import cn.yellowgg.ducksystem.entity.perm.Administrator;
 import cn.yellowgg.ducksystem.mapper.AdministratorMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -74,6 +76,12 @@ public class AdministratorService {
 
     public Administrator findByUserName(String userName) {
         return administratorMapper.findByUserName(userName);
+    }
+
+    public int updateLastLoginTime(Administrator administrator) {
+        return administratorMapper.updateLastLoginTimeByIdAndUserName(
+                LocalDateTime.now().withNano(UtilConstants.Number.ZERO),
+                administrator.getId(), administrator.getUserName());
     }
 
 

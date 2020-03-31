@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="utf-8">
     <title>小黄鸭培训机构后台管理系统</title>
@@ -13,8 +16,7 @@
     <link rel="stylesheet" href="/layui-v2.5.6/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiMini/css/layuimini.css" media="all">
     <link rel="stylesheet" href="/layuiMini/libs/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
-    <style id="layuimini-bg-color">l
-    </style>
+    <style id="layuimini-bg-color"></style>
 </head>
 <body class="layui-layout-body layuimini-all">
 <div class="layui-layout layui-layout-admin">
@@ -24,22 +26,21 @@
         <a>
             <div class="layuimini-tool"><i title="展开" class="fa fa-outdent" data-side-fold="1"></i></div>
         </a>
-
-        <ul class="layui-nav layui-layout-left layui-header-menu layui-header-pc-menu mobile layui-hide-xs">
-        </ul>
-
+        <ul class="layui-nav layui-layout-left layui-header-menu layui-header-pc-menu mobile layui-hide-xs"></ul>
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
                 <a href="javascript:void(0)" data-refresh="刷新" title="刷新"><i class="fa fa-refresh"></i></a>
             </li>
             <li class="layui-nav-item">
-                <a href="javascript:void(0)" data-clear="清理" title="清理缓存" class="layuimini-clear"><i class="fa
-                fa-trash-o"></i></a>
+                <a href="javascript:void(0)" data-clear="清理" title="清理缓存" class="layuimini-clear">
+                    <i class="fa fa-trash-o"></i></a>
             </li>
             <li class="layui-nav-item layuimini-setting">
-                <a href="javascript:void(0)">${currentUser.name}</a>
+                <a href="javascript:void(0)">
+                    <span shiro:principal type="cn.yellowgg.ducksystem.entity.perm.Administrator"
+                          property="realName"></span>
+                </a>
                 <dl class="layui-nav-child">
-                    *{
                     <dd>
                         <a href="javascript:void(0)" data-iframe-tab="page/user-setting.html" data-title="基本资料"
                            data-icon="fa fa-gears">基本资料</a>
@@ -48,7 +49,6 @@
                         <a href="javascript:void(0)" data-iframe-tab="page/user-password.html" data-title="修改密码"
                            data-icon="fa fa-gears">修改密码</a>
                     </dd>
-                    }*
                     <dd>
                         <a href="@{Secure.logout}" class="login-out">退出登录</a>
                     </dd>
@@ -87,9 +87,7 @@
             </div>
         </div>
     </div>
-
 </div>
-
 <script src="/layui-v2.5.6/layui.js" charset="utf-8"></script>
 <script src="/layuiMini/js/lay-config.js" charset="utf-8"></script>
 <script type="text/javascript">

@@ -3,6 +3,7 @@ package cn.yellowgg.ducksystem.realm;
 import cn.yellowgg.ducksystem.entity.perm.Administrator;
 import cn.yellowgg.ducksystem.service.AdministratorService;
 import cn.yellowgg.ducksystem.utils.LogUtils;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
@@ -13,6 +14,7 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -39,8 +41,11 @@ public class MyRealm extends AuthorizingRealm {
         if (Objects.isNull(admin)) {
             throw new AuthenticationException("用户不存在");
         }
+        List<Object> principals = Lists.newArrayList();
+        principals.add(admin.getUserName());
+        principals.add(admin);
         //身份验证通过,返回一个身份信息
-        return new SimpleAuthenticationInfo(admin.getUserName(), admin.getPassword(), getName());
+        return new SimpleAuthenticationInfo(principals, admin.getPassword(), getName());
     }
 
     /**
@@ -61,7 +66,6 @@ public class MyRealm extends AuthorizingRealm {
         Set<String> role = Sets.newHashSet();
         role.add("role1");
         info.setRoles(role);
-
         return info;
     }
 

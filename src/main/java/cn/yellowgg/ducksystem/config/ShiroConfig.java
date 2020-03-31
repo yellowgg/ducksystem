@@ -1,24 +1,36 @@
 package cn.yellowgg.ducksystem.config;
 
+import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import cn.yellowgg.ducksystem.constant.UtilConstants;
+import cn.yellowgg.ducksystem.listener.ShiroSessionListener;
 import cn.yellowgg.ducksystem.realm.MyRealm;
 import cn.yellowgg.ducksystem.utils.LogUtils;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.session.SessionListener;
+import org.apache.shiro.session.mgt.SessionManager;
+import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
+import org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator;
+import org.apache.shiro.session.mgt.eis.SessionDAO;
+import org.apache.shiro.session.mgt.eis.SessionIdGenerator;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.servlet.SimpleCookie;
+import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.slf4j.Logger;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 
+import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -41,6 +53,7 @@ public class ShiroConfig {
         fMap.put("/layui-v2.5.6/**", "anon");
         fMap.put("/images/**", "anon");
         fMap.put("/layuiMini/**", "anon");
+        fMap.put("/swagger-ui.html", "anon");
         // 登录接口
         fMap.put("/login/logout", "logout");
         fMap.put("/login/**", "anon");
@@ -53,7 +66,6 @@ public class ShiroConfig {
         return shiroFilterFactoryBean;
     }
 
-
     @Bean
     public SecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
@@ -61,6 +73,8 @@ public class ShiroConfig {
         securityManager.setRealm(myShiroRealm());
         //注入缓存管理器;
         securityManager.setCacheManager(ehCacheManager());
+        // 注入session管理器
+        securityManager.setSessionManager(sessionManager());
         /*把securityManager注入SecurityUtils*/
         SecurityUtils.setSecurityManager(securityManager);
         return securityManager;
@@ -133,4 +147,89 @@ public class ShiroConfig {
         return authorizationAttributeSourceAdvisor;
     }
 
+    /**
+     * 配置session监听
+     */
+    @Bean("sessionListener")
+    public ShiroSessionListener sessionListener() {
+        ShiroSessionListener sessionListener = new ShiroSessionListener();
+        return sessionListener;
+    }
+
+    /**
+     * 配置会话ID生成器
+     */
+    @Bean
+    public SessionIdGenerator sessionIdGenerator() {
+        return new JavaUuidSessionIdGenerator();
+    }
+
+    /**
+     * SessionDAO的作用是为Session提供CRUD并进行持久化的一个shiro组件
+     * MemorySessionDAO 直接在内存中进行会话维护
+     * EnterpriseCacheSessionDAO  提供了缓存功能的会话维护，默认情况下使用MapCache实现，内部使用ConcurrentHashMap保存缓存的会话。
+     *
+     * @return
+     */
+    @Bean
+    public SessionDAO sessionDAO() {
+        EnterpriseCacheSessionDAO enterpriseCacheSessionDAO = new EnterpriseCacheSessionDAO();
+        //使用ehCacheManager
+        enterpriseCacheSessionDAO.setCacheManager(ehCacheManager());
+        //设置session缓存的名字 默认为 shiro-activeSessionCache
+        enterpriseCacheSessionDAO.setActiveSessionsCacheName("shiro-activeSessionCache");
+        //sessionId生成器
+        enterpriseCacheSessionDAO.setSessionIdGenerator(sessionIdGenerator());
+        return enterpriseCacheSessionDAO;
+    }
+
+    /**
+     * 配置保存sessionId的cookie
+     */
+    @Bean("sessionIdCookie")
+    public SimpleCookie sessionIdCookie() {
+        SimpleCookie simpleCookie = new SimpleCookie("sid");
+        /*setcookie的httponly属性如果设为true的话，会增加对xss防护的安全系数
+        设为true后，只能通过http访问，javascript无法访问
+        防止xss读取cookie*/
+        simpleCookie.setHttpOnly(true);
+        simpleCookie.setPath("/");
+        //maxAge=-1表示浏览器关闭时失效此Cookie
+        simpleCookie.setMaxAge(-1);
+        return simpleCookie;
+    }
+
+    /**
+     * 配置会话管理器，设定会话超时及保存
+     */
+    @Bean("sessionManager")
+    public SessionManager sessionManager() {
+        DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
+        Collection<SessionListener> listeners = Lists.newArrayList();
+        //配置监听
+        listeners.add(sessionListener());
+        sessionManager.setSessionListeners(listeners);
+        sessionManager.setSessionIdCookie(sessionIdCookie());
+        sessionManager.setSessionDAO(sessionDAO());
+        sessionManager.setCacheManager(ehCacheManager());
+        //全局会话超时时间（单位毫秒），默认30分钟  暂时设置为10秒钟 用来测试
+        // sessionManager.setGlobalSessionTimeout(10000);
+        //是否开启删除无效的session对象  默认为true
+        sessionManager.setDeleteInvalidSessions(true);
+        //是否开启定时调度器进行检测过期session 默认为true
+        sessionManager.setSessionValidationSchedulerEnabled(true);
+        //设置session失效的扫描时间, 清理用户直接关闭浏览器造成的孤立会话 默认为 1个小时
+        //设置该属性 就不需要设置 ExecutorServiceSessionValidationScheduler 底层也是默认自动调用ExecutorServiceSessionValidationScheduler
+        //暂时设置为 5秒 用来测试
+        // sessionManager.setSessionValidationInterval(5000);
+        return sessionManager;
+    }
+
+    /**
+     * 页面上使用shiro标签
+     */
+    @Bean(name = "shiroDialect")
+    public ShiroDialect shiroDialect() {
+        return new ShiroDialect();
+    }
 }

@@ -19,8 +19,7 @@ Configuration:
       target: SYSTEM_OUT
       PatternLayout:
         pattern: ${log.pattern}
-    #   启动日志
-    RollingFile:
+    RollingFile: #输出到文件
       - name: ROLLING_FILE
         fileName: ${log.path}/${project.name}.log
         filePattern: "${log.path}/historyRunLog/$${date:yyyy-MM}/${project.name}-%d{yyyy-MM-dd}-%i.log.gz"
@@ -115,14 +114,17 @@ Configuration:
         level: info
         additivity: false
         AppenderRef:
+          - ref: CONSOLE
           - ref: BUSSINESS_ROLLING_FILE
       - name: exception
         level: debug
         additivity: true
         AppenderRef:
+          - ref: CONSOLE
           - ref: SYSTEM_ERROR_ROLLING_FILE
       - name: db
         level: info
         additivity: false
         AppenderRef:
+          - ref: CONSOLE
           - ref: DB_ROLLING_FILE

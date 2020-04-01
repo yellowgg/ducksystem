@@ -4,6 +4,7 @@ import cn.yellowgg.ducksystem.entity.perm.Permission;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -13,8 +14,8 @@ import java.util.List;
  */
 @Mapper
 public interface PermissionMapper {
-    int deleteByPrimaryKey(Long id);
 
+    //region 增
     int insert(Permission record);
 
     int insertOrUpdate(Permission record);
@@ -23,8 +24,14 @@ public interface PermissionMapper {
 
     int insertSelective(Permission record);
 
-    Permission selectByPrimaryKey(Long id);
+    int batchInsert(@Param("list") List<Permission> list);
+    //endregion
 
+    //region 删
+    int deleteByPrimaryKey(Long id);
+    //endregion
+
+    //region 改
     int updateByPrimaryKeySelective(Permission record);
 
     int updateByPrimaryKey(Permission record);
@@ -33,5 +40,17 @@ public interface PermissionMapper {
 
     int updateBatchSelective(List<Permission> list);
 
-    int batchInsert(@Param("list") List<Permission> list);
+    //endregion
+
+    //region 查
+    Permission selectByPrimaryKey(Long id);
+
+    List<Permission> findAllByIdIn(@Param("idCollection") Collection<Long> idCollection);
+
+
+    List<Permission> findAllByIdInAndTypeInOrderByOrderNum(@Param("idCollection") Collection<Long> idCollection,
+                                                           @Param("typeCollection") Collection<Integer> typeCollection);
+
+
+    //endregion
 }

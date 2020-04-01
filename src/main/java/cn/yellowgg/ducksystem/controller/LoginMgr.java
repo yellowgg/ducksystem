@@ -40,7 +40,7 @@ public class LoginMgr {
         return "login";
     }
 
-    @PostMapping(path = "/logging", produces = "text/plain;charset=UTF-8")
+    @PostMapping(path = "/logging")
     @ApiOperation(value = "登录")
     public @ResponseBody
     String logging(@NotBlank(message = "用户名不能为空") String userName, @NotBlank(message = "密码不能为空") String password) {
@@ -52,7 +52,7 @@ public class LoginMgr {
             log.info("登录错误", e);
             return ServiceResult.asFail("用户名或密码错误").toJson();
         }
-        adminService.updateLastLoginTime(SecurityUtils.getSubject().getPrincipals().oneByType(Administrator.class));
+        adminService.updateLastLoginTime((Administrator) SecurityUtils.getSubject().getPrincipal());
         return ServiceResult.asSuccess("/admin/index").toJson();
     }
 }

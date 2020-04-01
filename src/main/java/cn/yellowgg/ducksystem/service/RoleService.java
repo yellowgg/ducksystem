@@ -1,10 +1,11 @@
 package cn.yellowgg.ducksystem.service;
 
-import org.springframework.stereotype.Service;
-import javax.annotation.Resource;
-import cn.yellowgg.ducksystem.mapper.RoleMapper;
-import java.util.List;
 import cn.yellowgg.ducksystem.entity.perm.Role;
+import cn.yellowgg.ducksystem.mapper.RoleMapper;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.List;
 /**
  * @Description:  
  * @Author: yellowgg

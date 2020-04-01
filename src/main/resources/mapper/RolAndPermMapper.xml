@@ -1,44 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.yellowgg.ducksystem.mapper.AdminandroleMapper">
-    <resultMap id="BaseResultMap" type="cn.yellowgg.ducksystem.entity.association.AdminAndRole">
+<mapper namespace="cn.yellowgg.ducksystem.mapper.RolAndPermMapper">
+    <resultMap id="BaseResultMap" type="cn.yellowgg.ducksystem.entity.association.RoleAndPerm">
         <!--@mbg.generated-->
-        <!--@Table adminandrole-->
+        <!--@Table roleandperm-->
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="gmtCreate" jdbcType="TIMESTAMP" property="gmtCreate"/>
         <result column="gmtModify" jdbcType="TIMESTAMP" property="gmtModify"/>
         <result column="isDelete" jdbcType="INTEGER" property="isDelete"/>
-        <result column="adminId" jdbcType="BIGINT" property="adminId"/>
         <result column="roleId" jdbcType="BIGINT" property="roleId"/>
+        <result column="permId" jdbcType="BIGINT" property="permId"/>
     </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
-        id, gmtCreate, gmtModify, isDelete, adminId, roleId
+        id, gmtCreate, gmtModify, isDelete, roleId, permId
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         <!--@mbg.generated-->
         select
         <include refid="Base_Column_List"/>
-        from adminandrole
+        from roleandperm
         where id = #{id,jdbcType=BIGINT}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         <!--@mbg.generated-->
-        delete from adminandrole
+        delete from roleandperm
         where id = #{id,jdbcType=BIGINT}
     </delete>
     <insert id="insert" keyColumn="id" keyProperty="id"
-            parameterType="cn.yellowgg.ducksystem.entity.association.AdminAndRole" useGeneratedKeys="true">
+            parameterType="cn.yellowgg.ducksystem.entity.association.RoleAndPerm" useGeneratedKeys="true">
         <!--@mbg.generated-->
-        insert into adminandrole (gmtCreate, gmtModify, isDelete,
-        adminId, roleId)
+        insert into roleandperm (gmtCreate, gmtModify, isDelete,
+        roleId, permId)
         values (#{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=INTEGER},
-        #{adminId,jdbcType=BIGINT}, #{roleId,jdbcType=BIGINT})
+        #{roleId,jdbcType=BIGINT}, #{permId,jdbcType=BIGINT})
     </insert>
     <insert id="insertSelective" keyColumn="id" keyProperty="id"
-            parameterType="cn.yellowgg.ducksystem.entity.association.AdminAndRole" useGeneratedKeys="true">
+            parameterType="cn.yellowgg.ducksystem.entity.association.RoleAndPerm" useGeneratedKeys="true">
         <!--@mbg.generated-->
-        insert into adminandrole
+        insert into roleandperm
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="gmtCreate != null">
                 gmtCreate,
@@ -49,11 +49,11 @@
             <if test="isDelete != null">
                 isDelete,
             </if>
-            <if test="adminId != null">
-                adminId,
-            </if>
             <if test="roleId != null">
                 roleId,
+            </if>
+            <if test="permId != null">
+                permId,
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -66,17 +66,17 @@
             <if test="isDelete != null">
                 #{isDelete,jdbcType=INTEGER},
             </if>
-            <if test="adminId != null">
-                #{adminId,jdbcType=BIGINT},
-            </if>
             <if test="roleId != null">
                 #{roleId,jdbcType=BIGINT},
             </if>
+            <if test="permId != null">
+                #{permId,jdbcType=BIGINT},
+            </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="cn.yellowgg.ducksystem.entity.association.AdminAndRole">
+    <update id="updateByPrimaryKeySelective" parameterType="cn.yellowgg.ducksystem.entity.association.RoleAndPerm">
         <!--@mbg.generated-->
-        update adminandrole
+        update roleandperm
         <set>
             <if test="gmtCreate != null">
                 gmtCreate = #{gmtCreate,jdbcType=TIMESTAMP},
@@ -87,28 +87,28 @@
             <if test="isDelete != null">
                 isDelete = #{isDelete,jdbcType=INTEGER},
             </if>
-            <if test="adminId != null">
-                adminId = #{adminId,jdbcType=BIGINT},
-            </if>
             <if test="roleId != null">
                 roleId = #{roleId,jdbcType=BIGINT},
+            </if>
+            <if test="permId != null">
+                permId = #{permId,jdbcType=BIGINT},
             </if>
         </set>
         where id = #{id,jdbcType=BIGINT}
     </update>
-    <update id="updateByPrimaryKey" parameterType="cn.yellowgg.ducksystem.entity.association.AdminAndRole">
+    <update id="updateByPrimaryKey" parameterType="cn.yellowgg.ducksystem.entity.association.RoleAndPerm">
         <!--@mbg.generated-->
-        update adminandrole
+        update roleandperm
         set gmtCreate = #{gmtCreate,jdbcType=TIMESTAMP},
         gmtModify = #{gmtModify,jdbcType=TIMESTAMP},
         isDelete = #{isDelete,jdbcType=INTEGER},
-        adminId = #{adminId,jdbcType=BIGINT},
-        roleId = #{roleId,jdbcType=BIGINT}
+        roleId = #{roleId,jdbcType=BIGINT},
+        permId = #{permId,jdbcType=BIGINT}
         where id = #{id,jdbcType=BIGINT}
     </update>
     <update id="updateBatch" parameterType="java.util.List">
         <!--@mbg.generated-->
-        update adminandrole
+        update roleandperm
         <trim prefix="set" suffixOverrides=",">
             <trim prefix="gmtCreate = case" suffix="end,">
                 <foreach collection="list" index="index" item="item">
@@ -125,14 +125,14 @@
                     when id = #{item.id,jdbcType=BIGINT} then #{item.isDelete,jdbcType=INTEGER}
                 </foreach>
             </trim>
-            <trim prefix="adminId = case" suffix="end,">
-                <foreach collection="list" index="index" item="item">
-                    when id = #{item.id,jdbcType=BIGINT} then #{item.adminId,jdbcType=BIGINT}
-                </foreach>
-            </trim>
             <trim prefix="roleId = case" suffix="end,">
                 <foreach collection="list" index="index" item="item">
                     when id = #{item.id,jdbcType=BIGINT} then #{item.roleId,jdbcType=BIGINT}
+                </foreach>
+            </trim>
+            <trim prefix="permId = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=BIGINT} then #{item.permId,jdbcType=BIGINT}
                 </foreach>
             </trim>
         </trim>
@@ -143,7 +143,7 @@
     </update>
     <update id="updateBatchSelective" parameterType="java.util.List">
         <!--@mbg.generated-->
-        update adminandrole
+        update roleandperm
         <trim prefix="set" suffixOverrides=",">
             <trim prefix="gmtCreate = case" suffix="end,">
                 <foreach collection="list" index="index" item="item">
@@ -166,17 +166,17 @@
                     </if>
                 </foreach>
             </trim>
-            <trim prefix="adminId = case" suffix="end,">
-                <foreach collection="list" index="index" item="item">
-                    <if test="item.adminId != null">
-                        when id = #{item.id,jdbcType=BIGINT} then #{item.adminId,jdbcType=BIGINT}
-                    </if>
-                </foreach>
-            </trim>
             <trim prefix="roleId = case" suffix="end,">
                 <foreach collection="list" index="index" item="item">
                     <if test="item.roleId != null">
                         when id = #{item.id,jdbcType=BIGINT} then #{item.roleId,jdbcType=BIGINT}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="permId = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.permId != null">
+                        when id = #{item.id,jdbcType=BIGINT} then #{item.permId,jdbcType=BIGINT}
                     </if>
                 </foreach>
             </trim>
@@ -188,19 +188,19 @@
     </update>
     <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
         <!--@mbg.generated-->
-        insert into adminandrole
-        (gmtCreate, gmtModify, isDelete, adminId, roleId)
+        insert into roleandperm
+        (gmtCreate, gmtModify, isDelete, roleId, permId)
         values
         <foreach collection="list" item="item" separator=",">
             (#{item.gmtCreate,jdbcType=TIMESTAMP}, #{item.gmtModify,jdbcType=TIMESTAMP},
             #{item.isDelete,jdbcType=INTEGER},
-            #{item.adminId,jdbcType=BIGINT}, #{item.roleId,jdbcType=BIGINT})
+            #{item.roleId,jdbcType=BIGINT}, #{item.permId,jdbcType=BIGINT})
         </foreach>
     </insert>
     <insert id="insertOrUpdate" keyColumn="id" keyProperty="id"
-            parameterType="cn.yellowgg.ducksystem.entity.association.AdminAndRole" useGeneratedKeys="true">
+            parameterType="cn.yellowgg.ducksystem.entity.association.RoleAndPerm" useGeneratedKeys="true">
         <!--@mbg.generated-->
-        insert into adminandrole
+        insert into roleandperm
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
                 id,
@@ -208,8 +208,8 @@
             gmtCreate,
             gmtModify,
             isDelete,
-            adminId,
             roleId,
+            permId,
         </trim>
         values
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -219,8 +219,8 @@
             #{gmtCreate,jdbcType=TIMESTAMP},
             #{gmtModify,jdbcType=TIMESTAMP},
             #{isDelete,jdbcType=INTEGER},
-            #{adminId,jdbcType=BIGINT},
             #{roleId,jdbcType=BIGINT},
+            #{permId,jdbcType=BIGINT},
         </trim>
         on duplicate key update
         <trim suffixOverrides=",">
@@ -230,14 +230,14 @@
             gmtCreate = #{gmtCreate,jdbcType=TIMESTAMP},
             gmtModify = #{gmtModify,jdbcType=TIMESTAMP},
             isDelete = #{isDelete,jdbcType=INTEGER},
-            adminId = #{adminId,jdbcType=BIGINT},
             roleId = #{roleId,jdbcType=BIGINT},
+            permId = #{permId,jdbcType=BIGINT},
         </trim>
     </insert>
     <insert id="insertOrUpdateSelective" keyColumn="id" keyProperty="id"
-            parameterType="cn.yellowgg.ducksystem.entity.association.AdminAndRole" useGeneratedKeys="true">
+            parameterType="cn.yellowgg.ducksystem.entity.association.RoleAndPerm" useGeneratedKeys="true">
         <!--@mbg.generated-->
-        insert into adminandrole
+        insert into roleandperm
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
                 id,
@@ -251,11 +251,11 @@
             <if test="isDelete != null">
                 isDelete,
             </if>
-            <if test="adminId != null">
-                adminId,
-            </if>
             <if test="roleId != null">
                 roleId,
+            </if>
+            <if test="permId != null">
+                permId,
             </if>
         </trim>
         values
@@ -272,11 +272,11 @@
             <if test="isDelete != null">
                 #{isDelete,jdbcType=INTEGER},
             </if>
-            <if test="adminId != null">
-                #{adminId,jdbcType=BIGINT},
-            </if>
             <if test="roleId != null">
                 #{roleId,jdbcType=BIGINT},
+            </if>
+            <if test="permId != null">
+                #{permId,jdbcType=BIGINT},
             </if>
         </trim>
         on duplicate key update
@@ -293,20 +293,19 @@
             <if test="isDelete != null">
                 isDelete = #{isDelete,jdbcType=INTEGER},
             </if>
-            <if test="adminId != null">
-                adminId = #{adminId,jdbcType=BIGINT},
-            </if>
             <if test="roleId != null">
                 roleId = #{roleId,jdbcType=BIGINT},
+            </if>
+            <if test="permId != null">
+                permId = #{permId,jdbcType=BIGINT},
             </if>
         </trim>
     </insert>
 
     <!--auto generated by MybatisCodeHelper on 2020-03-31-->
-    <select id="findRoleIdByAdminId" resultType="java.lang.Long">
-        select roleId
-        from adminandrole
-        where adminId = #{adminId,jdbcType=BIGINT}
-          and isDelete = 0
+    <select id="findPermIdByRoleId" resultType="java.lang.Long">
+        select permId
+        from roleandperm
+        where roleId = #{roleId,jdbcType=BIGINT}
     </select>
 </mapper>

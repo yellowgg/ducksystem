@@ -13,17 +13,7 @@ public interface UtilConstants {
      */
     class Number {
         public static final int ZERO = 0;
-        public static final int ONE = 1;
         public static final int THREE = 3;
-    }
-
-    class RespCode {
-        public static final int SUCCESS = 200;
-        /**
-         * 412	Precondition Failed	客户端请求信息的先决条件错误
-         */
-        public static final int PRECONDITIONFAILED = 412;
-        public static final int FAIL = 500;
     }
 
     /**

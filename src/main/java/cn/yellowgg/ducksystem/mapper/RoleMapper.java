@@ -1,12 +1,13 @@
 package cn.yellowgg.ducksystem.mapper;
 
 import cn.yellowgg.ducksystem.entity.perm.Role;
-import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
- * @Description:  
+ * @Description:
  * @Author: yellowgg
  * @Date: Created in 2020/3/26 15:26
  */

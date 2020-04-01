@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * @Description:
+ * @Description: 角色-权限
  * @Author: yellowgg
  * @Date: Created in 2020/3/26 15:29
  */

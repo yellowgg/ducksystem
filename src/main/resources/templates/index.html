@@ -37,8 +37,7 @@
             </li>
             <li class="layui-nav-item layuimini-setting">
                 <a href="javascript:void(0)">
-                    <span shiro:principal type="cn.yellowgg.ducksystem.entity.perm.Administrator"
-                          property="realName"></span>
+                    <span shiro:principal property="realName"></span>
                 </a>
                 <dl class="layui-nav-child">
                     <dd>
@@ -87,6 +86,7 @@
             </div>
         </div>
     </div>
+    <span id="adminId" style="display: none"><shiro:principal property="id"/></span>
 </div>
 <script src="/layui-v2.5.6/layui.js" charset="utf-8"></script>
 <script src="/layuiMini/js/lay-config.js" charset="utf-8"></script>
@@ -94,8 +94,7 @@
     layui.use(['layer', 'layuimini'], function () {
         var $ = layui.jquery,
             layer = layui.layer;
-
-        layuimini.init('/layuiMini/api/init.json');
+        layuimini.init("/admin/initJson?adminId=" + $("#adminId").text());
 
         $('.login-out').on("click", function () {
             layer.msg('退出登录成功')

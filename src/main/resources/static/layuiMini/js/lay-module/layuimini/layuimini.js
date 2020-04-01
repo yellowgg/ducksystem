@@ -45,12 +45,28 @@ layui.define(["element", "jquery"], function (exports) {
             layuimini.initBgColor();
             layuimini.initDevice();
             $.getJSON(url, function (data, status) {
+                data = data.obj;
                 if (data == null) {
                     layuimini.msg_error('暂无菜单信息');
                 } else {
-                    layuimini.initHome(data.homeInfo);
-                    layuimini.initLogo(data.logoInfo);
-                    layuimini.initClear(data.clearInfo);
+                    var homeInfo = {
+                        "title": "首页",
+                        "icon": "fa fa-home",
+                        "href": ""
+                    }
+                    layuimini.initHome(homeInfo);
+                    var logoInfo = {
+                        "title": "小黄鸭",
+                        "image": "/images/logo.png",
+                        "href": ""
+                    }
+                    layuimini.initLogo(logoInfo);
+                    var clearInfo = {
+                        "clearInfo": {
+                            "clearUrl": "/layuiMini/api/clear.json"
+                        }
+                    }
+                    layuimini.initClear(clearInfo);
                     layuimini.initMenu(data.menuInfo);
                     layuimini.initTab();
                 }

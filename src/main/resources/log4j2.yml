@@ -117,7 +117,7 @@ Configuration:
           - ref: CONSOLE
           - ref: BUSSINESS_ROLLING_FILE
       - name: exception
-        level: error
+        level: info
         additivity: true
         AppenderRef:
           - ref: CONSOLE

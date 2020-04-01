@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -24,8 +26,11 @@ public class Administrator extends BaseEntity implements Serializable {
     private String userName;
     @ApiModelProperty(value = "密码")
     private String password;
+    @NotBlank(message = "起码得有真姓名")
     @ApiModelProperty(hidden = true)
     private String realName;
+    @NotBlank(message = "邮箱也必须有")
+    @Email
     @ApiModelProperty(hidden = true)
     private String email;
     @ApiModelProperty(hidden = true)

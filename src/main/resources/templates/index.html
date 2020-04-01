@@ -41,8 +41,7 @@
                 </a>
                 <dl class="layui-nav-child">
                     <dd>
-                        <a href="javascript:void(0)" data-iframe-tab="page/user-setting.html" data-title="基本资料"
-                           data-icon="fa fa-gears">基本资料</a>
+                        <a href="javascript:void(0)" id="adminInfo">基本资料</a>
                     </dd>
                     <dd>
                         <a href="javascript:void(0)" data-iframe-tab="page/user-password.html" data-title="修改密码"
@@ -87,19 +86,69 @@
         </div>
     </div>
     <span id="adminId" style="display: none"><shiro:principal property="id"/></span>
+    <span id="adminUserName" style="display: none"><shiro:principal property="userName"/></span>
+    <span id="adminRealName" style="display: none"><shiro:principal property="realName"/></span>
+    <span id="adminEmail" style="display: none"><shiro:principal property="email"/></span>
 </div>
 <script src="/layui-v2.5.6/layui.js" charset="utf-8"></script>
 <script src="/layuiMini/js/lay-config.js" charset="utf-8"></script>
+</body>
 <script type="text/javascript">
-    layui.use(['layer', 'layuimini'], function () {
+    layui.use(['layer', 'layuimini', 'form'], function () {
         var $ = layui.jquery,
+            form = layui.form,
             layer = layui.layer;
         layuimini.init("/admin/initJson?adminId=" + $("#adminId").text());
 
         $('.login-out').on("click", function () {
             layer.msg('退出登录成功')
         })
+
+        $('#adminInfo').on("click", function () {
+            layer.open({
+                type: 1,
+                anim: 1,
+                shade: 0.6,
+                btn: ['保存', '取消'],
+                title: "用户信息",
+                area: ['420px', '240px'],
+                content: getAdminInfoDialog(),
+                yes: function () {
+                    // TODO yellowgg 防止多点
+                    $.post({
+                        url: "/admin/updateInfo"
+                        , data: {
+                            realName: $("#adminRealName_form").val(),
+                            email: $("#adminEmail_form").val(),
+                            id: $("#adminId_form").val()
+                        }
+                        ,
+                        success: function (resp) {
+                            var resp = JSON.parse(resp);
+                            layer.msg(resp.msg);
+                        }
+                        ,
+                        error: function (resp) {
+                            var resp = JSON.parse(resp);
+                            layer.msg(resp.msg);
+                        }
+                    })
+                    ;
+                }
+            });
+        })
+
+        function getAdminInfoDialog() {
+            return "<div id=\"adminInfoDialog\">\n" +
+                "    <form class='layui-form' action='' method='post' id='adminInfoForm'>\n" +
+                "        <div>用户名<input readonly value=" + $("#adminUserName").text() + "></div>\n" +
+                "        <div>姓名<input name='realName' id='adminRealName_form' required value=" + $("#adminRealName").text() + "></div>\n" +
+                "        <div>邮箱<input name='email' id='adminEmail_form' required lay-verify='email' value=" + $("#adminEmail").text() + "></div>\n" +
+                "        <input name='id' id='adminId_form' hidden  value=" + $("#adminId").text() + ">\n" +
+                "    </form>\n" +
+                "</div>";
+        }
     });
+
 </script>
-</body>
 </html>

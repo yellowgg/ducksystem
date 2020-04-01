@@ -43,6 +43,7 @@ public interface AdministratorMapper {
     int updateLastLoginTimeByIdAndUserName(@Param("updatedLastLoginTime") LocalDateTime updatedLastLoginTime,
                                            @Param("id") Long id, @Param("userName") String userName);
 
+    int updateRealNameAndEmailById(@Param("realName") String realName, @Param("email") String email, @Param("id") Long id);
     //endregion
 
     //region 查

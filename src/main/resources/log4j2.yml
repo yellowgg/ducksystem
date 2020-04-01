@@ -101,8 +101,8 @@ Configuration:
       level: info
       AppenderRef:
         - ref: CONSOLE
-        - ref: ROLLING_FILE
-        - ref: SYSTEM_ERROR_ROLLING_FILE
+    #        - ref: ROLLING_FILE
+    #        - ref: SYSTEM_ERROR_ROLLING_FILE
     Logger:
       - name: platform
         level: info
@@ -117,7 +117,7 @@ Configuration:
           - ref: CONSOLE
           - ref: BUSSINESS_ROLLING_FILE
       - name: exception
-        level: debug
+        level: error
         additivity: true
         AppenderRef:
           - ref: CONSOLE

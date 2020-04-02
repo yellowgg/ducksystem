@@ -44,8 +44,7 @@
                         <a href="javascript:void(0)" id="adminInfo">基本资料</a>
                     </dd>
                     <dd>
-                        <a href="javascript:void(0)" data-iframe-tab="page/user-password.html" data-title="修改密码"
-                           data-icon="fa fa-gears">修改密码</a>
+                        <a href="javascript:void(0)" id="modifyPwdBtn">修改密码</a>
                     </dd>
                     <dd>
                         <a href="/logout" class="login-out">退出登录</a>
@@ -93,6 +92,8 @@
 </div>
 <script src="/layui-v2.5.6/layui.js" charset="utf-8"></script>
 <script src="/layuiMini/js/lay-config.js" charset="utf-8"></script>
+<script src="/layuiMini/libs/jquery-3.4.1/jquery-3.4.1.min.js" type="text/javascript"></script>
+<script src="/js/md5.js" type="text/javascript"></script>
 </body>
 <script type="text/javascript">
     layui.use(['layer', 'layuimini', 'form'], function () {
@@ -118,25 +119,95 @@
                 yes: function () {
                     if (!click) {
                         click = true;
+                        var userName = $("#adminUserName_form").val();
+                        var realName = $("#adminRealName_form").val();
+                        if (isBlank(realName)) {
+                            layer.msg("姓名不能为空");
+                            click = false;
+                            return;
+                        }
+                        var email = $("#adminEmail_form").val();
+                        if (isBlank(email)) {
+                            click = false;
+                            layer.msg("邮箱不能为空");
+                            return;
+                        }
+                        var id = $("#adminId_form").val();
                         $.post({
                             url: "/admin/updateInfo"
                             , data: {
-                                realName: $("#adminRealName_form").val(),
-                                email: $("#adminEmail_form").val(),
-                                id: $("#adminId_form").val()
+                                userName: userName, realName: realName,
+                                email: email, id: id
                             }
-                            ,
-                            success: function (resp) {
-                                var resp = JSON.parse(resp);
+                            , success: function (resp) {
+                                resp = JSON.parse(resp);
                                 layer.msg(resp.msg);
                                 setTimeout(function () {
                                     click = false;
-                                }, 5000);
+                                    if (resp.success) {
+                                        location.reload();
+                                    }
+                                }, 3000);
                             }
-                            ,
-                            error: function (resp) {
-                                var resp = JSON.parse(resp);
+                            , error: function (resp) {
+                                layer.msg(JSON.parse(resp).msg);
+                            }
+                        });
+                    }
+                }
+            });
+        })
+
+        var click = false;
+        $('#modifyPwdBtn').on("click", function () {
+            layer.open({
+                type: 1,
+                anim: 1,
+                shade: 0.6,
+                btn: ['修改', '取消'],
+                title: "修改密码",
+                area: ['420px', '240px'],
+                content: getModifyPwdDialog(),
+                yes: function () {
+                    if (!click) {
+                        click = true;
+                        var oldPwd = $("#oldpwd_form").val();
+                        if (isBlank(oldPwd)) {
+                            layer.msg("旧密码不能为空");
+                            click = false;
+                            return;
+                        }
+                        var newPwd = $("#newpwd_form").val();
+                        if (isBlank(newPwd)) {
+                            layer.msg("新密码不能为空");
+                            click = false;
+                            return;
+                        }
+                        if (oldPwd == newPwd) {
+                            layer.msg("密码重复");
+                            click = false;
+                            return;
+                        }
+                        var id = $("#id_form").val();
+                        $.post({
+                            url: "/admin/updatePwd"
+                            , data: {
+                                oldPwd: $.md5($.md5($.md5(oldPwd))),
+                                newPwd: $.md5($.md5($.md5(newPwd))),
+                                adminId: id
+                            }
+                            , success: function (resp) {
+                                resp = JSON.parse(resp);
                                 layer.msg(resp.msg);
+                                setTimeout(function () {
+                                    click = false;
+                                    if (resp.success) {
+                                        window.location.href = "/logout";
+                                    }
+                                }, 2000);
+                            }
+                            , error: function (resp) {
+                                layer.msg(JSON.parse(resp).msg);
                             }
                         });
                     }
@@ -147,10 +218,20 @@
         function getAdminInfoDialog() {
             return "<div id=\"adminInfoDialog\">\n" +
                 "    <form class='layui-form' action='' method='post' id='adminInfoForm'>\n" +
-                "        <div>用户名<input readonly value=" + $("#adminUserName").text() + "></div>\n" +
+                "        <div>用户名<input readonly name='userName' id='adminUserName_form' value=" + $("#adminUserName").text() + "></div>\n" +
                 "        <div>姓名<input name='realName' id='adminRealName_form' required value=" + $("#adminRealName").text() + "></div>\n" +
                 "        <div>邮箱<input name='email' id='adminEmail_form' required lay-verify='email' value=" + $("#adminEmail").text() + "></div>\n" +
                 "        <input name='id' id='adminId_form' hidden  value=" + $("#adminId").text() + ">\n" +
+                "    </form>\n" +
+                "</div>";
+        }
+
+        function getModifyPwdDialog() {
+            return "<div id=\"modifyPwdDialog\">\n" +
+                "    <form class='layui-form' action='' method='post' id='modifyPwdForm'>\n" +
+                "        <div>原密码<input type='password' name='oldPwd' id='oldpwd_form'></div>\n" +
+                "        <div>新密码<input type='password' name='newPwd' id='newpwd_form' ></div>\n" +
+                "        <input name='id' id='id_form' hidden  value=" + $("#adminId").text() + ">\n" +
                 "    </form>\n" +
                 "</div>";
         }

@@ -85,6 +85,7 @@
             </div>
         </div>
     </div>
+    <!--TODO yellowgg 这种用法应该不好，后期改进-->
     <span id="adminId" style="display: none"><shiro:principal property="id"/></span>
     <span id="adminUserName" style="display: none"><shiro:principal property="userName"/></span>
     <span id="adminRealName" style="display: none"><shiro:principal property="realName"/></span>
@@ -104,6 +105,7 @@
             layer.msg('退出登录成功')
         })
 
+        var click = false;
         $('#adminInfo').on("click", function () {
             layer.open({
                 type: 1,
@@ -114,26 +116,30 @@
                 area: ['420px', '240px'],
                 content: getAdminInfoDialog(),
                 yes: function () {
-                    // TODO yellowgg 防止多点
-                    $.post({
-                        url: "/admin/updateInfo"
-                        , data: {
-                            realName: $("#adminRealName_form").val(),
-                            email: $("#adminEmail_form").val(),
-                            id: $("#adminId_form").val()
-                        }
-                        ,
-                        success: function (resp) {
-                            var resp = JSON.parse(resp);
-                            layer.msg(resp.msg);
-                        }
-                        ,
-                        error: function (resp) {
-                            var resp = JSON.parse(resp);
-                            layer.msg(resp.msg);
-                        }
-                    })
-                    ;
+                    if (!click) {
+                        click = true;
+                        $.post({
+                            url: "/admin/updateInfo"
+                            , data: {
+                                realName: $("#adminRealName_form").val(),
+                                email: $("#adminEmail_form").val(),
+                                id: $("#adminId_form").val()
+                            }
+                            ,
+                            success: function (resp) {
+                                var resp = JSON.parse(resp);
+                                layer.msg(resp.msg);
+                                setTimeout(function () {
+                                    click = false;
+                                }, 5000);
+                            }
+                            ,
+                            error: function (resp) {
+                                var resp = JSON.parse(resp);
+                                layer.msg(resp.msg);
+                            }
+                        });
+                    }
                 }
             });
         })

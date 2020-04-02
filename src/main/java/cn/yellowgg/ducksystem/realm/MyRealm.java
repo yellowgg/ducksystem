@@ -50,7 +50,6 @@ public class MyRealm extends AuthorizingRealm {
         }
         String password = admin.getPassword();
         admin.setPassword(null);
-        //身份验证通过,返回一个身份信息
         return new SimpleAuthenticationInfo(admin, password, getName());
     }
 
@@ -63,10 +62,8 @@ public class MyRealm extends AuthorizingRealm {
         log.info("----------身份权限：doGetAuthorizationInfo方法被调用----------");
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         Administrator admin = (Administrator) principalCollection.getPrimaryPrincipal();
-        //角色
         Role role = adminandroleService.findRoleByAdminId(admin.getId());
         info.setRoles(Sets.newHashSet(role.getName()));
-        //权限
         List<Permission> perms = roleandpermService.findPermsByRoleId(role.getId());
         info.setStringPermissions(perms.stream().map(x -> x.getPerms()).collect(Collectors.toSet()));
         return info;

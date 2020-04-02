@@ -49,7 +49,9 @@ public class AdmingMgr {
     public @ResponseBody
     String getInitMenuJson(@NotNull Long adminId) {
         JSONObject initJson = adminService.getInitJson(adminId);
-        return Objects.nonNull(initJson) ? ServiceResult.asSuccess(initJson).toJson() : ServiceResult.asFail("该用户无任何权限").toJson();
+        return Objects.nonNull(initJson)
+                ? ServiceResult.asSuccess(initJson).toJson()
+                : ServiceResult.asFail("该用户无任何菜单项").toJson();
     }
 
     @PostMapping("/updateInfo")
@@ -62,8 +64,6 @@ public class AdmingMgr {
         ShiroUtils.setUser(admin);
         return ServiceResult.asSuccess(null, "修改成功").toJson();
     }
-
-
     //endregion
 
 }

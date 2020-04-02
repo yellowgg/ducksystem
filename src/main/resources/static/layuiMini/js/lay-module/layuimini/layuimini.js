@@ -52,7 +52,7 @@ layui.define(["element", "jquery"], function (exports) {
                     var homeInfo = {
                         "title": "首页",
                         "icon": "fa fa-home",
-                        "href": ""
+                        "href": "/admin/home"
                     }
                     layuimini.initHome(homeInfo);
                     var logoInfo = {

@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 public class AdministratorService {
 
     @Resource
-    private AdministratorMapper administratorMapper;
+    AdministratorMapper administratorMapper;
     @Resource
     AdminAndRoleService adminAndRoleService;
 
@@ -128,4 +128,10 @@ public class AdministratorService {
         return menu.stream().filter(x -> parentId.equals(x.getParentId())).sorted(Comparator.comparing(Permission::getOrderNum))
                 .collect(Collectors.toList());
     }
+
+    public int updateRealNameAndEmailById(Administrator admin) {
+        return administratorMapper.updateRealNameAndEmailById(admin.getRealName(), admin.getEmail(), admin.getId());
+    }
+
+
 }

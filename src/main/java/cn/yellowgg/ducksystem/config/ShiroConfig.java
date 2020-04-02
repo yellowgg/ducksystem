@@ -55,7 +55,7 @@ public class ShiroConfig {
         fMap.put("/layuiMini/**", "anon");
         fMap.put("/swagger-ui.html", "anon");
         // 登录接口
-        fMap.put("/login/logout", "logout");
+        fMap.put("/logout", "logout");
         fMap.put("/login/**", "anon");
         fMap.put("/**", "authc");
         shiroFilterFactoryBean.setLoginUrl("/login/page");

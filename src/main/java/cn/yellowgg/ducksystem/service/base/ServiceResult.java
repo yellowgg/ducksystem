@@ -1,7 +1,7 @@
 package cn.yellowgg.ducksystem.service.base;
 
+import cn.hutool.http.HttpStatus;
 import cn.hutool.json.JSONUtil;
-import cn.yellowgg.ducksystem.constant.UtilConstants;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -35,15 +35,15 @@ public class ServiceResult {
     }
 
     public static ServiceResult asSuccess(Object obj) {
-        return new ServiceResult(UtilConstants.RespCode.SUCCESS, null, obj, true);
+        return new ServiceResult(HttpStatus.HTTP_OK, null, obj, true);
     }
 
     public static ServiceResult asSuccess(Object obj, String msg) {
-        return new ServiceResult(UtilConstants.RespCode.SUCCESS, msg, obj, true);
+        return new ServiceResult(HttpStatus.HTTP_OK, msg, obj, true);
     }
 
     public static ServiceResult asFail(String msg) {
-        return new ServiceResult(UtilConstants.RespCode.FAIL, msg, null, false);
+        return new ServiceResult(HttpStatus.HTTP_INTERNAL_ERROR, msg, null, false);
     }
 
     /**

@@ -48,8 +48,10 @@ public class MyRealm extends AuthorizingRealm {
         if (Objects.isNull(admin)) {
             throw new AuthenticationException("用户不存在");
         }
+        String password = admin.getPassword();
+        admin.setPassword(null);
         //身份验证通过,返回一个身份信息
-        return new SimpleAuthenticationInfo(admin, admin.getPassword(), getName());
+        return new SimpleAuthenticationInfo(admin, password, getName());
     }
 
     /**

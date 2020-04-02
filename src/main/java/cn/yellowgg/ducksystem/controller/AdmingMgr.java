@@ -4,8 +4,8 @@ import cn.hutool.json.JSONObject;
 import cn.yellowgg.ducksystem.entity.perm.Administrator;
 import cn.yellowgg.ducksystem.service.AdministratorService;
 import cn.yellowgg.ducksystem.service.base.ServiceResult;
+import cn.yellowgg.ducksystem.utils.ShiroUtils;
 import io.swagger.annotations.Api;
-import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
@@ -59,10 +59,11 @@ public class AdmingMgr {
             return ServiceResult.asFail("想浑水摸鱼，爬").toJson();
         }
         adminService.updateRealNameAndEmailById(admin);
-        // TODO yellowgg 修改成功之后没有刷新
-        SecurityUtils.getSubject().releaseRunAs();
+        ShiroUtils.setUser(admin);
         return ServiceResult.asSuccess(null, "修改成功").toJson();
     }
+
+
     //endregion
 
 }

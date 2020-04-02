@@ -133,5 +133,11 @@ public class AdministratorService {
         return administratorMapper.updateRealNameAndEmailById(admin.getRealName(), admin.getEmail(), admin.getId());
     }
 
+    public Administrator findByIdAndPassword(Administrator admin) {
+        return administratorMapper.findByIdAndPassword(admin.getId(), admin.getPassword());
+    }
 
+    public int updatePasswordById(Administrator admin) {
+        return administratorMapper.updatePasswordById(admin.getPassword(), admin.getId());
+    }
 }

@@ -44,6 +44,8 @@ public interface AdministratorMapper {
                                            @Param("id") Long id, @Param("userName") String userName);
 
     int updateRealNameAndEmailById(@Param("realName") String realName, @Param("email") String email, @Param("id") Long id);
+
+    int updatePasswordById(@Param("pwd") String pwd, @Param("id") Long id);
     //endregion
 
     //region 查
@@ -51,6 +53,6 @@ public interface AdministratorMapper {
 
     Administrator findByUserName(@Param("userName") String userName);
 
-
+    Administrator findByIdAndPassword(@Param("id") Long id, @Param("password") String password);
     //endregion
 }

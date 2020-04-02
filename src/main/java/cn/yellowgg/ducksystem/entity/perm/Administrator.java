@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.validation.constraints.Email;
@@ -20,6 +21,7 @@ import java.time.LocalDateTime;
 @ApiModel(value = "管理员", description = "后台管理系统登录的账户")
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
+@NoArgsConstructor
 public class Administrator extends BaseEntity implements Serializable {
 
     @ApiModelProperty(value = "用户名")
@@ -35,4 +37,9 @@ public class Administrator extends BaseEntity implements Serializable {
     private String email;
     @ApiModelProperty(hidden = true)
     private LocalDateTime lastLoginTime;
+
+    public Administrator(String password, Long id) {
+        setPassword(password);
+        setId(id);
+    }
 }

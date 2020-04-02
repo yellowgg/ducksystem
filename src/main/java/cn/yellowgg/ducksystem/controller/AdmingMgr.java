@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
@@ -62,6 +63,19 @@ public class AdmingMgr {
         }
         adminService.updateRealNameAndEmailById(admin);
         ShiroUtils.setUser(admin);
+        return ServiceResult.asSuccess(null, "修改成功").toJson();
+    }
+
+    @PostMapping("/updatePwd")
+    public @ResponseBody
+    String updatePwd(@NotNull Long adminId, @NotBlank(message = "有内鬼，停止交易") String oldPwd,
+                     @NotBlank(message = "输个新密码好吗") String newPwd) {
+        Administrator admin = new Administrator(ShiroUtils.createMD5Pwd(oldPwd, 3), adminId);
+        if (Objects.isNull(adminService.findByIdAndPassword(admin))) {
+            return ServiceResult.asFail("原密码不正确").toJson();
+        }
+        admin.setPassword(ShiroUtils.createMD5Pwd(newPwd, 3));
+        adminService.updatePasswordById(admin);
         return ServiceResult.asSuccess(null, "修改成功").toJson();
     }
     //endregion

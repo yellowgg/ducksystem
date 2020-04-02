@@ -297,7 +297,7 @@ layui.define(["element", "jquery"], function (exports) {
                     headerRightThis: '#d09600',
                     headerLogo: '#243346',
                     menuLeft: '#2f4056',
-                    menuLeftThis: '#1aa094',
+                    menuLeftThis: '#d09600',
                     menuLeftHover: '#3b3f4b',
                 },
                 {

@@ -100,7 +100,7 @@
         var $ = layui.jquery,
             form = layui.form,
             layer = layui.layer;
-        layuimini.init("/admin/initJson?adminId=" + $("#adminId").text());
+        layuimini.init("/admin/initJson/" + $("#adminId").text());
 
         $('.login-out').on("click", function () {
             layer.msg('退出登录成功')

@@ -9,10 +9,7 @@ import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -46,9 +43,9 @@ public class AdmingMgr {
     //endregion
 
     //region 接口
-    @GetMapping("/initJson")
+    @GetMapping("/initJson/{adminId}")
     public @ResponseBody
-    String getInitMenuJson(@NotNull Long adminId) {
+    String getInitMenuJson(@PathVariable Long adminId) {
         JSONObject initJson = adminService.getInitJson(adminId);
         return Objects.nonNull(initJson)
                 ? ServiceResult.asSuccess(initJson).toJson()

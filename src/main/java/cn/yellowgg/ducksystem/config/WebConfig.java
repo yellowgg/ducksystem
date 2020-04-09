@@ -1,11 +1,13 @@
 package cn.yellowgg.ducksystem.config;
 
+import cn.yellowgg.ducksystem.interceptor.Base64DecodeStrResolver;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
@@ -13,12 +15,11 @@ import java.nio.charset.Charset;
 import java.util.List;
 
 /**
- * @Description:解决中文乱码
  * @Author: yellowgg
  * @Date: Created in 2020/3/30 15:44
  */
 @Configuration
-public class ChineseGarbledConfig extends WebMvcConfigurationSupport {
+public class WebConfig extends WebMvcConfigurationSupport {
 
     //1.这个为解决中文乱码
     @Bean
@@ -65,4 +66,16 @@ public class ChineseGarbledConfig extends WebMvcConfigurationSupport {
         registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
+
+    //region 注册自定义HandlerMethodArgumentResolver
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+        resolvers.add(base64DecodeStrResolver());
+    }
+
+    @Bean
+    public Base64DecodeStrResolver base64DecodeStrResolver() {
+        return new Base64DecodeStrResolver();
+    }
+    //endregion
 }

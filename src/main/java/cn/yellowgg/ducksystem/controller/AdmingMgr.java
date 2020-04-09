@@ -1,18 +1,18 @@
 package cn.yellowgg.ducksystem.controller;
 
 import cn.hutool.json.JSONObject;
+import cn.yellowgg.ducksystem.annotation.Base64DecodeStr;
+import cn.yellowgg.ducksystem.constant.UtilConstants;
 import cn.yellowgg.ducksystem.entity.perm.Administrator;
 import cn.yellowgg.ducksystem.service.AdministratorService;
 import cn.yellowgg.ducksystem.service.base.ServiceResult;
+import cn.yellowgg.ducksystem.utils.Base64Utils;
 import cn.yellowgg.ducksystem.utils.ShiroUtils;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -46,16 +46,18 @@ public class AdmingMgr {
     //endregion
 
     //region 接口
-    @GetMapping("/initJson")
+    @GetMapping("/initJson/{adminId}")
     public @ResponseBody
-    String getInitMenuJson(@NotNull Long adminId) {
-        JSONObject initJson = adminService.getInitJson(adminId);
+    String getInitMenuJson(@PathVariable String adminId) {
+        JSONObject initJson = adminService.getInitJson(Long.parseLong(
+                Base64Utils.decodeStrofCount(adminId, UtilConstants.Number.THREE)));
         return Objects.nonNull(initJson)
                 ? ServiceResult.asSuccess(initJson).toJson()
                 : ServiceResult.asFail("该用户无任何菜单项").toJson();
     }
 
     @PostMapping("/updateInfo")
+    @Base64DecodeStr(excludeField = {"realName"})
     public @ResponseBody
     String updateInfo(@Valid Administrator admin) {
         if (Objects.isNull(admin.getId())) {
@@ -68,9 +70,9 @@ public class AdmingMgr {
 
     @PostMapping("/updatePwd")
     public @ResponseBody
-    String updatePwd(@NotNull Long adminId, @NotBlank(message = "有内鬼，停止交易") String oldPwd,
-                     @NotBlank(message = "输个新密码好吗") String newPwd) {
-        Administrator admin = new Administrator(ShiroUtils.createMD5Pwd(oldPwd, 3), adminId);
+    String updatePwd(@NotBlank(message = "输个新密码好吗") String newPwd, @NotBlank(message = "有内鬼，停止交易") String oldPwd,
+                     @NotNull @Base64DecodeStr String adminId) {
+        Administrator admin = new Administrator(ShiroUtils.createMD5Pwd(oldPwd, 3), Long.parseLong(adminId));
         if (Objects.isNull(adminService.findByIdAndPassword(admin))) {
             return ServiceResult.asFail("原密码不正确").toJson();
         }

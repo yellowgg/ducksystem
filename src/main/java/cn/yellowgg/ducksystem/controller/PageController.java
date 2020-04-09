@@ -18,10 +18,6 @@ public class PageController {
     @GetMapping(value = "/")
     public String defaultPath() {
         Subject admin = SecurityUtils.getSubject();
-        if (Objects.nonNull(admin) && admin.isAuthenticated()) {
-            return "redirect:admin/index";
-        } else {
-            return "login";
-        }
+        return Objects.nonNull(admin) && admin.isAuthenticated() ? "redirect:admin/index" : "login";
     }
 }

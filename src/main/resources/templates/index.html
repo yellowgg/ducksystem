@@ -93,14 +93,14 @@
 <script src="/layui-v2.5.6/layui.js" charset="utf-8"></script>
 <script src="/layuiMini/js/lay-config.js" charset="utf-8"></script>
 <script src="/layuiMini/libs/jquery-3.4.1/jquery-3.4.1.min.js" type="text/javascript"></script>
-<script src="/js/md5.js" type="text/javascript"></script>
+<script src="/js/encode.js" type="text/javascript"></script>
 </body>
 <script type="text/javascript">
     layui.use(['layer', 'layuimini', 'form'], function () {
         var $ = layui.jquery,
             form = layui.form,
             layer = layui.layer;
-        layuimini.init("/admin/initJson/" + $("#adminId").text());
+        layuimini.init("/admin/initJson/" + encode($("#adminId").text(), 100));
 
         $('.login-out').on("click", function () {
             layer.msg('退出登录成功')
@@ -136,8 +136,8 @@
                         $.post({
                             url: "/admin/updateInfo"
                             , data: {
-                                userName: userName, realName: realName,
-                                email: email, id: id
+                                userName: encode(userName), realName: realName,
+                                email: encode(email), id: encode(id)
                             }
                             , success: function (resp) {
                                 resp = JSON.parse(resp);
@@ -192,9 +192,9 @@
                         $.post({
                             url: "/admin/updatePwd"
                             , data: {
-                                oldPwd: $.md5($.md5($.md5(oldPwd))),
-                                newPwd: $.md5($.md5($.md5(newPwd))),
-                                adminId: id
+                                oldPwd: $.encode64($.encode64($.encode64(oldPwd))),
+                                newPwd: $.encode64($.encode64($.encode64(newPwd))),
+                                adminId: encode(id)
                             }
                             , success: function (resp) {
                                 resp = JSON.parse(resp);

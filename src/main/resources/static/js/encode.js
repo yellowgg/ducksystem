@@ -188,8 +188,9 @@
     });
 })(jQuery);
 
-function encode(str, count) {
-    for (var i = 0; i < 3; i++) {
+function encode(str) {
+    var num = 3;
+    for (var i = 0; i < num; i++) {
         str = encodeMD5(str);
     }
     return str;

@@ -15,7 +15,7 @@ import java.util.Objects;
 @Controller
 public class PageController {
 
-    @GetMapping(value = "/")
+    @GetMapping("/")
     public String defaultPath() {
         Subject admin = SecurityUtils.getSubject();
         return Objects.nonNull(admin) && admin.isAuthenticated() ? "redirect:admin/index" : "login";

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>教师管理</title>
+    <link rel="stylesheet" href="/layui-v2.5.6/css/layui.css" media="all">
+    <style type="text/css">
+        body {
+            padding: 20px;
+        }
+
+        .layui-form-pane .layui-form-label {
+            width: 65px;
+        }
+
+        .layui-table-view .layui-table {
+            position: relative;
+            width: 100%;
+            margin: 0;
+        }
+
+        #addTeacherForm > div.layui-input-block.addTeacherForm_introduction > div > button {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<form class="layui-form layui-form-pane" action="" id="teacherSearchForm" method="post"
+      lay-filter="teacherSearchForm" onsubmit="return false;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">姓名</label>
+        <div class="layui-input-inline" style="width: 150px;">
+            <input type="text" name="name" id="name" placeholder="请输入姓名" autocomplete="off" class="layui-input">
+        </div>
+        <label class="layui-form-label">性别</label>
+        <div class="layui-input-inline" style="width: 100px;">
+            <select lay-filter="sexSelected" name="sex" id="sex" lay-search>
+                <option value=""></option>
+                <option value="0">男</option>
+                <option value="1">女</option>
+            </select>
+        </div>
+        <label class="layui-form-label">学历</label>
+        <div class="layui-input-inline" style="width: 150px;">
+            <input type="text" name="education" id="education" placeholder="请输入学历" autocomplete="off"
+                   class="layui-input">
+        </div>
+        <label class="layui-form-label">职称</label>
+        <div class="layui-input-inline" style="width: 150px;">
+            <input type="text" name="jobTitle" id="jobTitle" placeholder="请输入职称" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="submit" id="queryBtn">查询</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            <button type="button" id="addTeacherBtn" class="layui-btn layui-btn-normal">添加</button>
+        </div>
+    </div>
+</form>
+<table class="layui-hide" id="teacherTable" lay-filter="teacherTable"></table>
+<script type="text/html" id="zizeng">
+    {{d.LAY_TABLE_INDEX+1}}
+</script>
+<script type="text/html" id="bar">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<div id="addTeacherDialog" class="layui-form" style="display:none">
+    <form class="layui-form" method="post" id="addTeacherForm">
+        <label class="layui-form-label">姓名</label>
+        <div class="layui-input-block" style="width: 150px;">
+            <input type="text" name="name" id="addTeacherForm_name" required lay-verify="required" placeholder="请输入姓名"
+                   autocomplete="off" class="layui-input">
+        </div>
+        <label class="layui-form-label">性别</label>
+        <div class="layui-input-block" style="width: 150px;">
+            <select lay-filter="sexSelected" name="sex" id="addTeacherForm_sex">
+                <option value="0">男</option>
+                <option value="1">女</option>
+            </select>
+        </div>
+        <label class="layui-form-label">生日</label>
+        <div class="layui-input-block" style="width: 150px;">
+            <input type="text" required name="birthday" lay-verify="required" class="layui-input"
+                   id="addTeacherForm_day" readonly=""
+                   placeholder="请输入生日">
+        </div>
+        <label class="layui-form-label">学历</label>
+        <div class="layui-input-block" style="width: 150px;">
+            <input type="text" name="education" id="addTeacherForm_education" required lay-verify="required"
+                   placeholder="请输入学历" autocomplete="off" class="layui-input">
+        </div>
+        <label class="layui-form-label">职称</label>
+        <div class="layui-input-block" style="width: 150px;">
+            <input type="text" name="jobTitle" id="addTeacherForm_jobTitle" required lay-verify="required"
+                   placeholder="请输入职称" autocomplete="off" class="layui-input">
+        </div>
+        <label class="layui-form-label">介绍</label>
+        <div class="layui-input-block addTeacherForm_introduction">
+            <textarea name="introduction" id="addTeacherForm_introduction" style="width:70%;height:180px" required
+                      lay-verify="required" autocomplete="off" placeholder="请输入介绍" class="layui-textarea"></textarea>
+        </div>
+        <label class="layui-form-label">头像</label>
+        <div class="layui-input-block">
+              <textarea name="picUrl" id="addTeacherForm_picUrl" style="width:70%;height:50px" required
+                        lay-verify="required" autocomplete="off" placeholder="上传图片后保留[img]标签的内容"
+                        class="layui-textarea"></textarea>
+        </div>
+    </form>
+</div>
+</body>
+<script async id="chevereto-pup-src" src="https://imgchr.com/sdk/pup.js" data-url="https://imgchr.com/upload"
+        data-fit-editor="0"></script>
+<script src="/layui-v2.5.6/layui.js" charset="utf-8"></script>
+<script type="text/javascript">
+    // 表格
+    layui.use(['table', 'jquery', 'layer', 'form', 'laydate'], function () {
+        var table = layui.table,
+            $ = layui.$,
+            layer = layui.layer,
+            form = layui.form,
+            laydate = layui.laydate;
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#addTeacherForm_day' //指定元素
+            , theme: 'grid'
+            , trigger: 'click'
+            , value: '2020-04-01'
+            , max: '2020-12-31'
+            , format: 'yyyy-MM-dd HH:mm:ss'
+        })
+        ;
+
+        //执行一个 table 实例
+        var tableReload = table.render({
+            elem: '#teacherTable'
+            , id: 'id'
+            , url: '/teacher/data' //数据接口
+            , page: true //开启分页
+            , cellMinWidth: 80 // 开了这个，就不用全部都设置了
+            , toolbar: false //不开工具栏了，基本用不到这些工具
+            , even: true // 隔行背景
+            , cols: [[{type: 'radio', fixed: 'left', hide: true}
+                , {field: 'zizeng', sort: true, title: '序号', align: 'center', templet: '#zizeng', width: 80}
+                , {field: 'name', sort: true, title: '姓名', width: 100, align: 'center'}
+                , {
+                    field: 'sex', sort: true, title: '性别', align: 'center', width: 80, templet: function (r) {
+                        return r.sex == 0 ? "男" : "女";
+                    }
+                }
+                , {field: 'age', title: '年龄', sort: true, width: 80, align: 'center'}
+                , {field: 'education', title: '学历', sort: true, width: 100, align: 'center'}
+                , {field: 'jobTitle', title: '职称', sort: true, width: 140, align: 'center'}
+                , {field: 'introduction', title: '介绍', sort: true, align: 'center'}
+                , {fixed: 'right', width: 178, align: 'center', toolbar: '#bar'}]
+            ]
+            , response: {
+                statusName: 'respCode' //数据状态的字段名称，默认：code
+                , statusCode: 200 //成功的状态码，默认：0
+                , msgName: 'msg' //状态信息的字段名称，默认：msg
+                , countName: 'totalCount' //数据总数的字段名称，默认：count
+                , dataName: 'obj' //数据列表的字段名称，默认：data
+            }
+        });
+
+        // 表格的重载
+        function tableReloadmethod() {
+            tableReload.reload({
+                where: form.val("teacherSearchForm")
+                , page: {
+                    curr: 1
+                }
+                , response: {
+                    statusName: 'respCode' //数据状态的字段名称，默认：code
+                    , statusCode: 200 //成功的状态码，默认：0
+                    , msgName: 'msg' //状态信息的字段名称，默认：msg
+                    , countName: 'totalCount' //数据总数的字段名称，默认：count
+                    , dataName: 'obj' //数据列表的字段名称，默认：data
+                }
+            });
+        }
+
+        // 查询按钮，因为重载方法的范围是在layui.use里，所以外边调用不到，需要用点击事件的方法来处理
+        $(document).on('click', '#queryBtn', function () {
+            tableReloadmethod();
+        });
+
+        // 添加老师
+        var click = false;
+        $('#addTeacherBtn').on("click", function () {
+            var dialogIndex = layer.open({
+                type: 1,
+                anim: 1,
+                shade: 0.6,
+                btn: ['保存', '取消'],
+                title: "添加老师",
+                area: ['480px', '655px'],
+                content: $('#addTeacherDialog'),
+                yes: function () {
+                    if (!click) {
+                        click = true;
+                        $.post({
+                            url: "/teacher/addOrUp"
+                            , data: $('#addTeacherForm').serializeArray()
+                            , success: function (resp) {
+                                resp = JSON.parse(resp);
+                                layer.msg(resp.msg);
+                                setTimeout(function () {
+                                    click = false;
+                                    if (resp.success) {
+                                        tableReloadmethod();
+                                    }
+                                }, 2500);
+                            }
+                            , error: function (resp) {
+                                layer.msg(JSON.parse(resp).msg);
+                            }
+                        })
+                        ;
+                    }
+                }
+            });
+        })
+
+        //监听工具条
+        table.on('tool(teacherTable)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'detail') {
+                layer.msg('ID：' + data.id + ' 的查看操作');
+            } else if (obj.event === 'del') {
+                layer.confirm('真的删除行么', function (index) {
+                    obj.del();
+                    layer.close(index);
+                });
+            } else if (obj.event === 'edit') {
+                layer.alert('编辑行：<br>' + JSON.stringify(data))
+            }
+        });
+    });
+</script>
+</html>

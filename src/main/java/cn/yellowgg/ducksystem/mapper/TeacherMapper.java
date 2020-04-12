@@ -31,6 +31,8 @@ public interface TeacherMapper {
 
     //region 查
     Teacher selectByPrimaryKey(Long id);
+
+    List<Teacher> queryByAllOrderById(Teacher teacher);
     //endregion
 
     //region 改

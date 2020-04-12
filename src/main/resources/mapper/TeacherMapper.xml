@@ -1,482 +1,511 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.yellowgg.ducksystem.mapper.TeacherMapper">
-  <resultMap id="BaseResultMap" type="cn.yellowgg.ducksystem.entity.Teacher">
-    <!--@mbg.generated-->
-    <!--@Table teacher-->
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="gmtCreate" jdbcType="TIMESTAMP" property="gmtCreate" />
-    <result column="gmtModify" jdbcType="TIMESTAMP" property="gmtModify" />
-    <result column="isDelete" jdbcType="INTEGER" property="isDelete" />
-    <result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
-    <result column="education" jdbcType="VARCHAR" property="education" />
-    <result column="introduction" jdbcType="VARCHAR" property="introduction" />
-    <result column="jobTitle" jdbcType="VARCHAR" property="jobTitle" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="sex" jdbcType="INTEGER" property="sex" />
-    <result column="picUrl" jdbcType="VARCHAR" property="picUrl" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    <!--@mbg.generated-->
-    id, gmtCreate, gmtModify, isDelete, birthday, education, introduction, jobTitle, 
-    `name`, sex, picUrl
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    <!--@mbg.generated-->
-    select 
-    <include refid="Base_Column_List" />
-    from teacher
-    where id = #{id,jdbcType=BIGINT}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    <!--@mbg.generated-->
-    delete from teacher
-    where id = #{id,jdbcType=BIGINT}
-  </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.yellowgg.ducksystem.entity.Teacher" useGeneratedKeys="true">
-    <!--@mbg.generated-->
-    insert into teacher (gmtCreate, gmtModify, isDelete, 
-      birthday, education, introduction, 
-      jobTitle, `name`, sex, 
-      picUrl)
-    values (#{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=INTEGER}, 
-      #{birthday,jdbcType=TIMESTAMP}, #{education,jdbcType=VARCHAR}, #{introduction,jdbcType=VARCHAR}, 
-      #{jobTitle,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, 
-      #{picUrl,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.yellowgg.ducksystem.entity.Teacher" useGeneratedKeys="true">
-    <!--@mbg.generated-->
-    insert into teacher
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="gmtCreate != null">
-        gmtCreate,
-      </if>
-      <if test="gmtModify != null">
-        gmtModify,
-      </if>
-      <if test="isDelete != null">
-        isDelete,
-      </if>
-      <if test="birthday != null">
-        birthday,
-      </if>
-      <if test="education != null">
-        education,
-      </if>
-      <if test="introduction != null">
-        introduction,
-      </if>
-      <if test="jobTitle != null">
-        jobTitle,
-      </if>
-      <if test="name != null">
-        `name`,
-      </if>
-      <if test="sex != null">
-        sex,
-      </if>
-      <if test="picUrl != null">
-        picUrl,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="gmtCreate != null">
-        #{gmtCreate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="gmtModify != null">
-        #{gmtModify,jdbcType=TIMESTAMP},
-      </if>
-      <if test="isDelete != null">
-        #{isDelete,jdbcType=INTEGER},
-      </if>
-      <if test="birthday != null">
-        #{birthday,jdbcType=TIMESTAMP},
-      </if>
-      <if test="education != null">
-        #{education,jdbcType=VARCHAR},
-      </if>
-      <if test="introduction != null">
-        #{introduction,jdbcType=VARCHAR},
-      </if>
-      <if test="jobTitle != null">
-        #{jobTitle,jdbcType=VARCHAR},
-      </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="sex != null">
-        #{sex,jdbcType=INTEGER},
-      </if>
-      <if test="picUrl != null">
-        #{picUrl,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.yellowgg.ducksystem.entity.Teacher">
-    <!--@mbg.generated-->
-    update teacher
-    <set>
-      <if test="gmtCreate != null">
-        gmtCreate = #{gmtCreate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="gmtModify != null">
+    <resultMap id="BaseResultMap" type="cn.yellowgg.ducksystem.entity.Teacher">
+        <!--@mbg.generated-->
+        <!--@Table teacher-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="gmtCreate" jdbcType="TIMESTAMP" property="gmtCreate"/>
+        <result column="gmtModify" jdbcType="TIMESTAMP" property="gmtModify"/>
+        <result column="isDelete" jdbcType="INTEGER" property="isDelete"/>
+        <result column="birthday" jdbcType="TIMESTAMP" property="birthday"/>
+        <result column="education" jdbcType="VARCHAR" property="education"/>
+        <result column="introduction" jdbcType="VARCHAR" property="introduction"/>
+        <result column="jobTitle" jdbcType="VARCHAR" property="jobTitle"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="sex" jdbcType="INTEGER" property="sex"/>
+        <result column="picUrl" jdbcType="VARCHAR" property="picUrl"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, gmtCreate, gmtModify, isDelete, birthday, education, introduction, jobTitle,
+        `name`, sex, picUrl
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from teacher
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        <!--@mbg.generated-->
+        delete from teacher
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.yellowgg.ducksystem.entity.Teacher"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into teacher (gmtCreate, gmtModify, isDelete,
+        birthday, education, introduction,
+        jobTitle, `name`, sex,
+        picUrl)
+        values (#{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=INTEGER},
+        #{birthday,jdbcType=TIMESTAMP}, #{education,jdbcType=VARCHAR}, #{introduction,jdbcType=VARCHAR},
+        #{jobTitle,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER},
+        #{picUrl,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.yellowgg.ducksystem.entity.Teacher"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into teacher
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="gmtCreate != null">
+                gmtCreate,
+            </if>
+            <if test="gmtModify != null">
+                gmtModify,
+            </if>
+            <if test="isDelete != null">
+                isDelete,
+            </if>
+            <if test="birthday != null">
+                birthday,
+            </if>
+            <if test="education != null">
+                education,
+            </if>
+            <if test="introduction != null">
+                introduction,
+            </if>
+            <if test="jobTitle != null">
+                jobTitle,
+            </if>
+            <if test="name != null">
+                `name`,
+            </if>
+            <if test="sex != null">
+                sex,
+            </if>
+            <if test="picUrl != null">
+                picUrl,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModify != null">
+                #{gmtModify,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete,jdbcType=INTEGER},
+            </if>
+            <if test="birthday != null">
+                #{birthday,jdbcType=TIMESTAMP},
+            </if>
+            <if test="education != null">
+                #{education,jdbcType=VARCHAR},
+            </if>
+            <if test="introduction != null">
+                #{introduction,jdbcType=VARCHAR},
+            </if>
+            <if test="jobTitle != null">
+                #{jobTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                #{sex,jdbcType=INTEGER},
+            </if>
+            <if test="picUrl != null">
+                #{picUrl,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.yellowgg.ducksystem.entity.Teacher">
+        <!--@mbg.generated-->
+        update teacher
+        <set>
+            <if test="gmtCreate != null">
+                gmtCreate = #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModify != null">
+                gmtModify = #{gmtModify,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDelete != null">
+                isDelete = #{isDelete,jdbcType=INTEGER},
+            </if>
+            <if test="birthday != null">
+                birthday = #{birthday,jdbcType=TIMESTAMP},
+            </if>
+            <if test="education != null">
+                education = #{education,jdbcType=VARCHAR},
+            </if>
+            <if test="introduction != null">
+                introduction = #{introduction,jdbcType=VARCHAR},
+            </if>
+            <if test="jobTitle != null">
+                jobTitle = #{jobTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                `name` = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                sex = #{sex,jdbcType=INTEGER},
+            </if>
+            <if test="picUrl != null">
+                picUrl = #{picUrl,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.yellowgg.ducksystem.entity.Teacher">
+        <!--@mbg.generated-->
+        update teacher
+        set gmtCreate = #{gmtCreate,jdbcType=TIMESTAMP},
         gmtModify = #{gmtModify,jdbcType=TIMESTAMP},
-      </if>
-      <if test="isDelete != null">
         isDelete = #{isDelete,jdbcType=INTEGER},
-      </if>
-      <if test="birthday != null">
         birthday = #{birthday,jdbcType=TIMESTAMP},
-      </if>
-      <if test="education != null">
         education = #{education,jdbcType=VARCHAR},
-      </if>
-      <if test="introduction != null">
         introduction = #{introduction,jdbcType=VARCHAR},
-      </if>
-      <if test="jobTitle != null">
         jobTitle = #{jobTitle,jdbcType=VARCHAR},
-      </if>
-      <if test="name != null">
         `name` = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="sex != null">
         sex = #{sex,jdbcType=INTEGER},
-      </if>
-      <if test="picUrl != null">
-        picUrl = #{picUrl,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="cn.yellowgg.ducksystem.entity.Teacher">
-    <!--@mbg.generated-->
-    update teacher
-    set gmtCreate = #{gmtCreate,jdbcType=TIMESTAMP},
-      gmtModify = #{gmtModify,jdbcType=TIMESTAMP},
-      isDelete = #{isDelete,jdbcType=INTEGER},
-      birthday = #{birthday,jdbcType=TIMESTAMP},
-      education = #{education,jdbcType=VARCHAR},
-      introduction = #{introduction,jdbcType=VARCHAR},
-      jobTitle = #{jobTitle,jdbcType=VARCHAR},
-      `name` = #{name,jdbcType=VARCHAR},
-      sex = #{sex,jdbcType=INTEGER},
-      picUrl = #{picUrl,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateBatch" parameterType="java.util.List">
-    <!--@mbg.generated-->
-    update teacher
-    <trim prefix="set" suffixOverrides=",">
-      <trim prefix="gmtCreate = case" suffix="end,">
-        <foreach collection="list" index="index" item="item">
-          when id = #{item.id,jdbcType=BIGINT} then #{item.gmtCreate,jdbcType=TIMESTAMP}
+        picUrl = #{picUrl,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateBatch" parameterType="java.util.List">
+        <!--@mbg.generated-->
+        update teacher
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="gmtCreate = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=BIGINT} then #{item.gmtCreate,jdbcType=TIMESTAMP}
+                </foreach>
+            </trim>
+            <trim prefix="gmtModify = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=BIGINT} then #{item.gmtModify,jdbcType=TIMESTAMP}
+                </foreach>
+            </trim>
+            <trim prefix="isDelete = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=BIGINT} then #{item.isDelete,jdbcType=INTEGER}
+                </foreach>
+            </trim>
+            <trim prefix="birthday = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=BIGINT} then #{item.birthday,jdbcType=TIMESTAMP}
+                </foreach>
+            </trim>
+            <trim prefix="education = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=BIGINT} then #{item.education,jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+            <trim prefix="introduction = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=BIGINT} then #{item.introduction,jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+            <trim prefix="jobTitle = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=BIGINT} then #{item.jobTitle,jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+            <trim prefix="`name` = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=BIGINT} then #{item.name,jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+            <trim prefix="sex = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=BIGINT} then #{item.sex,jdbcType=INTEGER}
+                </foreach>
+            </trim>
+            <trim prefix="picUrl = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=BIGINT} then #{item.picUrl,jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+        </trim>
+        where id in
+        <foreach close=")" collection="list" item="item" open="(" separator=", ">
+            #{item.id,jdbcType=BIGINT}
         </foreach>
-      </trim>
-      <trim prefix="gmtModify = case" suffix="end,">
-        <foreach collection="list" index="index" item="item">
-          when id = #{item.id,jdbcType=BIGINT} then #{item.gmtModify,jdbcType=TIMESTAMP}
+    </update>
+    <update id="updateBatchSelective" parameterType="java.util.List">
+        <!--@mbg.generated-->
+        update teacher
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="gmtCreate = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.gmtCreate != null">
+                        when id = #{item.id,jdbcType=BIGINT} then #{item.gmtCreate,jdbcType=TIMESTAMP}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="gmtModify = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.gmtModify != null">
+                        when id = #{item.id,jdbcType=BIGINT} then #{item.gmtModify,jdbcType=TIMESTAMP}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="isDelete = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.isDelete != null">
+                        when id = #{item.id,jdbcType=BIGINT} then #{item.isDelete,jdbcType=INTEGER}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="birthday = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.birthday != null">
+                        when id = #{item.id,jdbcType=BIGINT} then #{item.birthday,jdbcType=TIMESTAMP}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="education = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.education != null">
+                        when id = #{item.id,jdbcType=BIGINT} then #{item.education,jdbcType=VARCHAR}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="introduction = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.introduction != null">
+                        when id = #{item.id,jdbcType=BIGINT} then #{item.introduction,jdbcType=VARCHAR}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="jobTitle = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.jobTitle != null">
+                        when id = #{item.id,jdbcType=BIGINT} then #{item.jobTitle,jdbcType=VARCHAR}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="`name` = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.name != null">
+                        when id = #{item.id,jdbcType=BIGINT} then #{item.name,jdbcType=VARCHAR}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="sex = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.sex != null">
+                        when id = #{item.id,jdbcType=BIGINT} then #{item.sex,jdbcType=INTEGER}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="picUrl = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.picUrl != null">
+                        when id = #{item.id,jdbcType=BIGINT} then #{item.picUrl,jdbcType=VARCHAR}
+                    </if>
+                </foreach>
+            </trim>
+        </trim>
+        where id in
+        <foreach close=")" collection="list" item="item" open="(" separator=", ">
+            #{item.id,jdbcType=BIGINT}
         </foreach>
-      </trim>
-      <trim prefix="isDelete = case" suffix="end,">
-        <foreach collection="list" index="index" item="item">
-          when id = #{item.id,jdbcType=BIGINT} then #{item.isDelete,jdbcType=INTEGER}
+    </update>
+    <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into teacher
+        (gmtCreate, gmtModify, isDelete, birthday, education, introduction, jobTitle, `name`,
+        sex, picUrl)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.gmtCreate,jdbcType=TIMESTAMP}, #{item.gmtModify,jdbcType=TIMESTAMP},
+            #{item.isDelete,jdbcType=INTEGER},
+            #{item.birthday,jdbcType=TIMESTAMP}, #{item.education,jdbcType=VARCHAR},
+            #{item.introduction,jdbcType=VARCHAR},
+            #{item.jobTitle,jdbcType=VARCHAR}, #{item.name,jdbcType=VARCHAR}, #{item.sex,jdbcType=INTEGER},
+            #{item.picUrl,jdbcType=VARCHAR})
         </foreach>
-      </trim>
-      <trim prefix="birthday = case" suffix="end,">
-        <foreach collection="list" index="index" item="item">
-          when id = #{item.id,jdbcType=BIGINT} then #{item.birthday,jdbcType=TIMESTAMP}
-        </foreach>
-      </trim>
-      <trim prefix="education = case" suffix="end,">
-        <foreach collection="list" index="index" item="item">
-          when id = #{item.id,jdbcType=BIGINT} then #{item.education,jdbcType=VARCHAR}
-        </foreach>
-      </trim>
-      <trim prefix="introduction = case" suffix="end,">
-        <foreach collection="list" index="index" item="item">
-          when id = #{item.id,jdbcType=BIGINT} then #{item.introduction,jdbcType=VARCHAR}
-        </foreach>
-      </trim>
-      <trim prefix="jobTitle = case" suffix="end,">
-        <foreach collection="list" index="index" item="item">
-          when id = #{item.id,jdbcType=BIGINT} then #{item.jobTitle,jdbcType=VARCHAR}
-        </foreach>
-      </trim>
-      <trim prefix="`name` = case" suffix="end,">
-        <foreach collection="list" index="index" item="item">
-          when id = #{item.id,jdbcType=BIGINT} then #{item.name,jdbcType=VARCHAR}
-        </foreach>
-      </trim>
-      <trim prefix="sex = case" suffix="end,">
-        <foreach collection="list" index="index" item="item">
-          when id = #{item.id,jdbcType=BIGINT} then #{item.sex,jdbcType=INTEGER}
-        </foreach>
-      </trim>
-      <trim prefix="picUrl = case" suffix="end,">
-        <foreach collection="list" index="index" item="item">
-          when id = #{item.id,jdbcType=BIGINT} then #{item.picUrl,jdbcType=VARCHAR}
-        </foreach>
-      </trim>
-    </trim>
-    where id in
-    <foreach close=")" collection="list" item="item" open="(" separator=", ">
-      #{item.id,jdbcType=BIGINT}
-    </foreach>
-  </update>
-  <update id="updateBatchSelective" parameterType="java.util.List">
-    <!--@mbg.generated-->
-    update teacher
-    <trim prefix="set" suffixOverrides=",">
-      <trim prefix="gmtCreate = case" suffix="end,">
-        <foreach collection="list" index="index" item="item">
-          <if test="item.gmtCreate != null">
-            when id = #{item.id,jdbcType=BIGINT} then #{item.gmtCreate,jdbcType=TIMESTAMP}
-          </if>
-        </foreach>
-      </trim>
-      <trim prefix="gmtModify = case" suffix="end,">
-        <foreach collection="list" index="index" item="item">
-          <if test="item.gmtModify != null">
-            when id = #{item.id,jdbcType=BIGINT} then #{item.gmtModify,jdbcType=TIMESTAMP}
-          </if>
-        </foreach>
-      </trim>
-      <trim prefix="isDelete = case" suffix="end,">
-        <foreach collection="list" index="index" item="item">
-          <if test="item.isDelete != null">
-            when id = #{item.id,jdbcType=BIGINT} then #{item.isDelete,jdbcType=INTEGER}
-          </if>
-        </foreach>
-      </trim>
-      <trim prefix="birthday = case" suffix="end,">
-        <foreach collection="list" index="index" item="item">
-          <if test="item.birthday != null">
-            when id = #{item.id,jdbcType=BIGINT} then #{item.birthday,jdbcType=TIMESTAMP}
-          </if>
-        </foreach>
-      </trim>
-      <trim prefix="education = case" suffix="end,">
-        <foreach collection="list" index="index" item="item">
-          <if test="item.education != null">
-            when id = #{item.id,jdbcType=BIGINT} then #{item.education,jdbcType=VARCHAR}
-          </if>
-        </foreach>
-      </trim>
-      <trim prefix="introduction = case" suffix="end,">
-        <foreach collection="list" index="index" item="item">
-          <if test="item.introduction != null">
-            when id = #{item.id,jdbcType=BIGINT} then #{item.introduction,jdbcType=VARCHAR}
-          </if>
-        </foreach>
-      </trim>
-      <trim prefix="jobTitle = case" suffix="end,">
-        <foreach collection="list" index="index" item="item">
-          <if test="item.jobTitle != null">
-            when id = #{item.id,jdbcType=BIGINT} then #{item.jobTitle,jdbcType=VARCHAR}
-          </if>
-        </foreach>
-      </trim>
-      <trim prefix="`name` = case" suffix="end,">
-        <foreach collection="list" index="index" item="item">
-          <if test="item.name != null">
-            when id = #{item.id,jdbcType=BIGINT} then #{item.name,jdbcType=VARCHAR}
-          </if>
-        </foreach>
-      </trim>
-      <trim prefix="sex = case" suffix="end,">
-        <foreach collection="list" index="index" item="item">
-          <if test="item.sex != null">
-            when id = #{item.id,jdbcType=BIGINT} then #{item.sex,jdbcType=INTEGER}
-          </if>
-        </foreach>
-      </trim>
-      <trim prefix="picUrl = case" suffix="end,">
-        <foreach collection="list" index="index" item="item">
-          <if test="item.picUrl != null">
-            when id = #{item.id,jdbcType=BIGINT} then #{item.picUrl,jdbcType=VARCHAR}
-          </if>
-        </foreach>
-      </trim>
-    </trim>
-    where id in
-    <foreach close=")" collection="list" item="item" open="(" separator=", ">
-      #{item.id,jdbcType=BIGINT}
-    </foreach>
-  </update>
-  <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
-    <!--@mbg.generated-->
-    insert into teacher
-    (gmtCreate, gmtModify, isDelete, birthday, education, introduction, jobTitle, `name`, 
-      sex, picUrl)
-    values
-    <foreach collection="list" item="item" separator=",">
-      (#{item.gmtCreate,jdbcType=TIMESTAMP}, #{item.gmtModify,jdbcType=TIMESTAMP}, #{item.isDelete,jdbcType=INTEGER}, 
-        #{item.birthday,jdbcType=TIMESTAMP}, #{item.education,jdbcType=VARCHAR}, #{item.introduction,jdbcType=VARCHAR}, 
-        #{item.jobTitle,jdbcType=VARCHAR}, #{item.name,jdbcType=VARCHAR}, #{item.sex,jdbcType=INTEGER}, 
-        #{item.picUrl,jdbcType=VARCHAR})
-    </foreach>
-  </insert>
-  <insert id="insertOrUpdate" keyColumn="id" keyProperty="id" parameterType="cn.yellowgg.ducksystem.entity.Teacher" useGeneratedKeys="true">
-    <!--@mbg.generated-->
-    insert into teacher
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      gmtCreate,
-      gmtModify,
-      isDelete,
-      birthday,
-      education,
-      introduction,
-      jobTitle,
-      `name`,
-      sex,
-      picUrl,
-    </trim>
-    values
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=BIGINT},
-      </if>
-      #{gmtCreate,jdbcType=TIMESTAMP},
-      #{gmtModify,jdbcType=TIMESTAMP},
-      #{isDelete,jdbcType=INTEGER},
-      #{birthday,jdbcType=TIMESTAMP},
-      #{education,jdbcType=VARCHAR},
-      #{introduction,jdbcType=VARCHAR},
-      #{jobTitle,jdbcType=VARCHAR},
-      #{name,jdbcType=VARCHAR},
-      #{sex,jdbcType=INTEGER},
-      #{picUrl,jdbcType=VARCHAR},
-    </trim>
-    on duplicate key update 
-    <trim suffixOverrides=",">
-      <if test="id != null">
-        id = #{id,jdbcType=BIGINT},
-      </if>
-      gmtCreate = #{gmtCreate,jdbcType=TIMESTAMP},
-      gmtModify = #{gmtModify,jdbcType=TIMESTAMP},
-      isDelete = #{isDelete,jdbcType=INTEGER},
-      birthday = #{birthday,jdbcType=TIMESTAMP},
-      education = #{education,jdbcType=VARCHAR},
-      introduction = #{introduction,jdbcType=VARCHAR},
-      jobTitle = #{jobTitle,jdbcType=VARCHAR},
-      `name` = #{name,jdbcType=VARCHAR},
-      sex = #{sex,jdbcType=INTEGER},
-      picUrl = #{picUrl,jdbcType=VARCHAR},
-    </trim>
-  </insert>
-  <insert id="insertOrUpdateSelective" keyColumn="id" keyProperty="id" parameterType="cn.yellowgg.ducksystem.entity.Teacher" useGeneratedKeys="true">
-    <!--@mbg.generated-->
-    insert into teacher
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="gmtCreate != null">
-        gmtCreate,
-      </if>
-      <if test="gmtModify != null">
-        gmtModify,
-      </if>
-      <if test="isDelete != null">
-        isDelete,
-      </if>
-      <if test="birthday != null">
-        birthday,
-      </if>
-      <if test="education != null">
-        education,
-      </if>
-      <if test="introduction != null">
-        introduction,
-      </if>
-      <if test="jobTitle != null">
-        jobTitle,
-      </if>
-      <if test="name != null">
-        `name`,
-      </if>
-      <if test="sex != null">
-        sex,
-      </if>
-      <if test="picUrl != null">
-        picUrl,
-      </if>
-    </trim>
-    values
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=BIGINT},
-      </if>
-      <if test="gmtCreate != null">
-        #{gmtCreate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="gmtModify != null">
-        #{gmtModify,jdbcType=TIMESTAMP},
-      </if>
-      <if test="isDelete != null">
-        #{isDelete,jdbcType=INTEGER},
-      </if>
-      <if test="birthday != null">
-        #{birthday,jdbcType=TIMESTAMP},
-      </if>
-      <if test="education != null">
-        #{education,jdbcType=VARCHAR},
-      </if>
-      <if test="introduction != null">
-        #{introduction,jdbcType=VARCHAR},
-      </if>
-      <if test="jobTitle != null">
-        #{jobTitle,jdbcType=VARCHAR},
-      </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="sex != null">
-        #{sex,jdbcType=INTEGER},
-      </if>
-      <if test="picUrl != null">
-        #{picUrl,jdbcType=VARCHAR},
-      </if>
-    </trim>
-    on duplicate key update 
-    <trim suffixOverrides=",">
-      <if test="id != null">
-        id = #{id,jdbcType=BIGINT},
-      </if>
-      <if test="gmtCreate != null">
-        gmtCreate = #{gmtCreate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="gmtModify != null">
-        gmtModify = #{gmtModify,jdbcType=TIMESTAMP},
-      </if>
-      <if test="isDelete != null">
-        isDelete = #{isDelete,jdbcType=INTEGER},
-      </if>
-      <if test="birthday != null">
-        birthday = #{birthday,jdbcType=TIMESTAMP},
-      </if>
-      <if test="education != null">
-        education = #{education,jdbcType=VARCHAR},
-      </if>
-      <if test="introduction != null">
-        introduction = #{introduction,jdbcType=VARCHAR},
-      </if>
-      <if test="jobTitle != null">
-        jobTitle = #{jobTitle,jdbcType=VARCHAR},
-      </if>
-      <if test="name != null">
-        `name` = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="sex != null">
-        sex = #{sex,jdbcType=INTEGER},
-      </if>
-      <if test="picUrl != null">
-        picUrl = #{picUrl,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
+    </insert>
+    <insert id="insertOrUpdate" keyColumn="id" keyProperty="id" parameterType="cn.yellowgg.ducksystem.entity.Teacher"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into teacher
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            gmtCreate,
+            gmtModify,
+            isDelete,
+            birthday,
+            education,
+            introduction,
+            jobTitle,
+            `name`,
+            sex,
+            picUrl,
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            #{gmtCreate,jdbcType=TIMESTAMP},
+            #{gmtModify,jdbcType=TIMESTAMP},
+            #{isDelete,jdbcType=INTEGER},
+            #{birthday,jdbcType=TIMESTAMP},
+            #{education,jdbcType=VARCHAR},
+            #{introduction,jdbcType=VARCHAR},
+            #{jobTitle,jdbcType=VARCHAR},
+            #{name,jdbcType=VARCHAR},
+            #{sex,jdbcType=INTEGER},
+            #{picUrl,jdbcType=VARCHAR},
+        </trim>
+        on duplicate key update
+        <trim suffixOverrides=",">
+            <if test="id != null">
+                id = #{id,jdbcType=BIGINT},
+            </if>
+            gmtCreate = #{gmtCreate,jdbcType=TIMESTAMP},
+            gmtModify = #{gmtModify,jdbcType=TIMESTAMP},
+            isDelete = #{isDelete,jdbcType=INTEGER},
+            birthday = #{birthday,jdbcType=TIMESTAMP},
+            education = #{education,jdbcType=VARCHAR},
+            introduction = #{introduction,jdbcType=VARCHAR},
+            jobTitle = #{jobTitle,jdbcType=VARCHAR},
+            `name` = #{name,jdbcType=VARCHAR},
+            sex = #{sex,jdbcType=INTEGER},
+            picUrl = #{picUrl,jdbcType=VARCHAR},
+        </trim>
+    </insert>
+    <insert id="insertOrUpdateSelective" keyColumn="id" keyProperty="id"
+            parameterType="cn.yellowgg.ducksystem.entity.Teacher" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into teacher
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="gmtCreate != null">
+                gmtCreate,
+            </if>
+            <if test="gmtModify != null">
+                gmtModify,
+            </if>
+            <if test="isDelete != null">
+                isDelete,
+            </if>
+            <if test="birthday != null">
+                birthday,
+            </if>
+            <if test="education != null">
+                education,
+            </if>
+            <if test="introduction != null">
+                introduction,
+            </if>
+            <if test="jobTitle != null">
+                jobTitle,
+            </if>
+            <if test="name != null">
+                `name`,
+            </if>
+            <if test="sex != null">
+                sex,
+            </if>
+            <if test="picUrl != null">
+                picUrl,
+            </if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModify != null">
+                #{gmtModify,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete,jdbcType=INTEGER},
+            </if>
+            <if test="birthday != null">
+                #{birthday,jdbcType=TIMESTAMP},
+            </if>
+            <if test="education != null">
+                #{education,jdbcType=VARCHAR},
+            </if>
+            <if test="introduction != null">
+                #{introduction,jdbcType=VARCHAR},
+            </if>
+            <if test="jobTitle != null">
+                #{jobTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                #{sex,jdbcType=INTEGER},
+            </if>
+            <if test="picUrl != null">
+                #{picUrl,jdbcType=VARCHAR},
+            </if>
+        </trim>
+        on duplicate key update
+        <trim suffixOverrides=",">
+            <if test="id != null">
+                id = #{id,jdbcType=BIGINT},
+            </if>
+            <if test="gmtCreate != null">
+                gmtCreate = #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModify != null">
+                gmtModify = #{gmtModify,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDelete != null">
+                isDelete = #{isDelete,jdbcType=INTEGER},
+            </if>
+            <if test="birthday != null">
+                birthday = #{birthday,jdbcType=TIMESTAMP},
+            </if>
+            <if test="education != null">
+                education = #{education,jdbcType=VARCHAR},
+            </if>
+            <if test="introduction != null">
+                introduction = #{introduction,jdbcType=VARCHAR},
+            </if>
+            <if test="jobTitle != null">
+                jobTitle = #{jobTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                `name` = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                sex = #{sex,jdbcType=INTEGER},
+            </if>
+            <if test="picUrl != null">
+                picUrl = #{picUrl,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <!--auto generated by MybatisCodeHelper on 2020-04-12-->
+    <select id="queryByAllOrderById" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from teacher
+        <where>
+            isDelete = 0
+            <if test="name != null and name != ''">
+                and `name`=#{name,jdbcType=VARCHAR}
+            </if>
+            <if test="sex != null">
+                and sex=#{sex,jdbcType=INTEGER}
+            </if>
+            <if test="education != null and education != ''">
+                and education=#{education,jdbcType=VARCHAR}
+            </if>
+            <if test="jobTitle != null and jobTitle != ''">
+                and jobTitle=#{jobTitle,jdbcType=VARCHAR}
+            </if>
+        </where>
+        order by id asc
+    </select>
 </mapper>

@@ -2,6 +2,8 @@ package cn.yellowgg.ducksystem.service;
 
 import cn.yellowgg.ducksystem.entity.Teacher;
 import cn.yellowgg.ducksystem.mapper.TeacherMapper;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -72,4 +74,8 @@ public class TeacherService {
         return teacherMapper.batchInsert(list);
     }
 
+    public PageInfo<Teacher> queryByAllOrderByIdwithPage(int page, int pageSize, Teacher teacher) {
+        PageHelper.startPage(page, pageSize);
+        return new PageInfo<>(teacherMapper.queryByAllOrderById(teacher));
+    }
 }

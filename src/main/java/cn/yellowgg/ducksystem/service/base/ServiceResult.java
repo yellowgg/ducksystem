@@ -13,7 +13,7 @@ import lombok.Data;
  */
 @Data
 @ApiModel(value = "自定义响应结构类")
-public class ServiceResult {
+public class ServiceResult<T> {
 
     @ApiModelProperty(value = "响应码")
     private Integer respCode;
@@ -22,23 +22,23 @@ public class ServiceResult {
     private String msg;
 
     @ApiModelProperty(value = "数据")
-    private Object obj;
+    private T obj;
 
     @ApiModelProperty(value = "请求结果")
     private boolean success;
 
-    private ServiceResult(Integer respCode, String msg, Object obj, boolean success) {
+    private ServiceResult(Integer respCode, String msg, T obj, boolean success) {
         this.respCode = respCode;
         this.msg = msg;
         this.obj = obj;
         this.success = success;
     }
 
-    public static ServiceResult asSuccess(Object obj) {
+    public static <T> ServiceResult asSuccess(T obj) {
         return new ServiceResult(HttpStatus.HTTP_OK, null, obj, true);
     }
 
-    public static ServiceResult asSuccess(Object obj, String msg) {
+    public static <T> ServiceResult asSuccess(T obj, String msg) {
         return new ServiceResult(HttpStatus.HTTP_OK, msg, obj, true);
     }
 

@@ -710,17 +710,17 @@ layui.define(["element", "jquery"], function (exports) {
             }
         }
 
-        // 判断链接是否有效
-        var checkUrl = layuimini.checkUrl(href);
-        // 如果有404，就跳转404页面
-        if (checkUrl != true) {
-            if (checkUrl.indexOf("404") != -1) {
-                href = "notFound";
-                title = "404";
-            } else {
-                return layuimini.msg_error(checkUrl);
-            }
-        }
+        /* // 判断链接是否有效
+         var checkUrl = layuimini.checkUrl(href);
+         // 如果有404，就跳转404页面
+         if (checkUrl != true) {
+             if (checkUrl.indexOf("404") != -1) {
+                 href = "notFound";
+                 title = "404";
+             } else {
+                 return layuimini.msg_error(checkUrl);
+             }
+         }*/
 
         if (tabId == null || tabId == undefined) {
             tabId = new Date().getTime();

@@ -50,7 +50,5 @@ public interface PermissionMapper {
 
     List<Permission> findAllByIdInAndTypeInOrderByOrderNum(@Param("idCollection") Collection<Long> idCollection,
                                                            @Param("typeCollection") Collection<Integer> typeCollection);
-
-
     //endregion
 }

@@ -161,6 +161,8 @@
                         $('#addTeacherForm_picUrl').val(data.picUrl);
                         $('#addTeacherForm_id').val(data.id);
                         form.render('select');
+                    } else {
+                        document.getElementById("addTeacherForm").reset();
                     }
                 },
                 yes: function () {

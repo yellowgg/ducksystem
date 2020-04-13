@@ -116,7 +116,7 @@
         var $ = layui.jquery,
             form = layui.form,
             layer = layui.layer;
-        layuimini.init("/admin/initJson/" + encode($("#adminId").text(), 100));
+        layuimini.init("/admin/initJson/" + encode($("#adminId").text()));
 
         $('.login-out').on("click", function () {
             layer.msg('退出登录成功')
@@ -163,7 +163,6 @@
                                 email: encode(email), id: encode(id)
                             }
                             , success: function (resp) {
-                                resp = JSON.parse(resp);
                                 layer.msg(resp.msg);
                                 setTimeout(function () {
                                     click = false;
@@ -173,7 +172,7 @@
                                 }, 3000);
                             }
                             , error: function (resp) {
-                                layer.msg(JSON.parse(resp).msg);
+                                layer.msg(resp.msg);
                             }
                         });
                     }
@@ -223,7 +222,6 @@
                                 adminId: encode(id)
                             }
                             , success: function (resp) {
-                                resp = JSON.parse(resp);
                                 layer.msg(resp.msg);
                                 setTimeout(function () {
                                     click = false;
@@ -233,7 +231,7 @@
                                 }, 2000);
                             }
                             , error: function (resp) {
-                                layer.msg(JSON.parse(resp).msg);
+                                layer.msg(resp.msg);
                             }
                         });
                     }

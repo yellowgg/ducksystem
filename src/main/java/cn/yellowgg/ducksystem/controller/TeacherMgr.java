@@ -38,9 +38,9 @@ public class TeacherMgr {
 
     @PostMapping("/addOrUp")
     @ResponseBody
-    public String insertOrUpdateSelective(@Valid Teacher teacher) {
+    public ServiceResult insertOrUpdateSelective(@Valid Teacher teacher) {
         return teacherService.insertOrUpdateSelective(teacher) > 0
-                ? ServiceResult.asSuccess(null, "添加成功").toJson()
-                : ServiceResult.asFail("添加失败").toJson();
+                ? ServiceResult.asSuccess(null, "添加成功")
+                : ServiceResult.asFail("添加失败");
     }
 }

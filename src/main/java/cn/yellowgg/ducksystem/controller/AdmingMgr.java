@@ -47,38 +47,39 @@ public class AdmingMgr {
 
     //region 接口
     @GetMapping("/initJson/{adminId}")
-    public @ResponseBody
-    String getInitMenuJson(@PathVariable String adminId) {
+    @ResponseBody
+    public ServiceResult getInitMenuJson(@PathVariable String adminId) {
         JSONObject initJson = adminService.getInitJson(Long.parseLong(
                 Base64Utils.decodeStrofCount(adminId, UtilConstants.Number.THREE)));
         return Objects.nonNull(initJson)
-                ? ServiceResult.asSuccess(initJson).toJson()
-                : ServiceResult.asFail("该用户无任何菜单项").toJson();
+                ? ServiceResult.asSuccess(initJson)
+                : ServiceResult.asFail("该用户无任何菜单项");
     }
 
     @PostMapping("/updateInfo")
     @Base64DecodeStr(excludeField = {"realName"})
-    public @ResponseBody
-    String updateInfo(@Valid Administrator admin) {
+    @ResponseBody
+    public ServiceResult updateInfo(@Valid Administrator admin) {
         if (Objects.isNull(admin.getId())) {
-            return ServiceResult.asFail("想浑水摸鱼，爬").toJson();
+            return ServiceResult.asFail("想浑水摸鱼，爬");
         }
         adminService.updateRealNameAndEmailById(admin);
         ShiroUtils.setUser(admin);
-        return ServiceResult.asSuccess(null, "修改成功").toJson();
+        return ServiceResult.asSuccess(null, "修改成功");
     }
 
     @PostMapping("/updatePwd")
-    public @ResponseBody
-    String updatePwd(@NotBlank(message = "输个新密码好吗") String newPwd, @NotBlank(message = "有内鬼，停止交易") String oldPwd,
-                     @NotNull @Base64DecodeStr String adminId) {
+    @ResponseBody
+    public ServiceResult updatePwd(@NotBlank(message = "输个新密码好吗") String newPwd,
+                                   @NotBlank(message = "有内鬼，停止交易") String oldPwd,
+                                   @NotNull @Base64DecodeStr String adminId) {
         Administrator admin = new Administrator(ShiroUtils.createMD5Pwd(oldPwd, 3), Long.parseLong(adminId));
         if (Objects.isNull(adminService.findByIdAndPassword(admin))) {
-            return ServiceResult.asFail("原密码不正确").toJson();
+            return ServiceResult.asFail("原密码不正确");
         }
         admin.setPassword(ShiroUtils.createMD5Pwd(newPwd, 3));
         adminService.updatePasswordById(admin);
-        return ServiceResult.asSuccess(null, "修改成功").toJson();
+        return ServiceResult.asSuccess(null, "修改成功");
     }
     //endregion
 

@@ -42,16 +42,16 @@ public class LoginMgr {
 
     @PostMapping(path = "/logging")
     @ApiOperation(value = "登录")
-    public @ResponseBody
-    String logging(@NotBlank(message = "用户名不能为空") @Base64DecodeStr String userName,
-                   @NotBlank(message = "密码不能为空") String password) {
+    @ResponseBody
+    public ServiceResult logging(@NotBlank(message = "用户名不能为空") @Base64DecodeStr String userName,
+                                 @NotBlank(message = "密码不能为空") String password) {
         try {
             SecurityUtils.getSubject().login(new UsernamePasswordToken(userName, password));
         } catch (Exception e) {
             log.info("登录错误", e);
-            return ServiceResult.asFail("用户名或密码错误").toJson();
+            return ServiceResult.asFail("用户名或密码错误");
         }
         adminService.updateLastLoginTime((Administrator) SecurityUtils.getSubject().getPrincipal());
-        return ServiceResult.asSuccess("/admin/index").toJson();
+        return ServiceResult.asSuccess("/admin/index");
     }
 }

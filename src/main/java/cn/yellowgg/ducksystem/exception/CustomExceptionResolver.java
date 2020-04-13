@@ -25,31 +25,33 @@ public class CustomExceptionResolver {
     /**
      * 全局异常捕捉处理
      */
+    @ResponseBody
     @ExceptionHandler(value = Exception.class)
-    public @ResponseBody
-    String errorHandler(Exception ex) {
+    public ServiceResult errorHandler(Exception ex) {
         log.info("【全局异常捕捉】", ex);
-        return ServiceResult.asFail(HttpStatus.HTTP_INTERNAL_ERROR, "系统错误，请稍后重试").toJson();
+        return ServiceResult.asFail(HttpStatus.HTTP_INTERNAL_ERROR, "系统错误，请稍后重试");
     }
 
     /**
      * 拦截捕捉 参数校验异常
      */
+    @ResponseBody
     @ExceptionHandler({ConstraintViolationException.class})
-    public @ResponseBody
-    String constraintViolationExceptionHandler(ConstraintViolationException ex) {
+    public ServiceResult constraintViolationExceptionHandler(ConstraintViolationException ex) {
+        log.info("【参数校验异常捕捉】", ex);
         return ServiceResult.asFail(HttpStatus.HTTP_PRECON_FAILED, ex.getConstraintViolations().stream()
-                .map(x -> x.getMessage()).collect(Collectors.joining(","))).toJson();
+                .map(x -> x.getMessage()).collect(Collectors.joining(",")));
     }
 
     /**
      * 拦截捕捉 参数校验异常
      */
+    @ResponseBody
     @ExceptionHandler({BindException.class})
-    public @ResponseBody
-    String bindExceptionHandler(BindException ex) {
+    public ServiceResult bindExceptionHandler(BindException ex) {
+        log.info("【参数绑定异常捕捉】", ex);
         return ServiceResult.asFail(HttpStatus.HTTP_PRECON_FAILED, ex.getBindingResult().getAllErrors().stream()
-                .map(x -> x.getDefaultMessage()).collect(Collectors.joining(","))).toJson();
+                .map(x -> x.getDefaultMessage()).collect(Collectors.joining(",")));
     }
 
 

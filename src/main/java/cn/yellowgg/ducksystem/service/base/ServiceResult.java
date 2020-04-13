@@ -1,7 +1,6 @@
 package cn.yellowgg.ducksystem.service.base;
 
 import cn.hutool.http.HttpStatus;
-import cn.hutool.json.JSONUtil;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -53,7 +52,4 @@ public class ServiceResult<T> {
         return new ServiceResult(code, msg, null, false);
     }
 
-    public String toJson() {
-        return JSONUtil.toJsonStr(this);
-    }
 }

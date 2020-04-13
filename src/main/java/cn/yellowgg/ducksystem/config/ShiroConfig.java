@@ -53,11 +53,21 @@ public class ShiroConfig {
         fMap.put("/layui-v2.5.6/**", "anon");
         fMap.put("/images/**", "anon");
         fMap.put("/layuiMini/**", "anon");
-        fMap.put("/swagger-ui.html", "anon");
         fMap.put("/favicon.ico", "anon");
+        // swagger
+        fMap.put("/swagger-ui.html", "anon");
+        fMap.put("/swagger-resources", "anon");
+        fMap.put("/swagger-resources/**", "anon");
+        fMap.put("/swagger-resources/configuration/**", "anon");
+        fMap.put("/v2/api-docs", "anon");
+        fMap.put("/webjars/springfox-swagger-ui/**", "anon");
+        fMap.put("/webjars/springfox-swagger-ui/fonts/**", "anon");
         // 登录接口
         fMap.put("/logout", "logout");
         fMap.put("/login/**", "anon");
+        // portal接口
+        fMap.put("/**Portal/**", "anon");
+        // 其他全拦住
         fMap.put("/**", "authc");
         shiroFilterFactoryBean.setLoginUrl("/login/page");
         shiroFilterFactoryBean.setSuccessUrl("/admin/index");

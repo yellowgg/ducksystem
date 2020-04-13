@@ -24,7 +24,7 @@ public class Swagger2Config {
     @Bean
     public Docket createRestApi() {
         return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).select()
-                .apis(RequestHandlerSelectors.basePackage("cn.yellowgg.ducksystem.controller"))
+                .apis(RequestHandlerSelectors.basePackage("cn.yellowgg.ducksystem.controller.portal"))
                 .paths(PathSelectors.any()).build();
     }
 

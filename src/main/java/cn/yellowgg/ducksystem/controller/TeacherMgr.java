@@ -42,8 +42,8 @@ public class TeacherMgr {
     @ResponseBody
     public ServiceResult insertOrUpdateSelective(@Valid Teacher teacher) {
         return teacherService.insertOrUpdateSelective(teacher) > UtilConstants.Number.ZERO
-                ? ServiceResult.asSuccess(null, "添加成功")
-                : ServiceResult.asFail("添加失败");
+                ? ServiceResult.asSuccess(null, "操作成功")
+                : ServiceResult.asFail("操作失败");
     }
 
     @PostMapping("/del/{id}")

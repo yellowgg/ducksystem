@@ -42,4 +42,9 @@ public class Teacher extends BaseEntity {
     public int age() {
         return DateUtil.ageOfNow(DateUtil.format(birthday, UtilConstants.DateFormatStr.NORM_DATE_PATTERN));
     }
+
+    @JsonGetter("birthdayShow")
+    public String birthdayShow() {
+        return DateUtil.format(birthday, UtilConstants.DateFormatStr.NORM_DATETIME_PATTERN);
+    }
 }

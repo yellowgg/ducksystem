@@ -64,7 +64,7 @@ public class ShiroConfig {
         fMap.put("/webjars/springfox-swagger-ui/fonts/**", "anon");
         // 登录接口
         fMap.put("/logout", "logout");
-        fMap.put("/login/**", "anon");
+        fMap.put("/login/*", "anon");
         // portal接口
         fMap.put("/**Portal/**", "anon");
         // 其他全拦住

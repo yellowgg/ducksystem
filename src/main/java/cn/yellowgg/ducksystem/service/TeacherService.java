@@ -87,4 +87,9 @@ public class TeacherService {
         PageHelper.startPage(page, pageSize);
         return new PageInfo<>(teacherMapper.queryByAllOrderById(teacher));
     }
+
+    public List<Teacher> queryAll() {
+        return teacherMapper.queryByAllOrderById(null);
+    }
+
 }

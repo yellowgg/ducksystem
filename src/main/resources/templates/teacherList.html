@@ -207,11 +207,7 @@
             , cols: [[{type: 'radio', fixed: 'left', hide: true}
                 , {field: 'zizeng', sort: true, title: '序号', align: 'center', templet: '#zizeng', width: 80}
                 , {field: 'name', sort: true, title: '姓名', width: 100, align: 'center'}
-                , {
-                    field: 'sex', sort: true, title: '性别', align: 'center', width: 80, templet: function (r) {
-                        return r.sex == 0 ? "男" : "女";
-                    }
-                }
+                , {field: 'sexShow', sort: true, title: '性别', align: 'center', width: 80}
                 , {field: 'age', title: '年龄', sort: true, width: 80, align: 'center'}
                 , {field: 'education', title: '学历', sort: true, width: 100, align: 'center'}
                 , {field: 'jobTitle', title: '职称', sort: true, width: 140, align: 'center'}

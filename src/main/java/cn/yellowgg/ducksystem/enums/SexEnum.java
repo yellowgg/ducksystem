@@ -19,4 +19,13 @@ public enum SexEnum {
         this.value = value;
         this.sexStr = sexStr;
     }
+
+    public static String getSexStrByValue(Integer value) {
+        for (SexEnum each : SexEnum.values()) {
+            if (each.value.equals(value)) {
+                return each.sexStr;
+            }
+        }
+        return "未知";
+    }
 }

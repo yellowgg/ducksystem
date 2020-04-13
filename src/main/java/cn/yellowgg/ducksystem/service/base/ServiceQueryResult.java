@@ -15,19 +15,15 @@ import java.util.List;
 @Data
 @ApiModel(value = "自定义响应结构(列表)")
 public class ServiceQueryResult<T> {
-
     @ApiModelProperty(value = "响应码")
     private Integer respCode;
-
     @ApiModelProperty(value = "附属消息")
     private String msg;
-
-    @ApiModelProperty(value = "数据")
+    @ApiModelProperty(value = "数据列表")
     private List<T> obj;
-
-    @ApiModelProperty(value = "请求结果")
+    @ApiModelProperty(value = "请求结果", example = "ture表示成功")
     private boolean success;
-
+    @ApiModelProperty(value = "列表数据数量，不是分页数据数量")
     private long totalCount;
 
     public ServiceQueryResult(Integer respCode, String msg, List<T> obj, boolean success, long totalCount) {

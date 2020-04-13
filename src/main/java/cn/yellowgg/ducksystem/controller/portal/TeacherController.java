@@ -1,5 +1,6 @@
 package cn.yellowgg.ducksystem.controller.portal;
 
+import cn.yellowgg.ducksystem.entity.Teacher;
 import cn.yellowgg.ducksystem.service.TeacherService;
 import cn.yellowgg.ducksystem.service.base.ServiceQueryResult;
 import io.swagger.annotations.Api;
@@ -24,7 +25,7 @@ public class TeacherController {
 
     @ApiOperation("获取教师信息列表")
     @GetMapping("/allData")
-    public ServiceQueryResult getData() {
+    public ServiceQueryResult<Teacher> getData() {
         return ServiceQueryResult.asSuccess(teacherService.queryAll());
     }
 }

@@ -77,16 +77,14 @@
                 type: "post",
                 data: data,
                 success: function (resp) {
-                    var data = JSON.parse(resp);
-                    if (data.success) {
-                        window.location.href = data.obj;
+                    if (resp.success) {
+                        window.location.href = resp.obj;
                     } else {
-                        layer.msg(data.msg);
+                        layer.msg(resp.msg);
                     }
                 },
                 error: function (resp) {
-                    var data = JSON.parse(resp);
-                    layer.msg('错误', data.msg);
+                    layer.msg('错误', resp.msg);
                 }
             });
         })

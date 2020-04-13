@@ -1,9 +1,11 @@
 package cn.yellowgg.ducksystem.controller;
 
+import cn.yellowgg.ducksystem.constant.UtilConstants;
 import cn.yellowgg.ducksystem.entity.Teacher;
 import cn.yellowgg.ducksystem.service.TeacherService;
 import cn.yellowgg.ducksystem.service.base.ServiceQueryResult;
 import cn.yellowgg.ducksystem.service.base.ServiceResult;
+import cn.yellowgg.ducksystem.utils.Base64Utils;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,8 +41,17 @@ public class TeacherMgr {
     @PostMapping("/addOrUp")
     @ResponseBody
     public ServiceResult insertOrUpdateSelective(@Valid Teacher teacher) {
-        return teacherService.insertOrUpdateSelective(teacher) > 0
+        return teacherService.insertOrUpdateSelective(teacher) > UtilConstants.Number.ZERO
                 ? ServiceResult.asSuccess(null, "添加成功")
                 : ServiceResult.asFail("添加失败");
+    }
+
+    @PostMapping("/del/{id}")
+    @ResponseBody
+    public ServiceResult del(@PathVariable String id) {
+        return teacherService.deleteByPrimaryKey(Long.parseLong(Base64Utils.decodeStrofCount(id,
+                UtilConstants.Number.THREE))) > UtilConstants.Number.ZERO
+                ? ServiceResult.asSuccess(null, "删除成功")
+                : ServiceResult.asFail("删除失败,检查老师是否有在教课");
     }
 }

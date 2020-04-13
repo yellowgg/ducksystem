@@ -1,7 +1,9 @@
 package cn.yellowgg.ducksystem.service.base;
 
 import cn.hutool.http.HttpStatus;
+import cn.yellowgg.ducksystem.constant.UtilConstants;
 import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Lists;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -21,7 +23,7 @@ public class ServiceQueryResult<T> {
     private String msg;
     @ApiModelProperty(value = "数据列表")
     private List<T> obj;
-    @ApiModelProperty(value = "请求结果", example = "ture表示成功")
+    @ApiModelProperty(value = "请求结果", example = "ture表示成功并存在数据")
     private boolean success;
     @ApiModelProperty(value = "列表数据数量，不是分页数据数量")
     private long totalCount;
@@ -35,10 +37,14 @@ public class ServiceQueryResult<T> {
     }
 
     public static <T> ServiceQueryResult asSuccess(PageInfo<T> pageInfo, String msg) {
-        return new ServiceQueryResult(HttpStatus.HTTP_OK, msg, pageInfo.getList(), true, pageInfo.getTotal());
+        return new ServiceQueryResult(HttpStatus.HTTP_OK, msg, pageInfo.getList(), UtilConstants.Bool.TRUE, pageInfo.getTotal());
     }
 
     public static <T> ServiceQueryResult asSuccess(List<T> objs) {
-        return new ServiceQueryResult(HttpStatus.HTTP_OK, null, objs, true, objs.size());
+        return new ServiceQueryResult(HttpStatus.HTTP_OK, UtilConstants.Str.EMPTYSTR, objs, UtilConstants.Bool.TRUE, objs.size());
+    }
+
+    public static <T> ServiceQueryResult asFail(String msg) {
+        return new ServiceQueryResult(HttpStatus.HTTP_INTERNAL_ERROR, msg, Lists.newArrayList(), UtilConstants.Bool.TRUE, 0);
     }
 }

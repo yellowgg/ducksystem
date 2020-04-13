@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Max;
@@ -22,6 +23,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @ApiModel(value = "教师对象", description = "本系统中教师只作为展示用，因为是线上看视频，不参与对学生的操作")
+@ToString(callSuper = true)
 public class Teacher extends BaseEntity {
     @NotBlank(message = "姓名不能为空")
     @ApiModelProperty(value = "姓名")

@@ -111,12 +111,12 @@ public class AdministratorService {
         List<MenuInfo> dirAll = Lists.newArrayList();
         Map<Integer, List<Permission>> dirsAndMenusMap = dirsAndMenus.stream().collect(Collectors.groupingBy(Permission::getType));
         dirsAndMenusMap.get(PermissionTypeEnum.DIRECTORY.getValue()).forEach(dir -> {
-            MenuInfo dirObj = new MenuInfo(dir.getTitle(), dir.getIcon(), dir.getUrl(), true);
+            MenuInfo dirObj = new MenuInfo(dir.getTitle(), dir.getIcon(), dir.getUrl(), UtilConstants.Bool.TRUE);
             List<Permission> oneLevelMenus = getChildMenu(dirsAndMenusMap.get(PermissionTypeEnum.MENU.getValue()), dir.getId());
             oneLevelMenus.forEach(oneLevelMenu -> {
-                MenuInfo info = new MenuInfo(oneLevelMenu.getTitle(), oneLevelMenu.getIcon(), oneLevelMenu.getUrl(), true);
+                MenuInfo info = new MenuInfo(oneLevelMenu.getTitle(), oneLevelMenu.getIcon(), oneLevelMenu.getUrl(), UtilConstants.Bool.TRUE);
                 List<Permission> twoLevelMenus = getChildMenu(dirsAndMenusMap.get(PermissionTypeEnum.MENU.getValue()), oneLevelMenu.getId());
-                twoLevelMenus.forEach(o -> info.addChild(new MenuInfo(o.getTitle(), o.getIcon(), o.getUrl(), false)));
+                twoLevelMenus.forEach(o -> info.addChild(new MenuInfo(o.getTitle(), o.getIcon(), o.getUrl(), UtilConstants.Bool.FALSE)));
                 dirObj.addChild(info);
             });
             dirAll.add(dirObj);

@@ -16,6 +16,15 @@ public interface UtilConstants {
         public static final int THREE = 3;
     }
 
+    class Str {
+        public static final String EMPTYSTR = "";
+    }
+
+    class Bool {
+        public static final boolean TRUE = true;
+        public static final boolean FALSE = false;
+    }
+
     /**
      * 日期格式常量
      */

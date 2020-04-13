@@ -1,5 +1,6 @@
 package cn.yellowgg.ducksystem.config;
 
+import cn.yellowgg.ducksystem.constant.UtilConstants;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -32,6 +33,6 @@ public class Swagger2Config {
         return new ApiInfoBuilder()
                 .title("小黄鸭天下第一").description("描述：🐥🐥小黄鸭IT培训机构后台管理系统的文档🐥🐥")
                 .termsOfServiceUrl("https://github.com/yellowgg").version("1.0.0")
-                .contact(new Contact("yellowgg", "", "yellowgggg@gmail.com")).build();
+                .contact(new Contact("yellowgg", UtilConstants.Str.EMPTYSTR, "yellowgggg@gmail.com")).build();
     }
 }

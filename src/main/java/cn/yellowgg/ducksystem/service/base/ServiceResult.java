@@ -1,6 +1,7 @@
 package cn.yellowgg.ducksystem.service.base;
 
 import cn.hutool.http.HttpStatus;
+import cn.yellowgg.ducksystem.constant.UtilConstants;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -33,22 +34,22 @@ public class ServiceResult<T> {
     }
 
     public static <T> ServiceResult asSuccess(T obj) {
-        return new ServiceResult(HttpStatus.HTTP_OK, null, obj, true);
+        return new ServiceResult(HttpStatus.HTTP_OK, UtilConstants.Str.EMPTYSTR, obj, UtilConstants.Bool.TRUE);
     }
 
     public static <T> ServiceResult asSuccess(T obj, String msg) {
-        return new ServiceResult(HttpStatus.HTTP_OK, msg, obj, true);
+        return new ServiceResult(HttpStatus.HTTP_OK, msg, obj, UtilConstants.Bool.TRUE);
     }
 
     public static ServiceResult asFail(String msg) {
-        return new ServiceResult(HttpStatus.HTTP_INTERNAL_ERROR, msg, null, false);
+        return new ServiceResult(HttpStatus.HTTP_INTERNAL_ERROR, msg, null, UtilConstants.Bool.FALSE);
     }
 
     /**
      * @param code 状态码
      */
     public static ServiceResult asFail(Integer code, String msg) {
-        return new ServiceResult(code, msg, null, false);
+        return new ServiceResult(code, msg, null, UtilConstants.Bool.FALSE);
     }
 
 }

@@ -1,9 +1,12 @@
 package cn.yellowgg.ducksystem.service;
 
+import cn.yellowgg.ducksystem.constant.UtilConstants;
 import cn.yellowgg.ducksystem.entity.Teacher;
 import cn.yellowgg.ducksystem.mapper.TeacherMapper;
+import cn.yellowgg.ducksystem.mapper.TeacherandcourseMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -18,10 +21,16 @@ public class TeacherService {
 
     @Resource
     private TeacherMapper teacherMapper;
+    @Autowired
+    TeacherandcourseMapper teacherandcourseMapper;
 
-
+    /**
+     * 删除老师之前先看有没有在教课
+     */
     public int deleteByPrimaryKey(Long id) {
-        return teacherMapper.deleteByPrimaryKey(id);
+        return teacherandcourseMapper.countByTeacherId(id) > UtilConstants.Number.ZERO
+                ? UtilConstants.Number.ZERO
+                : teacherMapper.deleteByPrimaryKey(id);
     }
 
 
@@ -78,4 +87,9 @@ public class TeacherService {
         PageHelper.startPage(page, pageSize);
         return new PageInfo<>(teacherMapper.queryByAllOrderById(teacher));
     }
+
+    public List<Teacher> queryAll() {
+        return teacherMapper.queryByAllOrderById(null);
+    }
+
 }

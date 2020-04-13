@@ -8,6 +8,7 @@ import java.lang.annotation.Target;
 /**
  * @Description: 自定义注解 用于Base64解密
  * 暂不能跟@PathVariable一起用
+ * 对中文也不友好
  * @Author: yellowgg
  * @Date: Created in 2020/4/3 15:07
  */

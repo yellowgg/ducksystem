@@ -53,7 +53,7 @@
 </form>
 <script src="/layui-v2.5.6/layui.js" type="text/javascript"></script>
 <script src="/layuiMini/libs/jquery-3.4.1/jquery-3.4.1.min.js" type="text/javascript"></script>
-<script src="/js/encode.js" type="text/javascript"></script>
+<script src="/js/myUtils.js" type="text/javascript"></script>
 <script type="text/javascript">
     layui.use(['jquery', 'layer', 'form'], function () {
         var $ = layui.$,
@@ -77,16 +77,14 @@
                 type: "post",
                 data: data,
                 success: function (resp) {
-                    var data = JSON.parse(resp);
-                    if (data.success) {
-                        window.location.href = data.obj;
+                    if (resp.success) {
+                        window.location.href = resp.obj;
                     } else {
-                        layer.msg(data.msg);
+                        layer.msg(resp.msg);
                     }
                 },
                 error: function (resp) {
-                    var data = JSON.parse(resp);
-                    layer.msg('错误', data.msg);
+                    layer.msg('错误', resp.msg);
                 }
             });
         })

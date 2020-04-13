@@ -53,10 +53,21 @@ public class ShiroConfig {
         fMap.put("/layui-v2.5.6/**", "anon");
         fMap.put("/images/**", "anon");
         fMap.put("/layuiMini/**", "anon");
+        fMap.put("/favicon.ico", "anon");
+        // swagger
         fMap.put("/swagger-ui.html", "anon");
+        fMap.put("/swagger-resources", "anon");
+        fMap.put("/swagger-resources/**", "anon");
+        fMap.put("/swagger-resources/configuration/*", "anon");
+        fMap.put("/v2/api-docs", "anon");
+        fMap.put("/webjars/springfox-swagger-ui/**", "anon");
+        fMap.put("/webjars/springfox-swagger-ui/fonts/**", "anon");
         // 登录接口
         fMap.put("/logout", "logout");
-        fMap.put("/login/**", "anon");
+        fMap.put("/login/*", "anon");
+        // portal接口
+        fMap.put("/**Portal/**", "anon");
+        // 其他全拦住
         fMap.put("/**", "authc");
         shiroFilterFactoryBean.setLoginUrl("/login/page");
         shiroFilterFactoryBean.setSuccessUrl("/admin/index");
@@ -117,7 +128,7 @@ public class ShiroConfig {
         hashedCredentialsMatcher.setHashAlgorithmName(Md5Hash.ALGORITHM_NAME);
         hashedCredentialsMatcher.setHashIterations(UtilConstants.Number.THREE);
         // true=Hex,false=base64
-        hashedCredentialsMatcher.setStoredCredentialsHexEncoded(true);
+        hashedCredentialsMatcher.setStoredCredentialsHexEncoded(UtilConstants.Bool.TRUE);
         return hashedCredentialsMatcher;
     }
 
@@ -132,7 +143,7 @@ public class ShiroConfig {
         //配置是否启动过虑器的init/destory方法
         //保证实现了Shiro内部lifecycle函数的bean执行
         DefaultAdvisorAutoProxyCreator advisorAutoProxyCreator = new DefaultAdvisorAutoProxyCreator();
-        advisorAutoProxyCreator.setProxyTargetClass(true);
+        advisorAutoProxyCreator.setProxyTargetClass(UtilConstants.Bool.TRUE);
         return advisorAutoProxyCreator;
     }
 
@@ -192,7 +203,7 @@ public class ShiroConfig {
         /*setcookie的httponly属性如果设为true的话，会增加对xss防护的安全系数
         设为true后，只能通过http访问，javascript无法访问
         防止xss读取cookie*/
-        simpleCookie.setHttpOnly(true);
+        simpleCookie.setHttpOnly(UtilConstants.Bool.TRUE);
         simpleCookie.setPath("/");
         //maxAge=-1表示浏览器关闭时失效此Cookie
         simpleCookie.setMaxAge(-1);
@@ -215,9 +226,10 @@ public class ShiroConfig {
         //全局会话超时时间（单位毫秒），默认30分钟  暂时设置为10秒钟 用来测试
         // sessionManager.setGlobalSessionTimeout(10000);
         //是否开启删除无效的session对象  默认为true
-        sessionManager.setDeleteInvalidSessions(true);
+        sessionManager.setDeleteInvalidSessions(UtilConstants.Bool.TRUE);
         //是否开启定时调度器进行检测过期session 默认为true
-        sessionManager.setSessionValidationSchedulerEnabled(true);
+        sessionManager.setSessionIdUrlRewritingEnabled(UtilConstants.Bool.FALSE);
+        sessionManager.setSessionValidationSchedulerEnabled(UtilConstants.Bool.TRUE);
         //设置session失效的扫描时间, 清理用户直接关闭浏览器造成的孤立会话 默认为 1个小时
         //设置该属性 就不需要设置 ExecutorServiceSessionValidationScheduler 底层也是默认自动调用ExecutorServiceSessionValidationScheduler
         //暂时设置为 5秒 用来测试

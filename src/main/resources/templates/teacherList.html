@@ -19,9 +19,22 @@
             margin: 0;
         }
 
+        /*layui表格显示完整图片*/
+        .layui-table-cell {
+            height: auto !important;
+            white-space: normal;
+        }
+
         #addTeacherForm > div.layui-input-block.addTeacherForm_introduction > div > button {
             display: none;
         }
+
+        /*layui 单元格设置纵向滚动条*/
+        .laytable-cell-1-0-7 {
+            max-height: 100px;
+            overflow-y: auto;
+        }
+
     </style>
 </head>
 <body>
@@ -49,19 +62,20 @@
         <div class="layui-input-inline" style="width: 150px;">
             <input type="text" name="jobTitle" id="jobTitle" placeholder="请输入职称" autocomplete="off" class="layui-input">
         </div>
-        <div class="layui-input-block">
-            <button class="layui-btn" lay-submit lay-filter="submit" id="queryBtn">查询</button>
-            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-            <button type="button" id="addTeacherBtn" class="layui-btn layui-btn-normal">添加</button>
-        </div>
+        <button class="layui-btn" lay-submit lay-filter="submit" id="queryBtn">查询</button>
+        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        <button type="button" id="addTeacherBtn" class="layui-btn layui-btn-normal">添加</button>
     </div>
 </form>
 <table class="layui-hide" id="teacherTable" lay-filter="teacherTable"></table>
 <script type="text/html" id="zizeng">
     {{d.LAY_TABLE_INDEX+1}}
 </script>
+<!--layui表格显示图片-->
+<script type="text/html" id="imgTpl">
+    <div><img src="{{ d.picUrl }}" style="width:150px; height:150px;"></div>
+</script>
 <script type="text/html" id="bar">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
@@ -82,8 +96,7 @@
         <label class="layui-form-label">生日</label>
         <div class="layui-input-block" style="width: 150px;">
             <input type="text" required name="birthday" lay-verify="required" class="layui-input"
-                   id="addTeacherForm_day" readonly=""
-                   placeholder="请输入生日">
+                   id="addTeacherForm_day" readonly="" placeholder="请输入生日">
         </div>
         <label class="layui-form-label">学历</label>
         <div class="layui-input-block" style="width: 150px;">
@@ -106,12 +119,15 @@
                         lay-verify="required" autocomplete="off" placeholder="上传图片后保留[img]标签的内容"
                         class="layui-textarea"></textarea>
         </div>
+        <input name="id" id="addTeacherForm_id" hidden>
     </form>
 </div>
 </body>
-<script async id="chevereto-pup-src" src="https://imgchr.com/sdk/pup.js" data-url="https://imgchr.com/upload"
-        data-fit-editor="0"></script>
-<script src="/layui-v2.5.6/layui.js" charset="utf-8"></script>
+<script async id="chevereto-pup-src" src="https://imgchr.com/sdk/pup.js"
+        data-url="https://imgchr.com/upload" data-fit-editor="0"></script>
+<script src="/layui-v2.5.6/layui.js" type="text/javascript"></script>
+<script src="/layuiMini/libs/jquery-3.4.1/jquery-3.4.1.min.js" type="text/javascript"></script>
+<script src="/js/myUtils.js" type="text/javascript"></script>
 <script type="text/javascript">
     // 表格
     layui.use(['table', 'jquery', 'layer', 'form', 'laydate'], function () {
@@ -129,8 +145,57 @@
             , value: '2020-04-01'
             , max: '2020-12-31'
             , format: 'yyyy-MM-dd HH:mm:ss'
-        })
-        ;
+        });
+
+        function addAndUpDialog(up, data) {
+            layer.open({
+                type: 1,
+                anim: 1,
+                shade: 0.3,
+                btn: ['保存', '取消'],
+                title: "操作",
+                btnAlign: 'c',
+                shadeClose: true,
+                area: ['480px', '655px'],
+                content: $('#addTeacherDialog'),
+                success: function (layero, index) {
+                    if (up) {
+                        $('#addTeacherForm_name').val(data.name);
+                        $('#addTeacherForm_sex').val(data.sex);
+                        $('#addTeacherForm_day').val(data.birthdayShow);
+                        $('#addTeacherForm_education').val(data.education);
+                        $('#addTeacherForm_jobTitle').val(data.jobTitle);
+                        $('#addTeacherForm_introduction').val(data.introduction);
+                        $('#addTeacherForm_picUrl').val(data.picUrl);
+                        $('#addTeacherForm_id').val(data.id);
+                        form.render('select');
+                    } else {
+                        document.getElementById("addTeacherForm").reset();
+                    }
+                },
+                yes: function () {
+                    if (!click) {
+                        click = true;
+                        $.post({
+                            url: "/teacher/addOrUp"
+                            , data: $('#addTeacherForm').serializeArray()
+                            , success: function (resp) {
+                                layer.msg(resp.msg);
+                                setTimeout(function () {
+                                    click = false;
+                                    if (resp.success) {
+                                        tableReloadmethod();
+                                    }
+                                }, 2500);
+                            }
+                            , error: function (resp) {
+                                layer.msg(resp.msg);
+                            }
+                        });
+                    }
+                }
+            });
+        }
 
         //执行一个 table 实例
         var tableReload = table.render({
@@ -144,16 +209,13 @@
             , cols: [[{type: 'radio', fixed: 'left', hide: true}
                 , {field: 'zizeng', sort: true, title: '序号', align: 'center', templet: '#zizeng', width: 80}
                 , {field: 'name', sort: true, title: '姓名', width: 100, align: 'center'}
-                , {
-                    field: 'sex', sort: true, title: '性别', align: 'center', width: 80, templet: function (r) {
-                        return r.sex == 0 ? "男" : "女";
-                    }
-                }
+                , {field: 'sexShow', sort: true, title: '性别', align: 'center', width: 80}
                 , {field: 'age', title: '年龄', sort: true, width: 80, align: 'center'}
                 , {field: 'education', title: '学历', sort: true, width: 100, align: 'center'}
                 , {field: 'jobTitle', title: '职称', sort: true, width: 140, align: 'center'}
                 , {field: 'introduction', title: '介绍', sort: true, align: 'center'}
-                , {fixed: 'right', width: 178, align: 'center', toolbar: '#bar'}]
+                , {field: 'picUrl', title: '照片', align: 'center', templet: '#imgTpl'}
+                , {fixed: 'right', title: '操作', width: 120, align: 'center', toolbar: '#bar'}]
             ]
             , response: {
                 statusName: 'respCode' //数据状态的字段名称，默认：code
@@ -168,16 +230,7 @@
         function tableReloadmethod() {
             tableReload.reload({
                 where: form.val("teacherSearchForm")
-                , page: {
-                    curr: 1
-                }
-                , response: {
-                    statusName: 'respCode' //数据状态的字段名称，默认：code
-                    , statusCode: 200 //成功的状态码，默认：0
-                    , msgName: 'msg' //状态信息的字段名称，默认：msg
-                    , countName: 'totalCount' //数据总数的字段名称，默认：count
-                    , dataName: 'obj' //数据列表的字段名称，默认：data
-                }
+                , page: {curr: 1}
             });
         }
 
@@ -189,52 +242,34 @@
         // 添加老师
         var click = false;
         $('#addTeacherBtn').on("click", function () {
-            var dialogIndex = layer.open({
-                type: 1,
-                anim: 1,
-                shade: 0.6,
-                btn: ['保存', '取消'],
-                title: "添加老师",
-                area: ['480px', '655px'],
-                content: $('#addTeacherDialog'),
-                yes: function () {
-                    if (!click) {
-                        click = true;
-                        $.post({
-                            url: "/teacher/addOrUp"
-                            , data: $('#addTeacherForm').serializeArray()
-                            , success: function (resp) {
-                                resp = JSON.parse(resp);
-                                layer.msg(resp.msg);
-                                setTimeout(function () {
-                                    click = false;
-                                    if (resp.success) {
-                                        tableReloadmethod();
-                                    }
-                                }, 2500);
-                            }
-                            , error: function (resp) {
-                                layer.msg(JSON.parse(resp).msg);
-                            }
-                        })
-                        ;
-                    }
-                }
-            });
-        })
+            addAndUpDialog(false);
+        });
 
         //监听工具条
         table.on('tool(teacherTable)', function (obj) {
             var data = obj.data;
-            if (obj.event === 'detail') {
-                layer.msg('ID：' + data.id + ' 的查看操作');
-            } else if (obj.event === 'del') {
-                layer.confirm('真的删除行么', function (index) {
-                    obj.del();
-                    layer.close(index);
+            if (obj.event === 'del') {
+                layer.confirm('要开除这位老师吗？', {
+                    btn: ['是的', '不了'],
+                    shadeClose: true
+                }, function () {
+                    $.post({
+                        url: "/teacher/del/" + encode(data.id.toString())
+                        , success: function (resp) {
+                            layer.msg(resp.msg);
+                            setTimeout(function () {
+                                if (resp.success) {
+                                    tableReloadmethod();
+                                }
+                            }, 2500);
+                        }
+                        , error: function (resp) {
+                            layer.msg(resp.msg);
+                        }
+                    });
                 });
             } else if (obj.event === 'edit') {
-                layer.alert('编辑行：<br>' + JSON.stringify(data))
+                addAndUpDialog(true, data);
             }
         });
     });

@@ -30,7 +30,7 @@
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         <!--@mbg.generated-->
-        delete from teacher
+        update teacher set isDelete = 1,gmtModify = now()
         where id = #{id,jdbcType=BIGINT}
     </delete>
     <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.yellowgg.ducksystem.entity.Teacher"
@@ -453,14 +453,8 @@
             <if test="id != null">
                 id = #{id,jdbcType=BIGINT},
             </if>
-            <if test="gmtCreate != null">
-                gmtCreate = #{gmtCreate,jdbcType=TIMESTAMP},
-            </if>
             <if test="gmtModify != null">
                 gmtModify = #{gmtModify,jdbcType=TIMESTAMP},
-            </if>
-            <if test="isDelete != null">
-                isDelete = #{isDelete,jdbcType=INTEGER},
             </if>
             <if test="birthday != null">
                 birthday = #{birthday,jdbcType=TIMESTAMP},

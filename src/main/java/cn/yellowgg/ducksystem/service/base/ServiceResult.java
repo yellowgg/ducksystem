@@ -6,12 +6,11 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
- * @Description: 自定义响应结构
  * @Author: yellowgg
  * @Date: Created in 2020/3/27 15:08
  */
 @Data
-@ApiModel(value = "自定义响应结构类")
+@ApiModel(value = "自定义响应结构(单个)")
 public class ServiceResult<T> {
 
     @ApiModelProperty(value = "响应码")

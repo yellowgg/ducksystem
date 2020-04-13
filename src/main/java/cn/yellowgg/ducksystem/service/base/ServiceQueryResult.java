@@ -9,12 +9,11 @@ import lombok.Data;
 import java.util.List;
 
 /**
- * @Description: 自定义响应结构，带list
  * @Author: yellowgg
  * @Date: Created in 2020/4/11 22:11
  */
 @Data
-@ApiModel(value = "自定义响应结构,带List")
+@ApiModel(value = "自定义响应结构(列表)")
 public class ServiceQueryResult<T> {
 
     @ApiModelProperty(value = "响应码")
@@ -41,5 +40,9 @@ public class ServiceQueryResult<T> {
 
     public static <T> ServiceQueryResult asSuccess(PageInfo<T> pageInfo, String msg) {
         return new ServiceQueryResult(HttpStatus.HTTP_OK, msg, pageInfo.getList(), true, pageInfo.getTotal());
+    }
+
+    public static <T> ServiceQueryResult asSuccess(List<T> objs) {
+        return new ServiceQueryResult(HttpStatus.HTTP_OK, null, objs, true, objs.size());
     }
 }

@@ -151,9 +151,11 @@
             layer.open({
                 type: 1,
                 anim: 1,
-                shade: 0.6,
+                shade: 0.3,
                 btn: ['保存', '取消'],
                 title: "操作",
+                btnAlign: 'c',
+                shadeClose: true,
                 area: ['480px', '655px'],
                 content: $('#addTeacherDialog'),
                 success: function (layero, index) {
@@ -213,7 +215,7 @@
                 , {field: 'jobTitle', title: '职称', sort: true, width: 140, align: 'center'}
                 , {field: 'introduction', title: '介绍', sort: true, align: 'center'}
                 , {field: 'picUrl', title: '照片', align: 'center', templet: '#imgTpl'}
-                , {fixed: 'right', width: 178, align: 'center', toolbar: '#bar'}]
+                , {fixed: 'right', title: '操作', width: 120, align: 'center', toolbar: '#bar'}]
             ]
             , response: {
                 statusName: 'respCode' //数据状态的字段名称，默认：code
@@ -248,7 +250,8 @@
             var data = obj.data;
             if (obj.event === 'del') {
                 layer.confirm('要开除这位老师吗？', {
-                    btn: ['是的', '不了']
+                    btn: ['是的', '不了'],
+                    shadeClose: true
                 }, function () {
                     $.post({
                         url: "/teacher/del/" + encode(data.id.toString())

@@ -54,6 +54,7 @@ public class ShiroConfig {
         fMap.put("/images/**", "anon");
         fMap.put("/layuiMini/**", "anon");
         fMap.put("/swagger-ui.html", "anon");
+        fMap.put("/favicon.ico", "anon");
         // 登录接口
         fMap.put("/logout", "logout");
         fMap.put("/login/**", "anon");

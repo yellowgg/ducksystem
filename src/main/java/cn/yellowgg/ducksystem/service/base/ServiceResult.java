@@ -21,24 +21,24 @@ public class ServiceResult<T> {
     private String msg;
 
     @ApiModelProperty(value = "数据")
-    private T obj;
+    private T data;
 
     @ApiModelProperty(value = "请求结果")
     private boolean success;
 
-    private ServiceResult(Integer respCode, String msg, T obj, boolean success) {
+    private ServiceResult(Integer respCode, String msg, T data, boolean success) {
         this.respCode = respCode;
         this.msg = msg;
-        this.obj = obj;
+        this.data = data;
         this.success = success;
     }
 
-    public static <T> ServiceResult asSuccess(T obj) {
-        return new ServiceResult(HttpStatus.HTTP_OK, UtilConstants.Str.EMPTYSTR, obj, UtilConstants.Bool.TRUE);
+    public static <T> ServiceResult asSuccess(T data) {
+        return new ServiceResult(HttpStatus.HTTP_OK, UtilConstants.Str.EMPTYSTR, data, UtilConstants.Bool.TRUE);
     }
 
-    public static <T> ServiceResult asSuccess(T obj, String msg) {
-        return new ServiceResult(HttpStatus.HTTP_OK, msg, obj, UtilConstants.Bool.TRUE);
+    public static <T> ServiceResult asSuccess(T data, String msg) {
+        return new ServiceResult(HttpStatus.HTTP_OK, msg, data, UtilConstants.Bool.TRUE);
     }
 
     public static ServiceResult asFail(String msg) {

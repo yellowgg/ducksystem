@@ -78,7 +78,7 @@
                 data: data,
                 success: function (resp) {
                     if (resp.success) {
-                        window.location.href = resp.obj;
+                        window.location.href = resp.data;
                     } else {
                         layer.msg(resp.msg);
                     }

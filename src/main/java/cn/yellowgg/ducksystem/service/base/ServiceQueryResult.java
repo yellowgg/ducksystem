@@ -22,16 +22,16 @@ public class ServiceQueryResult<T> {
     @ApiModelProperty(value = "附属消息")
     private String msg;
     @ApiModelProperty(value = "数据列表")
-    private List<T> obj;
+    private List<T> data;
     @ApiModelProperty(value = "请求结果", example = "ture表示成功并存在数据")
     private boolean success;
     @ApiModelProperty(value = "列表数据数量，不是分页数据数量")
     private long totalCount;
 
-    public ServiceQueryResult(Integer respCode, String msg, List<T> obj, boolean success, long totalCount) {
+    public ServiceQueryResult(Integer respCode, String msg, List<T> data, boolean success, long totalCount) {
         this.respCode = respCode;
         this.msg = msg;
-        this.obj = obj;
+        this.data = data;
         this.success = success;
         this.totalCount = totalCount;
     }
@@ -45,6 +45,6 @@ public class ServiceQueryResult<T> {
     }
 
     public static <T> ServiceQueryResult asFail(String msg) {
-        return new ServiceQueryResult(HttpStatus.HTTP_INTERNAL_ERROR, msg, Lists.newArrayList(), UtilConstants.Bool.TRUE, 0);
+        return new ServiceQueryResult(HttpStatus.HTTP_INTERNAL_ERROR, msg, Lists.newArrayList(), UtilConstants.Bool.TRUE, UtilConstants.Number.ZERO);
     }
 }

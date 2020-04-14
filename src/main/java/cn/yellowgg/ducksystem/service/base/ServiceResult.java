@@ -41,8 +41,13 @@ public class ServiceResult<T> {
         return new ServiceResult(HttpStatus.HTTP_OK, msg, data, UtilConstants.Bool.TRUE);
     }
 
+
     public static ServiceResult asFail(String msg) {
         return new ServiceResult(HttpStatus.HTTP_INTERNAL_ERROR, msg, null, UtilConstants.Bool.FALSE);
+    }
+
+    public static <T> ServiceResult asFail(T data, String msg) {
+        return new ServiceResult(HttpStatus.HTTP_INTERNAL_ERROR, msg, data, UtilConstants.Bool.FALSE);
     }
 
     /**

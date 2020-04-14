@@ -11,61 +11,39 @@ import java.util.List;
  * @Date: Created in 2020/4/14 15:36
  */
 public interface AccountMapper {
-    /**
-     * delete by primary key
-     *
-     * @param id primaryKey
-     * @return deleteCount
-     */
-    int deleteByPrimaryKey(Long id);
 
-    /**
-     * insert record to table
-     *
-     * @param record the record
-     * @return insert count
-     */
+    //region 增
     int insert(Account record);
+
+    int batchInsert(@Param("list") List<Account> list);
 
     int insertOrUpdate(Account record);
 
     int insertOrUpdateSelective(Account record);
 
-    /**
-     * insert record to table selective
-     *
-     * @param record the record
-     * @return insert count
-     */
     int insertSelective(Account record);
+    //endregion
 
-    /**
-     * select by primary key
-     *
-     * @param id primary key
-     * @return object by primary key
-     */
-    Account selectByPrimaryKey(Long id);
+    //region 删
+    int deleteByPrimaryKey(Long id);
+    //endregion
 
-    /**
-     * update record selective
-     *
-     * @param record the updated record
-     * @return update count
-     */
+    //region 改
     int updateByPrimaryKeySelective(Account record);
 
-    /**
-     * update record
-     *
-     * @param record the updated record
-     * @return update count
-     */
     int updateByPrimaryKey(Account record);
 
     int updateBatch(List<Account> list);
 
     int updateBatchSelective(List<Account> list);
+    //endregion
 
-    int batchInsert(@Param("list") List<Account> list);
+    //region 查
+    Account selectByPrimaryKey(Long id);
+
+    Account findByOpenId(@Param("openId") String openId);
+
+
+    //endregion
+
 }

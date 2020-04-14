@@ -1,7 +1,6 @@
 package cn.yellowgg.ducksystem.mapper;
 
 import cn.yellowgg.ducksystem.entity.perm.Administrator;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.time.LocalDateTime;
@@ -12,7 +11,6 @@ import java.util.List;
  * @Author: yellowgg
  * @Date: Created in 2020/3/27 17:57
  */
-@Mapper
 public interface AdministratorMapper {
 
     //region 增

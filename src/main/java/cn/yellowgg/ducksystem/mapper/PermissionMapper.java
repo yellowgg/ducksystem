@@ -1,7 +1,6 @@
 package cn.yellowgg.ducksystem.mapper;
 
 import cn.yellowgg.ducksystem.entity.perm.Permission;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Collection;
@@ -12,7 +11,6 @@ import java.util.List;
  * @Author: yellowgg
  * @Date: Created in 2020/3/26 15:28
  */
-@Mapper
 public interface PermissionMapper {
 
     //region 增

@@ -1,5 +1,7 @@
 package cn.yellowgg.ducksystem.enums;
 
+import cn.yellowgg.ducksystem.constant.UtilConstants;
+
 /**
  * @Description: 性别枚举
  * @Author: yellowgg
@@ -7,8 +9,9 @@ package cn.yellowgg.ducksystem.enums;
  */
 public enum SexEnum {
 
-    MAN(0, "男"),
-    WOMAN(1, "女"),
+    UNKNOW(UtilConstants.Number.ZERO, "未知"),
+    MAN(UtilConstants.Number.ONE, "男"),
+    WOMAN(UtilConstants.Number.TWO, "女"),
 
     ;
 
@@ -26,6 +29,6 @@ public enum SexEnum {
                 return each.sexStr;
             }
         }
-        return "未知";
+        return "性别异常";
     }
 }

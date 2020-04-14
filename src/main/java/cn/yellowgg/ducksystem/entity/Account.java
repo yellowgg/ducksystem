@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
  */
 @Data
 @ApiModel(value = "用户对象", description = "在本系统可以概念为学生，包含了基本的微信资料")
-
 public class Account extends BaseEntity {
     private String openId;
     private String nickName;

@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 /**
@@ -72,7 +71,7 @@ public class AdmingMgr {
     @ResponseBody
     public ServiceResult updatePwd(@NotBlank(message = "输个新密码好吗") String newPwd,
                                    @NotBlank(message = "有内鬼，停止交易") String oldPwd,
-                                   @NotNull @Base64DecodeStr String adminId) {
+                                   @NotBlank(message = "你想改谁") @Base64DecodeStr String adminId) {
         Administrator admin = new Administrator(ShiroUtils.createMD5Pwd(oldPwd, 3), Long.parseLong(adminId));
         if (Objects.isNull(adminService.findByIdAndPassword(admin))) {
             return ServiceResult.asFail("原密码不正确");

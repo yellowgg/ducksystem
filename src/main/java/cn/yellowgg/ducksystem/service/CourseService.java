@@ -6,7 +6,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;import java.util.List;
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @Description:
@@ -66,6 +67,10 @@ public class CourseService {
 
     public int batchInsert(List<Course> list) {
         return courseMapper.batchInsert(list);
+    }
+
+    public List<Course> queryAll() {
+        return courseMapper.queryByAllSelectiveOrderById(null);
     }
 }
 

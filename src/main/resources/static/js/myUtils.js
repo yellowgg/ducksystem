@@ -238,3 +238,15 @@ function isBlank(str) {
     }
     return false;
 };
+
+function bangEnter(id) {
+    // 绑定回车
+    document.onkeydown = function (e) {
+        if (!e)
+            e = window.event;//火狐中是 window.event
+        if ((e.keyCode || e.which) == 13) {
+            document.getElementById(id).click();
+        }
+    }
+}
+

@@ -1,35 +1,53 @@
 package cn.yellowgg.ducksystem.entity;
 
+import cn.yellowgg.ducksystem.constant.UtilConstants;
 import cn.yellowgg.ducksystem.entity.base.BaseEntity;
-import io.swagger.annotations.ApiModel;
+import cn.yellowgg.ducksystem.enums.CourseTypeEnum;
+import com.fasterxml.jackson.annotation.JsonGetter;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import org.hibernate.validator.constraints.Range;
 
+import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
+import java.util.Objects;
 
 /**
+ * @Description:
  * @Author: yellowgg
- * @Date: Created in 2020/3/25 11:12
+ * @Date: Created in 2020/4/15 15:38
  */
 @Data
-@ApiModel(value = "课程对象", description = "课程的一些信息")
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 public class Course extends BaseEntity {
-    private String name;
-    private Integer type;
-    private BigDecimal price;
-    /**
-     * 积分
-     */
-    private Integer integral;
-    /**
-     * 详情
-     */
-    private String details;
-    /**
-     * 特色
-     */
+    @NotBlank(message = "简介不能为空")
+    private String introduction;
+    @NotBlank(message = "特色不能为空")
     private String characteristical;
-    /**
-     * 简介
-     */
-    private String Introduction;
+    @NotBlank(message = "详情不能为空")
+    private String details;
+    @NotBlank(message = "图片不能为空")
+    private String imgUrl;
+    @NotBlank(message = "课程名字不能为空")
+    private String name;
+    @Range(min = 1, max = 100, message = "价格：1-10000")
+    private BigDecimal price;
+    @Range(min = 0, max = 4, message = "课程类型别乱来")
+    private Integer type;
+    @Range(min = 1, max = 100, message = "积分：1-100")
+    private Integer integral;
+    @Range(min = 0, max = 1, message = "1为热门 0为非热门")
+    private Integer isHotCourse;
+
+    @JsonGetter("typeShow")
+    public String typeShow() {
+        return CourseTypeEnum.getNameByValue(type);
+    }
+
+    @JsonGetter("isHotShow")
+    public String isHotShow() {
+        return Objects.nonNull(isHotCourse) && UtilConstants.Number.ZERO == isHotCourse ? "否" : "是";
+    }
 }

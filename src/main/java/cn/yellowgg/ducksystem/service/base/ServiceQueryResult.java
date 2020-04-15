@@ -36,6 +36,10 @@ public class ServiceQueryResult<T> {
         this.totalCount = totalCount;
     }
 
+    public static <T> ServiceQueryResult asSuccess(PageInfo<T> pageInfo) {
+        return ServiceQueryResult.asSuccess(pageInfo, UtilConstants.Str.EMPTYSTR);
+    }
+
     public static <T> ServiceQueryResult asSuccess(PageInfo<T> pageInfo, String msg) {
         return new ServiceQueryResult(HttpStatus.HTTP_OK, msg, pageInfo.getList(), UtilConstants.Bool.TRUE, pageInfo.getTotal());
     }

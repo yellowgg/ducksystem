@@ -27,7 +27,7 @@ public class AccountController {
     @ApiOperation("保存微信用户信息")
     @PostMapping("/saveAccount")
     public ServiceResult saveAccount(@Valid Account accout) {
-        return accountService.insert(accout) > UtilConstants.Number.ZERO
+        return accountService.register(accout) > UtilConstants.Number.ZERO
                 ? ServiceResult.asSuccess(null, "保存成功")
                 : ServiceResult.asFail("保存失败");
     }

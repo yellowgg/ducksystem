@@ -1,22 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>教师管理</title>
+    <title>课程列表</title>
     <link rel="stylesheet" href="/layui-v2.5.6/css/layui.css" media="all">
     <style type="text/css">
         body {
             padding: 20px;
-        }
-
-        .layui-form-pane .layui-form-label {
-            width: 65px;
-        }
-
-        .layui-table-view .layui-table {
-            position: relative;
-            width: 100%;
-            margin: 0;
         }
 
         /*layui表格显示完整图片*/
@@ -25,103 +15,100 @@
             white-space: normal;
         }
 
-        #addTeacherForm > div.layui-input-block.addTeacherForm_introduction > div > button {
+        #addOrUpCourseForm > div.needHidden > div > button {
             display: none;
         }
 
         /*layui 单元格设置纵向滚动条*/
-        .laytable-cell-1-0-7 {
+        .laytable-cell-1-0-7, .laytable-cell-1-0-8, .laytable-cell-1-0-9 {
             max-height: 100px;
             overflow-y: auto;
         }
-
     </style>
 </head>
 <body>
-<form class="layui-form layui-form-pane" action="" id="teacherSearchForm" method="post"
-      lay-filter="teacherSearchForm" onsubmit="return false;">
+<form class="layui-form layui-form-pane" action="" id="courseSearchForm" method="post"
+      lay-filter="courseSearchForm" onsubmit="return false;">
     <div class="layui-form-item">
-        <label class="layui-form-label">姓名</label>
+        <label class="layui-form-label">课程名字</label>
         <div class="layui-input-inline" style="width: 150px;">
-            <input type="text" name="name" id="name" placeholder="请输入姓名" autocomplete="off" class="layui-input">
+            <input type="text" name="name" id="name" placeholder="请输入课程名" autocomplete="off" class="layui-input">
         </div>
-        <label class="layui-form-label">性别</label>
+        <label class="layui-form-label">课程类型</label>
         <div class="layui-input-inline" style="width: 100px;">
-            <select lay-filter="sexSelected" name="sex" id="sex" lay-search>
+            <select lay-filter="sexSelected" name="type" id="type" lay-search>
                 <option value=""></option>
-                <option value="0">未知</option>
-                <option value="1">男</option>
-                <option value="2">女</option>
+                <option th:each="result : ${courseTypes}" th:value="${result.key}" th:text="${result.value}"></option>
             </select>
-        </div>
-        <label class="layui-form-label">学历</label>
-        <div class="layui-input-inline" style="width: 150px;">
-            <input type="text" name="education" id="education" placeholder="请输入学历" autocomplete="off"
-                   class="layui-input">
-        </div>
-        <label class="layui-form-label">职称</label>
-        <div class="layui-input-inline" style="width: 150px;">
-            <input type="text" name="jobTitle" id="jobTitle" placeholder="请输入职称" autocomplete="off" class="layui-input">
         </div>
         <button class="layui-btn" lay-submit lay-filter="submit" id="queryBtn">查询</button>
         <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-        <button type="button" id="addTeacherBtn" class="layui-btn layui-btn-normal">添加</button>
+        <button type="button" id="addBtn" class="layui-btn layui-btn-normal">添加</button>
     </div>
 </form>
-<table class="layui-hide" id="teacherTable" lay-filter="teacherTable"></table>
+<table class="layui-hide" id="courseTable" lay-filter="courseTable"></table>
 <script type="text/html" id="zizeng">
     {{d.LAY_TABLE_INDEX+1}}
 </script>
-<!--layui表格显示图片-->
 <script type="text/html" id="imgTpl">
-    <div><img src="{{ d.picUrl }}" style="width:150px; height:150px;"></div>
+    <div><img src="{{ d.imgUrl }}" style="width:150px; height:150px;"></div>
 </script>
 <script type="text/html" id="bar">
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
-<div id="addTeacherDialog" class="layui-form" style="display:none">
-    <form class="layui-form" method="post" id="addTeacherForm">
-        <label class="layui-form-label">姓名</label>
+<div id="addOrUpCourseDialog" class="layui-form" style="display:none">
+    <form class="layui-form" method="post" id="addOrUpCourseForm">
+        <label class="layui-form-label">名字</label>
         <div class="layui-input-block" style="width: 150px;">
-            <input type="text" name="name" id="addTeacherForm_name" required lay-verify="required" placeholder="请输入姓名"
+            <input type="text" name="name" id="form_name" required lay-verify="required" placeholder="请输入课程名"
                    autocomplete="off" class="layui-input">
         </div>
-        <label class="layui-form-label">性别</label>
+        <label class="layui-form-label">类型</label>
         <div class="layui-input-block" style="width: 150px;">
-            <select lay-filter="sexSelected" name="sex" id="addTeacherForm_sex">
-                <option value="0">未知</option>
-                <option value="1">男</option>
-                <option value="2">女</option>
+            <select lay-filter="typeSelected" name="type" id="form_type">
+                <option th:each="result : ${courseTypes}" th:value="${result.key}" th:text="${result.value}"></option>
             </select>
         </div>
-        <label class="layui-form-label">生日</label>
+        <label class="layui-form-label">是否热门</label>
         <div class="layui-input-block" style="width: 150px;">
-            <input type="text" required name="birthday" lay-verify="required" class="layui-input"
-                   id="addTeacherForm_day" readonly="" placeholder="请输入生日">
+            <select lay-filter="hotSelected" name="isHotCourse" id="form_hot">
+                <option value="1">是</option>
+                <option value="0">否</option>
+            </select>
         </div>
-        <label class="layui-form-label">学历</label>
+        <label class="layui-form-label">价格</label>
         <div class="layui-input-block" style="width: 150px;">
-            <input type="text" name="education" id="addTeacherForm_education" required lay-verify="required"
-                   placeholder="请输入学历" autocomplete="off" class="layui-input">
+            <input type="text" name="price" id="form_price" required lay-verify="required"
+                   placeholder="请输入价格" autocomplete="off" class="layui-input">
         </div>
-        <label class="layui-form-label">职称</label>
+        <label class="layui-form-label">积分</label>
         <div class="layui-input-block" style="width: 150px;">
-            <input type="text" name="jobTitle" id="addTeacherForm_jobTitle" required lay-verify="required"
-                   placeholder="请输入职称" autocomplete="off" class="layui-input">
+            <input type="text" name="integral" id="form_integral" required lay-verify="required"
+                   placeholder="买课赠送积分" autocomplete="off" class="layui-input">
         </div>
-        <label class="layui-form-label">介绍</label>
-        <div class="layui-input-block addTeacherForm_introduction">
-            <textarea name="introduction" id="addTeacherForm_introduction" style="width:70%;height:180px" required
-                      lay-verify="required" autocomplete="off" placeholder="请输入介绍" class="layui-textarea"></textarea>
+        <label class="layui-form-label">简介</label>
+        <div class="layui-input-block needHidden">
+            <textarea name="introduction" id="form_introduction" style="width:70%;height:180px" required
+                      lay-verify="required" autocomplete="off" placeholder="请输入简介" class="layui-textarea"></textarea>
         </div>
-        <label class="layui-form-label">头像</label>
+        <label class="layui-form-label">特色</label>
+        <div class="layui-input-block needHidden">
+            <textarea name="characteristical" id="form_charac" style="width:70%;height:180px" required
+                      lay-verify="required" autocomplete="off" placeholder="请输入特色" class="layui-textarea"></textarea>
+        </div>
+        <label class="layui-form-label">详情</label>
+        <div class="layui-input-block needHidden">
+            <textarea name="details" id="form_details" style="width:70%;height:180px" required
+                      lay-verify="required" autocomplete="off" placeholder="请输入详情" class="layui-textarea"></textarea>
+        </div>
+        <label class="layui-form-label">图片</label>
         <div class="layui-input-block">
-              <textarea name="picUrl" id="addTeacherForm_picUrl" style="width:70%;height:50px" required
+              <textarea name="imgUrl" id="form_srcurl" style="width:70%;height:50px" required
                         lay-verify="required" autocomplete="off" placeholder="上传图片后保留[img]标签的内容"
                         class="layui-textarea"></textarea>
         </div>
-        <input name="id" id="addTeacherForm_id" hidden>
+        <input name="id" id="form_id" hidden>
     </form>
 </div>
 </body>
@@ -139,16 +126,6 @@
             form = layui.form,
             laydate = layui.laydate;
 
-        //执行一个laydate实例
-        laydate.render({
-            elem: '#addTeacherForm_day' //指定元素
-            , theme: 'grid'
-            , trigger: 'click'
-            , value: '2020-04-01'
-            , max: '2020-12-31'
-            , format: 'yyyy-MM-dd HH:mm:ss'
-        });
-
         function addAndUpDialog(up, data) {
             var click = false;
             layer.open({
@@ -160,28 +137,30 @@
                 btnAlign: 'c',
                 shadeClose: true,
                 area: ['480px', '655px'],
-                content: $('#addTeacherDialog'),
+                content: $('#addOrUpCourseDialog'),
                 success: function (layero, index) {
                     if (up) {
-                        $('#addTeacherForm_name').val(data.name);
-                        $('#addTeacherForm_sex').val(data.sex);
-                        $('#addTeacherForm_day').val(data.birthdayShow);
-                        $('#addTeacherForm_education').val(data.education);
-                        $('#addTeacherForm_jobTitle').val(data.jobTitle);
-                        $('#addTeacherForm_introduction').val(data.introduction);
-                        $('#addTeacherForm_picUrl').val(data.picUrl);
-                        $('#addTeacherForm_id').val(data.id);
+                        $('#form_srcurl').val(data.imgUrl);
+                        $('#form_details').val(data.details);
+                        $('#form_charac').val(data.characteristical);
+                        $('#form_introduction').val(data.introduction);
+                        $('#form_integral').val(data.integral);
+                        $('#form_price').val(data.price);
+                        $('#form_hot').val(data.isHotCourse);
+                        $('#form_type').val(data.type);
+                        $('#form_name').val(data.name);
+                        $('#form_id').val(data.id);
                         form.render('select');
                     } else {
-                        document.getElementById("addTeacherForm").reset();
+                        document.getElementById("addOrUpCourseForm").reset();
                     }
                 },
                 yes: function () {
                     if (!click) {
                         click = true;
                         $.post({
-                            url: "/teacher/addOrUp"
-                            , data: $('#addTeacherForm').serializeArray()
+                            url: "/course/addOrUp"
+                            , data: $('#addOrUpCourseForm').serializeArray()
                             , success: function (resp) {
                                 layer.msg(resp.msg);
                                 setTimeout(function () {
@@ -204,9 +183,9 @@
 
         //执行一个 table 实例
         var tableReload = table.render({
-            elem: '#teacherTable'
+            elem: '#courseTable'
             , id: 'id'
-            , url: '/teacher/data' //数据接口
+            , url: '/course/data' //数据接口
             , page: {
                 limit: 3 //一页显示多少条
                 , limits: [1, 2, 3]
@@ -216,13 +195,15 @@
             , even: true // 隔行背景
             , cols: [[{type: 'radio', fixed: 'left', hide: true}
                 , {field: 'zizeng', sort: true, title: '序号', align: 'center', templet: '#zizeng', width: 80}
-                , {field: 'name', sort: true, title: '姓名', width: 100, align: 'center'}
-                , {field: 'sexShow', sort: true, title: '性别', align: 'center', width: 80}
-                , {field: 'age', title: '年龄', sort: true, width: 80, align: 'center'}
-                , {field: 'education', title: '学历', sort: true, width: 100, align: 'center'}
-                , {field: 'jobTitle', title: '职称', sort: true, width: 140, align: 'center'}
-                , {field: 'introduction', title: '介绍', sort: true, align: 'center'}
-                , {field: 'picUrl', title: '照片', align: 'center', templet: '#imgTpl'}
+                , {field: 'name', sort: true, title: '课程名', width: 100, align: 'center'}
+                , {field: 'typeShow', sort: true, title: '类型', align: 'center', width: 80}
+                , {field: 'isHotShow', title: '热门', sort: true, width: 80, align: 'center'}
+                , {field: 'integral', title: '积分', sort: true, width: 100, align: 'center'}
+                , {field: 'price', title: '价格(￥)', sort: true, width: 140, align: 'center'}
+                , {field: 'introduction', title: '简介', sort: true, align: 'center'}
+                , {field: 'characteristical', title: '特色', sort: true, align: 'center'}
+                , {field: 'details', title: '详情', sort: true, align: 'center'}
+                , {field: 'imgUrl', title: '图片', align: 'center', templet: '#imgTpl'}
                 , {title: '操作', width: 120, align: 'center', toolbar: '#bar'}]
             ]
             , request: {
@@ -236,10 +217,14 @@
             }
         });
 
+        $('#addBtn').on("click", function () {
+            addAndUpDialog(false);
+        });
+
         // 表格的重载
         function tableReloadmethod() {
             tableReload.reload({
-                where: form.val("teacherSearchForm")
+                where: form.val("courseSearchForm")
                 , page: {curr: 1}
             });
         }
@@ -249,21 +234,16 @@
             tableReloadmethod();
         });
 
-        // 添加老师
-        $('#addTeacherBtn').on("click", function () {
-            addAndUpDialog(false);
-        });
-
         //监听工具条
-        table.on('tool(teacherTable)', function (obj) {
+        table.on('tool(courseTable)', function (obj) {
             var data = obj.data;
             if (obj.event === 'del') {
-                layer.confirm('要开除这位老师吗？', {
+                layer.confirm('要删除此课程吗？', {
                     btn: ['是的', '不了'],
                     shadeClose: true
                 }, function () {
                     $.post({
-                        url: "/teacher/del/" + encode(data.id.toString())
+                        url: "/course/del/" + encode(data.id.toString())
                         , success: function (resp) {
                             layer.msg(resp.msg);
                             setTimeout(function () {

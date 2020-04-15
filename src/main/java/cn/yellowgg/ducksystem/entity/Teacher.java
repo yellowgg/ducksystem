@@ -10,10 +10,9 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
@@ -31,8 +30,7 @@ public class Teacher extends BaseEntity {
     @NotBlank(message = "头像不能为空")
     @ApiModelProperty(value = "照片URL")
     private String picUrl;
-    @Min(value = 0, message = "性别选择不正确")
-    @Max(value = 2, message = "性别选择不正确")
+    @Range(min = 0, max = 2, message = "0未知 1男 2女")
     @ApiModelProperty(hidden = true)
     private Integer sex;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

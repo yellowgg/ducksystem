@@ -450,12 +450,6 @@
         </trim>
         on duplicate key update
         <trim suffixOverrides=",">
-            <if test="id != null">
-                id = #{id,jdbcType=BIGINT},
-            </if>
-            <if test="gmtModify != null">
-                gmtModify = #{gmtModify,jdbcType=TIMESTAMP},
-            </if>
             <if test="birthday != null">
                 birthday = #{birthday,jdbcType=TIMESTAMP},
             </if>

@@ -150,6 +150,7 @@
         });
 
         function addAndUpDialog(up, data) {
+            var click = false;
             layer.open({
                 type: 1,
                 anim: 1,
@@ -194,6 +195,8 @@
                                 layer.msg(resp.msg);
                             }
                         });
+                    } else {
+                        layer.msg("请不要重复点击");
                     }
                 }
             });
@@ -220,7 +223,7 @@
                 , {field: 'jobTitle', title: '职称', sort: true, width: 140, align: 'center'}
                 , {field: 'introduction', title: '介绍', sort: true, align: 'center'}
                 , {field: 'picUrl', title: '照片', align: 'center', templet: '#imgTpl'}
-                , {fixed: 'right', title: '操作', width: 120, align: 'center', toolbar: '#bar'}]
+                , {title: '操作', width: 120, align: 'center', toolbar: '#bar'}]
             ]
             , request: {
                 pageName: 'pageNum' //页码的参数名称，默认：page
@@ -247,7 +250,6 @@
         });
 
         // 添加老师
-        var click = false;
         $('#addTeacherBtn').on("click", function () {
             addAndUpDialog(false);
         });

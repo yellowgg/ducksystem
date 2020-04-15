@@ -41,7 +41,7 @@ public class Account extends BaseEntity {
     private String language;
     @Min(value = 0, message = "性别选择不正确")
     @Max(value = 2, message = "性别选择不正确")
-    @ApiModelProperty(value = "性别", example = "0未知 1男 2女", required = true)
+    @ApiModelProperty(value = "性别 0未知 1男 2女", required = true)
     private Integer gender;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonIgnore

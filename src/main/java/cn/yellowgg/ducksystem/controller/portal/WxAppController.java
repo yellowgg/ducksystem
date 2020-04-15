@@ -41,14 +41,21 @@ public class WxAppController {
     @Autowired
     AccountService accountService;
 
-    @ApiOperation(value = "获取用户信息", notes = "如果没有用户信息设置success为false且只返回openid")
-    @GetMapping("/openId/{code}")
+    @ApiOperation(value = "获取用户信息-code", notes = "如果没有用户信息设置success为false且只返回openid")
+    @GetMapping("/getInfoBycode/{code}")
     @ResponseBody
-    public ServiceResult<Account> openId(@PathVariable
-                                         @NotBlank(message = "code不能为空")
-                                         @ApiParam(value = "wx.login获取的code") String code) {
+    public ServiceResult<Account> getInfoBycode(@PathVariable
+                                                @NotBlank(message = "code不能为空")
+                                                @ApiParam(value = "wx.login获取的code") String code) {
         String data = HttpRequest.get(getRequestUrl(code)).execute().body();
-        String openId = JSONUtil.parse(data).getByPath("openid").toString();
+        return getInfoByOpenId(JSONUtil.parse(data).getByPath("openid").toString());
+    }
+
+    @ApiOperation(value = "获取用户信息-openid", notes = "如果没有用户信息设置success为false且只返回openid")
+    @GetMapping("/getInfoByOpenId/{openId}")
+    @ResponseBody
+    public ServiceResult<Account> getInfoByOpenId(@NotBlank(message = "openid不能为空")
+                                                  @PathVariable String openId) {
         Account account = accountService.findByOpenId(openId);
         return Objects.isNull(account) ? ServiceResult.asFail(openId, "用户未授权") : ServiceResult.asSuccess(account);
     }

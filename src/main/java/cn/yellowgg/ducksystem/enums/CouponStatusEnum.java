@@ -1,5 +1,7 @@
 package cn.yellowgg.ducksystem.enums;
 
+import cn.yellowgg.ducksystem.constant.UtilConstants;
+
 /**
  * @Description:优惠券状态枚举
  * @Author: yellowgg
@@ -7,10 +9,12 @@ package cn.yellowgg.ducksystem.enums;
  */
 public enum CouponStatusEnum {
 
-    AVAILABLE(1, "可使用"),
-    UNAVAILABLE(2, "不可用"),
-    EXPIRED(3, "已过期"),
+    AVAILABLE(UtilConstants.Number.ONE, "可使用"),
+    UNAVAILABLE(UtilConstants.Number.TWO, "不可用"),
+    EXPIRED(UtilConstants.Number.THREE, "已过期"),
+
     ;
+
     private Integer value;
     private String name;
 

@@ -32,10 +32,12 @@ public class TeacherMgr {
 
     @GetMapping("/data")
     @ResponseBody
-    public ServiceQueryResult getData(@RequestParam(defaultValue = "1") Integer page,
-                                      @RequestParam(defaultValue = "10") Integer limit,
+    public ServiceQueryResult getData(@RequestParam(defaultValue = "1") Integer pageNum,
+                                      @RequestParam(defaultValue = "10") Integer pageSize,
                                       Teacher teacher) {
-        return ServiceQueryResult.asSuccess(teacherService.queryByAllOrderByIdwithPage(page, limit, teacher), null);
+        return ServiceQueryResult.asSuccess(
+                teacherService.queryByAllOrderByIdwithPage(pageNum, pageSize, teacher),
+                UtilConstants.Str.EMPTYSTR);
     }
 
     @PostMapping("/addOrUp")

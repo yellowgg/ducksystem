@@ -29,7 +29,7 @@ public class CustomExceptionResolver {
     @ExceptionHandler(value = Exception.class)
     public ServiceResult errorHandler(Exception ex) {
         log.info("【全局异常捕捉】", ex);
-        return ServiceResult.asFail(HttpStatus.HTTP_INTERNAL_ERROR, "系统错误，请稍后重试");
+        return ServiceResult.asFail("系统错误，请稍后重试");
     }
 
     /**

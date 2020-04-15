@@ -1,5 +1,7 @@
 package cn.yellowgg.ducksystem.enums;
 
+import cn.yellowgg.ducksystem.constant.UtilConstants;
+
 /**
  * @Description: 课程类型枚举
  * @Author: yellowgg
@@ -7,11 +9,11 @@ package cn.yellowgg.ducksystem.enums;
  */
 public enum CourseTypeEnum {
 
-    FULLCLASS(0, "全程班"),
-    FEATURESCLASS(1, "特色班"),
-    EMPLOYCLASS(2, "就业班"),
-    COMMONCLASS(3, "普通班"),
-    COMBATCLASS(4, "实战班"),
+    FULLCLASS(UtilConstants.Number.ZERO, "全程班"),
+    FEATURESCLASS(UtilConstants.Number.ONE, "特色班"),
+    EMPLOYCLASS(UtilConstants.Number.TWO, "就业班"),
+    COMMONCLASS(UtilConstants.Number.THREE, "普通班"),
+    COMBATCLASS(UtilConstants.Number.FOUR, "实战班"),
     ;
 
     private Integer value;

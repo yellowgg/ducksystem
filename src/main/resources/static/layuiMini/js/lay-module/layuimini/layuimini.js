@@ -45,7 +45,7 @@ layui.define(["element", "jquery"], function (exports) {
             layuimini.initBgColor();
             layuimini.initDevice();
             $.getJSON(url, function (data, status) {
-                data = data.obj;
+                data = data.data;
                 if (data == null) {
                     layuimini.msg_error('暂无菜单信息');
                 } else {

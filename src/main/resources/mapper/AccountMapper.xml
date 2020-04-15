@@ -1,0 +1,569 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.yellowgg.ducksystem.mapper.AccountMapper">
+    <resultMap id="BaseResultMap" type="cn.yellowgg.ducksystem.entity.Account">
+        <!--@mbg.generated-->
+        <!--@Table account-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="gmtCreate" jdbcType="TIMESTAMP" property="gmtCreate"/>
+        <result column="gmtModify" jdbcType="TIMESTAMP" property="gmtModify"/>
+        <result column="isDelete" jdbcType="INTEGER" property="isDelete"/>
+        <result column="avatarUrl" jdbcType="VARCHAR" property="avatarUrl"/>
+        <result column="birthday" jdbcType="TIMESTAMP" property="birthday"/>
+        <result column="city" jdbcType="VARCHAR" property="city"/>
+        <result column="country" jdbcType="VARCHAR" property="country"/>
+        <result column="gender" jdbcType="INTEGER" property="gender"/>
+        <result column="language" jdbcType="VARCHAR" property="language"/>
+        <result column="nickName" jdbcType="VARCHAR" property="nickName"/>
+        <result column="openId" jdbcType="VARCHAR" property="openId"/>
+        <result column="province" jdbcType="VARCHAR" property="province"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, gmtCreate, gmtModify, isDelete, avatarUrl, birthday, city, country, gender, `language`,
+        nickName, openId, province
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from account
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        <!--@mbg.generated-->
+        delete from account
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.yellowgg.ducksystem.entity.Account"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into account (gmtCreate, gmtModify, isDelete,
+        avatarUrl, birthday, city,
+        country, gender, `language`,
+        nickName, openId, province
+        )
+        values (#{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=INTEGER},
+        #{avatarUrl,jdbcType=VARCHAR}, #{birthday,jdbcType=TIMESTAMP}, #{city,jdbcType=VARCHAR},
+        #{country,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, #{language,jdbcType=VARCHAR},
+        #{nickName,jdbcType=VARCHAR}, #{openId,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.yellowgg.ducksystem.entity.Account"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into account
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="gmtCreate != null">
+                gmtCreate,
+            </if>
+            <if test="gmtModify != null">
+                gmtModify,
+            </if>
+            <if test="isDelete != null">
+                isDelete,
+            </if>
+            <if test="avatarUrl != null and avatarUrl != ''">
+                avatarUrl,
+            </if>
+            <if test="birthday != null">
+                birthday,
+            </if>
+            <if test="city != null and city != ''">
+                city,
+            </if>
+            <if test="country != null and country != ''">
+                country,
+            </if>
+            <if test="gender != null">
+                gender,
+            </if>
+            <if test="language != null and language != ''">
+                `language`,
+            </if>
+            <if test="nickName != null and nickName != ''">
+                nickName,
+            </if>
+            <if test="openId != null and openId != ''">
+                openId,
+            </if>
+            <if test="province != null and province != ''">
+                province,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModify != null">
+                #{gmtModify,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete,jdbcType=INTEGER},
+            </if>
+            <if test="avatarUrl != null and avatarUrl != ''">
+                #{avatarUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="birthday != null">
+                #{birthday,jdbcType=TIMESTAMP},
+            </if>
+            <if test="city != null and city != ''">
+                #{city,jdbcType=VARCHAR},
+            </if>
+            <if test="country != null and country != ''">
+                #{country,jdbcType=VARCHAR},
+            </if>
+            <if test="gender != null">
+                #{gender,jdbcType=INTEGER},
+            </if>
+            <if test="language != null and language != ''">
+                #{language,jdbcType=VARCHAR},
+            </if>
+            <if test="nickName != null and nickName != ''">
+                #{nickName,jdbcType=VARCHAR},
+            </if>
+            <if test="openId != null and openId != ''">
+                #{openId,jdbcType=VARCHAR},
+            </if>
+            <if test="province != null and province != ''">
+                #{province,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.yellowgg.ducksystem.entity.Account">
+        <!--@mbg.generated-->
+        update account
+        <set>
+            <if test="gmtCreate != null">
+                gmtCreate = #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModify != null">
+                gmtModify = #{gmtModify,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDelete != null">
+                isDelete = #{isDelete,jdbcType=INTEGER},
+            </if>
+            <if test="avatarUrl != null and avatarUrl != ''">
+                avatarUrl = #{avatarUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="birthday != null">
+                birthday = #{birthday,jdbcType=TIMESTAMP},
+            </if>
+            <if test="city != null and city != ''">
+                city = #{city,jdbcType=VARCHAR},
+            </if>
+            <if test="country != null and country != ''">
+                country = #{country,jdbcType=VARCHAR},
+            </if>
+            <if test="gender != null">
+                gender = #{gender,jdbcType=INTEGER},
+            </if>
+            <if test="language != null and language != ''">
+                `language` = #{language,jdbcType=VARCHAR},
+            </if>
+            <if test="nickName != null and nickName != ''">
+                nickName = #{nickName,jdbcType=VARCHAR},
+            </if>
+            <if test="openId != null and openId != ''">
+                openId = #{openId,jdbcType=VARCHAR},
+            </if>
+            <if test="province != null and province != ''">
+                province = #{province,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.yellowgg.ducksystem.entity.Account">
+        <!--@mbg.generated-->
+        update account
+        set gmtCreate = #{gmtCreate,jdbcType=TIMESTAMP},
+        gmtModify = #{gmtModify,jdbcType=TIMESTAMP},
+        isDelete = #{isDelete,jdbcType=INTEGER},
+        avatarUrl = #{avatarUrl,jdbcType=VARCHAR},
+        birthday = #{birthday,jdbcType=TIMESTAMP},
+        city = #{city,jdbcType=VARCHAR},
+        country = #{country,jdbcType=VARCHAR},
+        gender = #{gender,jdbcType=INTEGER},
+        `language` = #{language,jdbcType=VARCHAR},
+        nickName = #{nickName,jdbcType=VARCHAR},
+        openId = #{openId,jdbcType=VARCHAR},
+        province = #{province,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateBatch" parameterType="java.util.List">
+        <!--@mbg.generated-->
+        update account
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="gmtCreate = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=BIGINT} then #{item.gmtCreate,jdbcType=TIMESTAMP}
+                </foreach>
+            </trim>
+            <trim prefix="gmtModify = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=BIGINT} then #{item.gmtModify,jdbcType=TIMESTAMP}
+                </foreach>
+            </trim>
+            <trim prefix="isDelete = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=BIGINT} then #{item.isDelete,jdbcType=INTEGER}
+                </foreach>
+            </trim>
+            <trim prefix="avatarUrl = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=BIGINT} then #{item.avatarUrl,jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+            <trim prefix="birthday = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=BIGINT} then #{item.birthday,jdbcType=TIMESTAMP}
+                </foreach>
+            </trim>
+            <trim prefix="city = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=BIGINT} then #{item.city,jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+            <trim prefix="country = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=BIGINT} then #{item.country,jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+            <trim prefix="gender = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=BIGINT} then #{item.gender,jdbcType=INTEGER}
+                </foreach>
+            </trim>
+            <trim prefix="`language` = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=BIGINT} then #{item.language,jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+            <trim prefix="nickName = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=BIGINT} then #{item.nickName,jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+            <trim prefix="openId = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=BIGINT} then #{item.openId,jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+            <trim prefix="province = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=BIGINT} then #{item.province,jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+        </trim>
+        where id in
+        <foreach close=")" collection="list" item="item" open="(" separator=", ">
+            #{item.id,jdbcType=BIGINT}
+        </foreach>
+    </update>
+    <update id="updateBatchSelective" parameterType="java.util.List">
+        <!--@mbg.generated-->
+        update account
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="gmtCreate = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.gmtCreate != null">
+                        when id = #{item.id,jdbcType=BIGINT} then #{item.gmtCreate,jdbcType=TIMESTAMP}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="gmtModify = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.gmtModify != null">
+                        when id = #{item.id,jdbcType=BIGINT} then #{item.gmtModify,jdbcType=TIMESTAMP}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="isDelete = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.isDelete != null">
+                        when id = #{item.id,jdbcType=BIGINT} then #{item.isDelete,jdbcType=INTEGER}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="avatarUrl = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.avatarUrl != null">
+                        when id = #{item.id,jdbcType=BIGINT} then #{item.avatarUrl,jdbcType=VARCHAR}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="birthday = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.birthday != null">
+                        when id = #{item.id,jdbcType=BIGINT} then #{item.birthday,jdbcType=TIMESTAMP}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="city = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.city != null">
+                        when id = #{item.id,jdbcType=BIGINT} then #{item.city,jdbcType=VARCHAR}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="country = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.country != null">
+                        when id = #{item.id,jdbcType=BIGINT} then #{item.country,jdbcType=VARCHAR}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="gender = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.gender != null">
+                        when id = #{item.id,jdbcType=BIGINT} then #{item.gender,jdbcType=INTEGER}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="`language` = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.language != null">
+                        when id = #{item.id,jdbcType=BIGINT} then #{item.language,jdbcType=VARCHAR}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="nickName = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.nickName != null">
+                        when id = #{item.id,jdbcType=BIGINT} then #{item.nickName,jdbcType=VARCHAR}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="openId = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.openId != null">
+                        when id = #{item.id,jdbcType=BIGINT} then #{item.openId,jdbcType=VARCHAR}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="province = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.province != null">
+                        when id = #{item.id,jdbcType=BIGINT} then #{item.province,jdbcType=VARCHAR}
+                    </if>
+                </foreach>
+            </trim>
+        </trim>
+        where id in
+        <foreach close=")" collection="list" item="item" open="(" separator=", ">
+            #{item.id,jdbcType=BIGINT}
+        </foreach>
+    </update>
+    <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into account
+        (gmtCreate, gmtModify, isDelete, avatarUrl, birthday, city, country, gender, `language`,
+        nickName, openId, province)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.gmtCreate,jdbcType=TIMESTAMP}, #{item.gmtModify,jdbcType=TIMESTAMP},
+            #{item.isDelete,jdbcType=INTEGER},
+            #{item.avatarUrl,jdbcType=VARCHAR}, #{item.birthday,jdbcType=TIMESTAMP}, #{item.city,jdbcType=VARCHAR},
+            #{item.country,jdbcType=VARCHAR}, #{item.gender,jdbcType=INTEGER}, #{item.language,jdbcType=VARCHAR},
+            #{item.nickName,jdbcType=VARCHAR}, #{item.openId,jdbcType=VARCHAR}, #{item.province,jdbcType=VARCHAR}
+            )
+        </foreach>
+    </insert>
+    <insert id="insertOrUpdate" keyColumn="id" keyProperty="id" parameterType="cn.yellowgg.ducksystem.entity.Account"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into account
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            gmtCreate,
+            gmtModify,
+            isDelete,
+            avatarUrl,
+            birthday,
+            city,
+            country,
+            gender,
+            `language`,
+            nickName,
+            openId,
+            province,
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            #{gmtCreate,jdbcType=TIMESTAMP},
+            #{gmtModify,jdbcType=TIMESTAMP},
+            #{isDelete,jdbcType=INTEGER},
+            #{avatarUrl,jdbcType=VARCHAR},
+            #{birthday,jdbcType=TIMESTAMP},
+            #{city,jdbcType=VARCHAR},
+            #{country,jdbcType=VARCHAR},
+            #{gender,jdbcType=INTEGER},
+            #{language,jdbcType=VARCHAR},
+            #{nickName,jdbcType=VARCHAR},
+            #{openId,jdbcType=VARCHAR},
+            #{province,jdbcType=VARCHAR},
+        </trim>
+        on duplicate key update
+        <trim suffixOverrides=",">
+            <if test="id != null">
+                id = #{id,jdbcType=BIGINT},
+            </if>
+            gmtCreate = #{gmtCreate,jdbcType=TIMESTAMP},
+            gmtModify = #{gmtModify,jdbcType=TIMESTAMP},
+            isDelete = #{isDelete,jdbcType=INTEGER},
+            avatarUrl = #{avatarUrl,jdbcType=VARCHAR},
+            birthday = #{birthday,jdbcType=TIMESTAMP},
+            city = #{city,jdbcType=VARCHAR},
+            country = #{country,jdbcType=VARCHAR},
+            gender = #{gender,jdbcType=INTEGER},
+            `language` = #{language,jdbcType=VARCHAR},
+            nickName = #{nickName,jdbcType=VARCHAR},
+            openId = #{openId,jdbcType=VARCHAR},
+            province = #{province,jdbcType=VARCHAR},
+        </trim>
+    </insert>
+    <insert id="insertOrUpdateSelective" keyColumn="id" keyProperty="id"
+            parameterType="cn.yellowgg.ducksystem.entity.Account" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into account
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="gmtCreate != null">
+                gmtCreate,
+            </if>
+            <if test="gmtModify != null">
+                gmtModify,
+            </if>
+            <if test="isDelete != null">
+                isDelete,
+            </if>
+            <if test="avatarUrl != null">
+                avatarUrl,
+            </if>
+            <if test="birthday != null">
+                birthday,
+            </if>
+            <if test="city != null">
+                city,
+            </if>
+            <if test="country != null">
+                country,
+            </if>
+            <if test="gender != null">
+                gender,
+            </if>
+            <if test="language != null">
+                `language`,
+            </if>
+            <if test="nickName != null">
+                nickName,
+            </if>
+            <if test="openId != null">
+                openId,
+            </if>
+            <if test="province != null">
+                province,
+            </if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModify != null">
+                #{gmtModify,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete,jdbcType=INTEGER},
+            </if>
+            <if test="avatarUrl != null">
+                #{avatarUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="birthday != null">
+                #{birthday,jdbcType=TIMESTAMP},
+            </if>
+            <if test="city != null">
+                #{city,jdbcType=VARCHAR},
+            </if>
+            <if test="country != null">
+                #{country,jdbcType=VARCHAR},
+            </if>
+            <if test="gender != null">
+                #{gender,jdbcType=INTEGER},
+            </if>
+            <if test="language != null">
+                #{language,jdbcType=VARCHAR},
+            </if>
+            <if test="nickName != null">
+                #{nickName,jdbcType=VARCHAR},
+            </if>
+            <if test="openId != null">
+                #{openId,jdbcType=VARCHAR},
+            </if>
+            <if test="province != null">
+                #{province,jdbcType=VARCHAR},
+            </if>
+        </trim>
+        on duplicate key update
+        <trim suffixOverrides=",">
+            <if test="id != null">
+                id = #{id,jdbcType=BIGINT},
+            </if>
+            <if test="gmtCreate != null">
+                gmtCreate = #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModify != null">
+                gmtModify = #{gmtModify,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDelete != null">
+                isDelete = #{isDelete,jdbcType=INTEGER},
+            </if>
+            <if test="avatarUrl != null">
+                avatarUrl = #{avatarUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="birthday != null">
+                birthday = #{birthday,jdbcType=TIMESTAMP},
+            </if>
+            <if test="city != null">
+                city = #{city,jdbcType=VARCHAR},
+            </if>
+            <if test="country != null">
+                country = #{country,jdbcType=VARCHAR},
+            </if>
+            <if test="gender != null">
+                gender = #{gender,jdbcType=INTEGER},
+            </if>
+            <if test="language != null">
+                `language` = #{language,jdbcType=VARCHAR},
+            </if>
+            <if test="nickName != null">
+                nickName = #{nickName,jdbcType=VARCHAR},
+            </if>
+            <if test="openId != null">
+                openId = #{openId,jdbcType=VARCHAR},
+            </if>
+            <if test="province != null">
+                province = #{province,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <!--auto generated by MybatisCodeHelper on 2020-04-15-->
+    <select id="findByOpenId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from account
+        where openId=#{openId,jdbcType=VARCHAR} and isDelete = 0
+    </select>
+
+</mapper>

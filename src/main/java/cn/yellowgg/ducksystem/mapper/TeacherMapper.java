@@ -1,7 +1,6 @@
 package cn.yellowgg.ducksystem.mapper;
 
 import cn.yellowgg.ducksystem.entity.Teacher;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -11,7 +10,6 @@ import java.util.List;
  * @Author: yellowgg
  * @Date: Created in 2020/4/11 21:11
  */
-@Mapper
 public interface TeacherMapper {
     //region 增
     int insertOrUpdateSelective(Teacher record);

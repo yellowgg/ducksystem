@@ -1,7 +1,6 @@
 package cn.yellowgg.ducksystem.mapper;
 
 import cn.yellowgg.ducksystem.entity.association.AdminAndRole;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -11,7 +10,6 @@ import java.util.List;
  * @Author: yellowgg
  * @Date: Created in 2020/3/26 15:29
  */
-@Mapper
 public interface AdminandroleMapper {
 
     //region 增

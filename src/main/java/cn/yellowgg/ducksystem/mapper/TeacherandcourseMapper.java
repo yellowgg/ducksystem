@@ -1,7 +1,6 @@
 package cn.yellowgg.ducksystem.mapper;
 
 import cn.yellowgg.ducksystem.entity.association.TeacherAndCourse;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -12,7 +11,6 @@ import java.util.List;
  * @Author: yellowgg
  * @Date: Created in 2020/4/13 13:46
  */
-@Mapper
 public interface TeacherandcourseMapper {
     /**
      * delete by primary key

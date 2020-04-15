@@ -32,7 +32,7 @@ public class Teacher extends BaseEntity {
     @ApiModelProperty(value = "照片URL")
     private String picUrl;
     @Min(value = 0, message = "性别选择不正确")
-    @Max(value = 1, message = "性别选择不正确")
+    @Max(value = 2, message = "性别选择不正确")
     @ApiModelProperty(hidden = true)
     private Integer sex;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

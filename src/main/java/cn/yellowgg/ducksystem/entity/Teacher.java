@@ -30,7 +30,7 @@ public class Teacher extends BaseEntity {
     @NotBlank(message = "头像不能为空")
     @ApiModelProperty(value = "照片URL")
     private String picUrl;
-    @Range(min = 0, max = 2, message = "0未知 1男 2女")
+    @Range(max = 2, message = "0未知 1男 2女")
     @ApiModelProperty(hidden = true)
     private Integer sex;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

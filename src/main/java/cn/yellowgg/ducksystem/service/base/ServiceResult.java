@@ -50,9 +50,7 @@ public class ServiceResult<T> {
         return new ServiceResult(HttpStatus.HTTP_INTERNAL_ERROR, msg, data, UtilConstants.Bool.FALSE);
     }
 
-    /**
-     * @param code 状态码
-     */
+
     public static ServiceResult asFail(Integer code, String msg) {
         return new ServiceResult(code, msg, null, UtilConstants.Bool.FALSE);
     }

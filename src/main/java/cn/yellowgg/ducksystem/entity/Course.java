@@ -34,11 +34,11 @@ public class Course extends BaseEntity {
     private String name;
     @Range(min = 1, max = 100, message = "价格：1-10000")
     private BigDecimal price;
-    @Range(min = 0, max = 4, message = "课程类型别乱来")
+    @Range(max = 4, message = "课程类型别乱来")
     private Integer type;
     @Range(min = 1, max = 100, message = "积分：1-100")
     private Integer integral;
-    @Range(min = 0, max = 1, message = "1为热门 0为非热门")
+    @Range(max = 1, message = "1为热门 0为非热门")
     private Integer isHotCourse;
 
     @JsonGetter("typeShow")

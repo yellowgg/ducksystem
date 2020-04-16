@@ -1,16 +1,16 @@
 package cn.yellowgg.ducksystem.entity;
 
+import cn.hutool.core.util.StrUtil;
 import cn.yellowgg.ducksystem.entity.base.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import java.time.LocalDateTime;
 
 /**
  * @Author: yellowgg
@@ -43,8 +43,22 @@ public class Account extends BaseEntity {
     @Max(value = 2, message = "性别选择不正确")
     @ApiModelProperty(value = "性别 0未知 1男 2女", required = true)
     private Integer gender;
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Range(max = 1, message = "1为管理员 0为非管理员")
+    @ApiModelProperty(value = "是否是管理员")
+    private Integer isAdmin;
+
+    /**
+     * 随便挑选几个字段看看是否已授权
+     */
     @JsonIgnore
-    @ApiModelProperty(hidden = true)
-    private LocalDateTime birthday;
+    public boolean hasInfo() {
+        return !StrUtil.isAllBlank(getNickName(), getAvatarUrl(), getCountry());
+    }
+
+    public static Account init(String openId, Integer isAdmin) {
+        Account account = new Account();
+        account.setOpenId(openId);
+        account.setIsAdmin(isAdmin);
+        return account;
+    }
 }

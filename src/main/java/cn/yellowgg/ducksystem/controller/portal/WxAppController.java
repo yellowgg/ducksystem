@@ -41,7 +41,7 @@ public class WxAppController {
     @Autowired
     AccountService accountService;
 
-    @ApiOperation(value = "获取用户信息-code", notes = "如果没有用户信息设置success为false且只返回openid")
+    @ApiOperation(value = "获取用户信息-code", notes = "如果没有用户信息设置success为false")
     @GetMapping("/getInfoBycode/{code}")
     @ResponseBody
     public ServiceResult<Account> getInfoBycode(@PathVariable
@@ -51,13 +51,18 @@ public class WxAppController {
         return getInfoByOpenId(JSONUtil.parse(data).getByPath("openid").toString());
     }
 
-    @ApiOperation(value = "获取用户信息-openid", notes = "如果没有用户信息设置success为false且只返回openid")
+    @ApiOperation(value = "获取用户信息-openid", notes = "如果没有用户信息设置success为false")
     @GetMapping("/getInfoByOpenId/{openId}")
     @ResponseBody
     public ServiceResult<Account> getInfoByOpenId(@NotBlank(message = "openid不能为空")
                                                   @PathVariable String openId) {
         Account account = accountService.findByOpenId(openId);
-        return Objects.isNull(account) ? ServiceResult.asFail(openId, "用户未授权") : ServiceResult.asSuccess(account);
+        if (Objects.isNull(account)) {
+            return ServiceResult.asFail(openId, "用户未授权");
+        }
+        return !account.hasInfo()
+                ? ServiceResult.asFail(account, "用户未授权，但已使用过小程序")
+                : ServiceResult.asSuccess(account);
     }
 
     /**

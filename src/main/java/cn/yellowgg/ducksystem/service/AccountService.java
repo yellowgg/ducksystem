@@ -27,8 +27,12 @@ public class AccountService {
      * 使用微信用户信息来注册
      */
     public int register(Account record) {
-        // TODO yellowgg 开通钱包、积分莎莎的 还有签到
-        return accountMapper.insert(record);
+        // TODO yellowgg 开通钱包、积分啥啥的 还有签到
+        return accountMapper.insertOrUpdateSelective(record);
+    }
+
+    public int addRole(Account record) {
+        return accountMapper.insertOrUpdateSelective(record);
     }
 
 

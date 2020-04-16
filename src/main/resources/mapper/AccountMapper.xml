@@ -9,7 +9,7 @@
         <result column="gmtModify" jdbcType="TIMESTAMP" property="gmtModify"/>
         <result column="isDelete" jdbcType="INTEGER" property="isDelete"/>
         <result column="avatarUrl" jdbcType="VARCHAR" property="avatarUrl"/>
-        <result column="birthday" jdbcType="TIMESTAMP" property="birthday"/>
+        <result column="isAdmin" jdbcType="INTEGER" property="isAdmin"/>
         <result column="city" jdbcType="VARCHAR" property="city"/>
         <result column="country" jdbcType="VARCHAR" property="country"/>
         <result column="gender" jdbcType="INTEGER" property="gender"/>
@@ -20,7 +20,7 @@
     </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
-        id, gmtCreate, gmtModify, isDelete, avatarUrl, birthday, city, country, gender, `language`,
+        id, gmtCreate, gmtModify, isDelete, avatarUrl, isAdmin, city, country, gender, `language`,
         nickName, openId, province
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -39,12 +39,12 @@
             useGeneratedKeys="true">
         <!--@mbg.generated-->
         insert into account (gmtCreate, gmtModify, isDelete,
-        avatarUrl, birthday, city,
+        avatarUrl, isAdmin, city,
         country, gender, `language`,
         nickName, openId, province
         )
         values (#{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=INTEGER},
-        #{avatarUrl,jdbcType=VARCHAR}, #{birthday,jdbcType=TIMESTAMP}, #{city,jdbcType=VARCHAR},
+        #{avatarUrl,jdbcType=VARCHAR}, #{isAdmin,jdbcType=TIMESTAMP}, #{city,jdbcType=VARCHAR},
         #{country,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, #{language,jdbcType=VARCHAR},
         #{nickName,jdbcType=VARCHAR}, #{openId,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}
         )
@@ -66,8 +66,8 @@
             <if test="avatarUrl != null and avatarUrl != ''">
                 avatarUrl,
             </if>
-            <if test="birthday != null">
-                birthday,
+            <if test="isAdmin != null">
+                isAdmin,
             </if>
             <if test="city != null and city != ''">
                 city,
@@ -104,8 +104,8 @@
             <if test="avatarUrl != null and avatarUrl != ''">
                 #{avatarUrl,jdbcType=VARCHAR},
             </if>
-            <if test="birthday != null">
-                #{birthday,jdbcType=TIMESTAMP},
+            <if test="isAdmin != null">
+                #{isAdmin,jdbcType=TIMESTAMP},
             </if>
             <if test="city != null and city != ''">
                 #{city,jdbcType=VARCHAR},
@@ -146,8 +146,8 @@
             <if test="avatarUrl != null and avatarUrl != ''">
                 avatarUrl = #{avatarUrl,jdbcType=VARCHAR},
             </if>
-            <if test="birthday != null">
-                birthday = #{birthday,jdbcType=TIMESTAMP},
+            <if test="isAdmin != null">
+                isAdmin = #{isAdmin,jdbcType=TIMESTAMP},
             </if>
             <if test="city != null and city != ''">
                 city = #{city,jdbcType=VARCHAR},
@@ -180,7 +180,7 @@
         gmtModify = #{gmtModify,jdbcType=TIMESTAMP},
         isDelete = #{isDelete,jdbcType=INTEGER},
         avatarUrl = #{avatarUrl,jdbcType=VARCHAR},
-        birthday = #{birthday,jdbcType=TIMESTAMP},
+        isAdmin = #{isAdmin,jdbcType=TIMESTAMP},
         city = #{city,jdbcType=VARCHAR},
         country = #{country,jdbcType=VARCHAR},
         gender = #{gender,jdbcType=INTEGER},
@@ -214,9 +214,9 @@
                     when id = #{item.id,jdbcType=BIGINT} then #{item.avatarUrl,jdbcType=VARCHAR}
                 </foreach>
             </trim>
-            <trim prefix="birthday = case" suffix="end,">
+            <trim prefix="isAdmin = case" suffix="end,">
                 <foreach collection="list" index="index" item="item">
-                    when id = #{item.id,jdbcType=BIGINT} then #{item.birthday,jdbcType=TIMESTAMP}
+                    when id = #{item.id,jdbcType=BIGINT} then #{item.isAdmin,jdbcType=TIMESTAMP}
                 </foreach>
             </trim>
             <trim prefix="city = case" suffix="end,">
@@ -292,10 +292,10 @@
                     </if>
                 </foreach>
             </trim>
-            <trim prefix="birthday = case" suffix="end,">
+            <trim prefix="isAdmin = case" suffix="end,">
                 <foreach collection="list" index="index" item="item">
-                    <if test="item.birthday != null">
-                        when id = #{item.id,jdbcType=BIGINT} then #{item.birthday,jdbcType=TIMESTAMP}
+                    <if test="item.isAdmin != null">
+                        when id = #{item.id,jdbcType=BIGINT} then #{item.isAdmin,jdbcType=TIMESTAMP}
                     </if>
                 </foreach>
             </trim>
@@ -357,13 +357,13 @@
     <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
         <!--@mbg.generated-->
         insert into account
-        (gmtCreate, gmtModify, isDelete, avatarUrl, birthday, city, country, gender, `language`,
+        (gmtCreate, gmtModify, isDelete, avatarUrl, isAdmin, city, country, gender, `language`,
         nickName, openId, province)
         values
         <foreach collection="list" item="item" separator=",">
             (#{item.gmtCreate,jdbcType=TIMESTAMP}, #{item.gmtModify,jdbcType=TIMESTAMP},
             #{item.isDelete,jdbcType=INTEGER},
-            #{item.avatarUrl,jdbcType=VARCHAR}, #{item.birthday,jdbcType=TIMESTAMP}, #{item.city,jdbcType=VARCHAR},
+            #{item.avatarUrl,jdbcType=VARCHAR}, #{item.isAdmin,jdbcType=TIMESTAMP}, #{item.city,jdbcType=VARCHAR},
             #{item.country,jdbcType=VARCHAR}, #{item.gender,jdbcType=INTEGER}, #{item.language,jdbcType=VARCHAR},
             #{item.nickName,jdbcType=VARCHAR}, #{item.openId,jdbcType=VARCHAR}, #{item.province,jdbcType=VARCHAR}
             )
@@ -381,7 +381,7 @@
             gmtModify,
             isDelete,
             avatarUrl,
-            birthday,
+            isAdmin,
             city,
             country,
             gender,
@@ -399,7 +399,7 @@
             #{gmtModify,jdbcType=TIMESTAMP},
             #{isDelete,jdbcType=INTEGER},
             #{avatarUrl,jdbcType=VARCHAR},
-            #{birthday,jdbcType=TIMESTAMP},
+            #{isAdmin,jdbcType=TIMESTAMP},
             #{city,jdbcType=VARCHAR},
             #{country,jdbcType=VARCHAR},
             #{gender,jdbcType=INTEGER},
@@ -417,7 +417,7 @@
             gmtModify = #{gmtModify,jdbcType=TIMESTAMP},
             isDelete = #{isDelete,jdbcType=INTEGER},
             avatarUrl = #{avatarUrl,jdbcType=VARCHAR},
-            birthday = #{birthday,jdbcType=TIMESTAMP},
+            isAdmin = #{isAdmin,jdbcType=TIMESTAMP},
             city = #{city,jdbcType=VARCHAR},
             country = #{country,jdbcType=VARCHAR},
             gender = #{gender,jdbcType=INTEGER},
@@ -447,8 +447,8 @@
             <if test="avatarUrl != null">
                 avatarUrl,
             </if>
-            <if test="birthday != null">
-                birthday,
+            <if test="isAdmin != null">
+                isAdmin,
             </if>
             <if test="city != null">
                 city,
@@ -489,8 +489,8 @@
             <if test="avatarUrl != null">
                 #{avatarUrl,jdbcType=VARCHAR},
             </if>
-            <if test="birthday != null">
-                #{birthday,jdbcType=TIMESTAMP},
+            <if test="isAdmin != null">
+                #{isAdmin,jdbcType=TIMESTAMP},
             </if>
             <if test="city != null">
                 #{city,jdbcType=VARCHAR},
@@ -516,23 +516,14 @@
         </trim>
         on duplicate key update
         <trim suffixOverrides=",">
-            <if test="id != null">
-                id = #{id,jdbcType=BIGINT},
-            </if>
-            <if test="gmtCreate != null">
-                gmtCreate = #{gmtCreate,jdbcType=TIMESTAMP},
-            </if>
             <if test="gmtModify != null">
                 gmtModify = #{gmtModify,jdbcType=TIMESTAMP},
-            </if>
-            <if test="isDelete != null">
-                isDelete = #{isDelete,jdbcType=INTEGER},
             </if>
             <if test="avatarUrl != null">
                 avatarUrl = #{avatarUrl,jdbcType=VARCHAR},
             </if>
-            <if test="birthday != null">
-                birthday = #{birthday,jdbcType=TIMESTAMP},
+            <if test="isAdmin != null">
+                isAdmin = #{isAdmin,jdbcType=TIMESTAMP},
             </if>
             <if test="city != null">
                 city = #{city,jdbcType=VARCHAR},

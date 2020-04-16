@@ -71,7 +71,7 @@
                 layer.msg("密码不能为空");
                 return;
             }
-            data.password = $.encode64($.encode64($.encode64(pwd)));
+            data.password = jiami(pwd);
             data.userName = encode(data.userName);
             $.ajax({
                 url: "/login/logging",

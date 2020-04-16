@@ -92,7 +92,7 @@
 </div>
 <script src="/layui-v2.5.6/layui.js" charset="utf-8"></script>
 <script src="/layuiMini/js/lay-config.js" charset="utf-8"></script>
-<script src="/layuiMini/libs/jquery-3.4.1/jquery-3.4.1.min.js" type="text/javascript"></script>
+<!--<script src="/layuiMini/libs/jquery-3.4.1/jquery-3.4.1.min.js" type="text/javascript"></script>-->
 <script src="/js/myUtils.js" type="text/javascript"></script>
 <!--TODO yellowgg 样式修改-->
 <div id="adminInfoDialog" style="display:none">
@@ -217,8 +217,8 @@
                         $.post({
                             url: "/admin/updatePwd"
                             , data: {
-                                oldPwd: $.encode64($.encode64($.encode64(oldPwd))),
-                                newPwd: $.encode64($.encode64($.encode64(newPwd))),
+                                oldPwd: jiami(oldPwd),
+                                newPwd: jiami(newPwd),
                                 adminId: encode(id)
                             }
                             , success: function (resp) {

@@ -11,6 +11,7 @@ import org.hibernate.validator.constraints.Range;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
 /**
  * @Author: yellowgg
@@ -18,7 +19,7 @@ import javax.validation.constraints.NotBlank;
  */
 @Data
 @ApiModel(value = "用户对象", description = "在本系统可以概念为学生，包含了基本的微信资料")
-public class Account extends BaseEntity {
+public class Account extends BaseEntity implements Serializable {
     @ApiModelProperty(hidden = true)
     private String openId;
     @NotBlank(message = "微信用户名不可为空")

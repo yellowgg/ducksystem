@@ -1,5 +1,6 @@
 package cn.yellowgg.ducksystem.controller;
 
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import cn.yellowgg.ducksystem.annotation.Base64DecodeStr;
 import cn.yellowgg.ducksystem.constant.UtilConstants;
@@ -71,14 +72,22 @@ public class AdmingMgr {
     @ResponseBody
     public ServiceResult updatePwd(@NotBlank(message = "输个新密码好吗") String newPwd,
                                    @NotBlank(message = "有内鬼，停止交易") String oldPwd,
-                                   @NotBlank(message = "你想改谁") @Base64DecodeStr String adminId) {
-        Administrator admin = new Administrator(ShiroUtils.createMD5Pwd(oldPwd, 3), Long.parseLong(adminId));
-        if (Objects.isNull(adminService.findByIdAndPassword(admin))) {
+                                   @NotBlank(message = "你想改谁") @Base64DecodeStr String adminId,
+                                   String userName) {
+        Administrator admin = new Administrator(ShiroUtils.createMD5Pwd(oldPwd,
+                UtilConstants.Number.THREE), Long.parseLong(adminId));
+        // 小程序端只拥有用户名字段，所以这里配合小程序端而修改下，web端是不会传用户名的
+        if (StrUtil.isNotBlank(userName)) {
+            admin.setUserName(userName);
+            admin.setId(null);
+        }
+        if (Objects.isNull(adminService.findByIdAndPasswordAndUserName(admin))) {
             return ServiceResult.asFail("原密码不正确");
         }
         admin.setPassword(ShiroUtils.createMD5Pwd(newPwd, 3));
-        adminService.updatePasswordById(admin);
-        return ServiceResult.asSuccess(null, "修改成功");
+        return adminService.updatePasswordById(admin) > UtilConstants.Number.ZERO
+                ? ServiceResult.asSuccess(null, "修改成功")
+                : ServiceResult.asFail("修改失败");
     }
     //endregion
 

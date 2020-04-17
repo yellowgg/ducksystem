@@ -1,5 +1,6 @@
 package cn.yellowgg.ducksystem.controller;
 
+import cn.hutool.json.JSONObject;
 import cn.yellowgg.ducksystem.annotation.Base64DecodeStr;
 import cn.yellowgg.ducksystem.entity.perm.Administrator;
 import cn.yellowgg.ducksystem.service.AdministratorService;
@@ -44,7 +45,8 @@ public class LoginMgr {
     @ApiOperation(value = "登录")
     @ResponseBody
     public ServiceResult logging(@NotBlank(message = "用户名不能为空") @Base64DecodeStr String userName,
-                                 @NotBlank(message = "密码不能为空") String password) {
+                                 @NotBlank(message = "密码不能为空") String password
+    ) {
         try {
             SecurityUtils.getSubject().login(new UsernamePasswordToken(userName, password));
         } catch (Exception e) {
@@ -52,6 +54,9 @@ public class LoginMgr {
             return ServiceResult.asFail("用户名或密码错误");
         }
         adminService.updateLastLoginTime((Administrator) SecurityUtils.getSubject().getPrincipal());
-        return ServiceResult.asSuccess("/admin/index");
+        JSONObject json = new JSONObject();
+        json.put("targetUrl", "/admin/index");
+        json.put("sid", SecurityUtils.getSubject().getSession().getId());
+        return ServiceResult.asSuccess(json);
     }
 }

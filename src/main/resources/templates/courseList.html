@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="UTF-8">
     <title>课程列表</title>
@@ -43,7 +45,8 @@
         </div>
         <button class="layui-btn" lay-submit lay-filter="submit" id="queryBtn">查询</button>
         <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-        <button type="button" id="addBtn" class="layui-btn layui-btn-normal">添加</button>
+        <button type="button" id="addBtn" class="layui-btn layui-btn-normal" shiro:hasPermission="course:add">添加
+        </button>
     </div>
 </form>
 <table class="layui-hide" id="courseTable" lay-filter="courseTable"></table>
@@ -54,8 +57,8 @@
     <div><img src="{{ d.imgUrl }}" style="width:150px; height:150px;"></div>
 </script>
 <script type="text/html" id="bar">
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit" shiro:hasPermission="course:edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" shiro:hasPermission="course:edit">删除</a>
 </script>
 <div id="addOrUpCourseDialog" class="layui-form" style="display:none">
     <form class="layui-form" method="post" id="addOrUpCourseForm">

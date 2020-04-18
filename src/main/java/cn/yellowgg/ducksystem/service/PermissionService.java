@@ -2,11 +2,9 @@ package cn.yellowgg.ducksystem.service;
 
 import cn.yellowgg.ducksystem.entity.perm.Permission;
 import cn.yellowgg.ducksystem.mapper.PermissionMapper;
-import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -55,44 +53,20 @@ public class PermissionService {
         return permissionMapper.updateByPrimaryKeySelective(record);
     }
 
-
     public int updateByPrimaryKey(Permission record) {
         return permissionMapper.updateByPrimaryKey(record);
     }
-
 
     public int updateBatch(List<Permission> list) {
         return permissionMapper.updateBatch(list);
     }
 
-
     public int updateBatchSelective(List<Permission> list) {
         return permissionMapper.updateBatchSelective(list);
     }
 
-
     public int batchInsert(List<Permission> list) {
         return permissionMapper.batchInsert(list);
     }
-
-    public List<Permission> findAllByIdIn(Collection<Long> idCollection) {
-        return permissionMapper.findAllByIdIn(idCollection);
-    }
-
-    public List<Permission> findAllByIdInAndType(Collection<Long> idCollection, Integer type) {
-        return permissionMapper.findAllByIdInAndTypeInOrderByOrderNum(idCollection, Lists.newArrayList(type));
-    }
-
-    public List<Permission> findAllByIdInAndTypeIn(Collection<Long> idCollection, Collection<Integer> typeCollection) {
-        return permissionMapper.findAllByIdInAndTypeInOrderByOrderNum(idCollection, typeCollection);
-    }
-
-	public List<Permission> findAllByIdInAndTypeInOrderByOrderNum(Collection<Long> idCollection,Collection<Integer> typeCollection){
-		 return permissionMapper.findAllByIdInAndTypeInOrderByOrderNum(idCollection,typeCollection);
-	}
-
-
-
-
 
 }

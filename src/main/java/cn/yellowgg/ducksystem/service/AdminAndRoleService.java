@@ -98,13 +98,6 @@ public class AdminAndRoleService {
     }
 
     /**
-     * 根据用户找权限
-     */
-    public List<Permission> findPermsByAdminId(Long adminId) {
-        return permMapper.findAllByIdIn(rolAndPermMapper.findPermIdByRoleId(adminandroleMapper.findRoleIdByAdminId(adminId)));
-    }
-
-    /**
      * 根据用户找目录和菜单
      */
     public List<Permission> findDirAndMenuByAdminId(Long adminId) {
@@ -116,7 +109,8 @@ public class AdminAndRoleService {
         if (CollectionUtils.isEmpty(permIds)) {
             return Lists.newArrayList();
         }
-        return permMapper.findAllByIdInAndTypeInOrderByOrderNum(permIds, Lists.newArrayList(PermissionTypeEnum.DIRECTORY.getValue(), PermissionTypeEnum.MENU.getValue()));
+        return permMapper.findAllByIdInAndTypeInOrderByOrderNum(permIds,
+                Lists.newArrayList(PermissionTypeEnum.DIRECTORY.getValue(), PermissionTypeEnum.MENU.getValue()));
     }
 
 

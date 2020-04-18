@@ -2,6 +2,8 @@ package cn.yellowgg.ducksystem.entity;
 
 import cn.hutool.core.util.StrUtil;
 import cn.yellowgg.ducksystem.entity.base.BaseEntity;
+import cn.yellowgg.ducksystem.enums.SexEnum;
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -61,5 +63,17 @@ public class Account extends BaseEntity implements Serializable {
         account.setOpenId(openId);
         account.setIsAdmin(isAdmin);
         return account;
+    }
+
+    @ApiModelProperty(value = "性别")
+    @JsonGetter("sexShow")
+    public String sexShow() {
+        return SexEnum.getSexStrByValue(gender);
+    }
+
+    @ApiModelProperty(value = "地址：国家省份城市")
+    @JsonGetter("addressShow")
+    public String addressShow() {
+        return getCountry() + getProvince() + getCity();
     }
 }

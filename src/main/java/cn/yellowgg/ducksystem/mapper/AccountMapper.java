@@ -43,6 +43,7 @@ public interface AccountMapper {
 
     Account findByOpenId(@Param("openId") String openId);
 
+    List<Account> findByNickNameNotIsAdmin(@Param("nickName") String nickName);
 
     //endregion
 

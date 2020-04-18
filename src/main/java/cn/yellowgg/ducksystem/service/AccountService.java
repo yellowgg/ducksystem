@@ -4,10 +4,13 @@ import cn.yellowgg.ducksystem.constant.UtilConstants;
 import cn.yellowgg.ducksystem.entity.Account;
 import cn.yellowgg.ducksystem.mapper.AccountMapper;
 import cn.yellowgg.ducksystem.utils.RedisUtils;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @Description:
@@ -97,5 +100,9 @@ public class AccountService {
         return accountMapper.findByOpenId(openId);
     }
 
-
+    public PageInfo<Account> findByNickNameNotIsAdminwithPage(int page, int pageSize, String nickName) {
+        PageHelper.startPage(page, pageSize);
+        return new PageInfo<>(accountMapper.findByNickNameNotIsAdmin(nickName)
+                .stream().filter(Account::hasInfo).collect(Collectors.toList()));
+    }
 }

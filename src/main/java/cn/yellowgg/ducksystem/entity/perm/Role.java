@@ -4,6 +4,8 @@ import cn.yellowgg.ducksystem.entity.base.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotBlank;
+
 /**
  * @Description: 角色
  * @Author: yellowgg
@@ -12,7 +14,10 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class Role extends BaseEntity {
+
+    @NotBlank(message = "角色名你都想空？")
     private String name;
 
+    @NotBlank(message = "起码描述一下啊")
     private String description;
 }

@@ -9,6 +9,7 @@ import lombok.ToString;
  * @Description: 权限表
  * 添加菜单都是手动数据库插入的
  * 最多二级菜单
+ * 按钮级权限可以忽略不必要的字段
  * @Author: yellowgg
  * @Date: Created in 2020/3/26 15:28
  */
@@ -33,7 +34,7 @@ public class Permission extends BaseEntity {
     private Integer type;
 
     /**
-     * 细粒度的权限，目录和菜单应该不用
+     * 细粒度的权限，目录和菜单应该不用 按钮写就可以
      */
     private String perms;
 

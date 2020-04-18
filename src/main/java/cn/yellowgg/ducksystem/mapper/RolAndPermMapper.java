@@ -3,6 +3,7 @@ package cn.yellowgg.ducksystem.mapper;
 import cn.yellowgg.ducksystem.entity.association.RoleAndPerm;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -42,5 +43,9 @@ public interface RolAndPermMapper {
     RoleAndPerm selectByPrimaryKey(Long id);
 
     List<Long> findPermIdByRoleId(@Param("roleId") Long roleId);
+
+    List<Long> findDistinctPermIdByRoleIdIn(@Param("roleIdCollection") Collection<Long> roleIdCollection);
+
+
     //endregion
 }

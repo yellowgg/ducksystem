@@ -7,6 +7,8 @@ import cn.yellowgg.ducksystem.service.CourseService;
 import cn.yellowgg.ducksystem.service.base.ServiceQueryResult;
 import cn.yellowgg.ducksystem.service.base.ServiceResult;
 import cn.yellowgg.ducksystem.utils.Base64Utils;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +24,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/course")
+@RequiresRoles(value = {"superAdmin", "courseAdmin"}, logical = Logical.OR)
 public class CourseMgr {
     @Autowired
     CourseService courseService;

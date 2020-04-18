@@ -28,7 +28,7 @@ import java.util.Objects;
 @Controller
 @RequestMapping("/admin")
 @Api(tags = "后台管理控制器")
-public class AdmingMgr {
+public class AdminMgr {
 
     @Autowired
     AdministratorService adminService;

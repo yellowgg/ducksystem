@@ -41,6 +41,9 @@ public interface AdminandroleMapper {
     //region 查
     AdminAndRole selectByPrimaryKey(Long id);
 
-    Long findRoleIdByAdminId(@Param("adminId") Long adminId);
+    List<Long> findRoleIdByAdminId(@Param("adminId") Long adminId);
+
+    Long countByRoleId(@Param("roleId") Long roleId);
+
     //endregion
 }

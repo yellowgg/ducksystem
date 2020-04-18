@@ -2,8 +2,10 @@ package cn.yellowgg.ducksystem.service;
 
 import cn.yellowgg.ducksystem.entity.association.RoleAndPerm;
 import cn.yellowgg.ducksystem.entity.perm.Permission;
+import cn.yellowgg.ducksystem.enums.PermissionTypeEnum;
 import cn.yellowgg.ducksystem.mapper.PermissionMapper;
 import cn.yellowgg.ducksystem.mapper.RolAndPermMapper;
+import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -87,9 +89,13 @@ public class RoleAndPermService {
         return permMapper.findAllByIdIn(rolAndPermMapper.findPermIdByRoleId(roleId));
     }
 
-    public List<Long> findPermIdByRoleId(Long roleId) {
-        return rolAndPermMapper.findPermIdByRoleId(roleId);
-    }
 
+    /**
+     * 根据多角色找对应按钮权限
+     */
+    public List<Permission> findButtonByRoleIds(List<Long> roleIds) {
+        return permMapper.findAllByIdInAndTypeInOrderByOrderNum(rolAndPermMapper.findDistinctPermIdByRoleIdIn(roleIds),
+                Lists.newArrayList(PermissionTypeEnum.BUTTON.getValue()));
+    }
 
 }

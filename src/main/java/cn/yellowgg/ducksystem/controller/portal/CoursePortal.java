@@ -33,4 +33,13 @@ public class CoursePortal {
                 ? ServiceQueryResult.asSuccess(result)
                 : ServiceQueryResult.asFail("暂无数据");
     }
+
+    @ApiOperation("获取最新的三个热门课程信息")
+    @GetMapping("/getThreeHotCourse")
+    public ServiceQueryResult<Course> getThreeHotCourse() {
+        List<Course> result = courseService.findThreeIsHot();
+        return CollectionUtils.isNotEmpty(result)
+                ? ServiceQueryResult.asSuccess(result)
+                : ServiceQueryResult.asFail("暂无数据");
+    }
 }

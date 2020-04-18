@@ -1,10 +1,12 @@
 package cn.yellowgg.ducksystem.controller.portal;
 
 import cn.hutool.http.HttpRequest;
+import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import cn.yellowgg.ducksystem.entity.Account;
 import cn.yellowgg.ducksystem.service.AccountService;
 import cn.yellowgg.ducksystem.service.base.ServiceResult;
+import cn.yellowgg.ducksystem.utils.RedisUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
 import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 
@@ -38,6 +41,9 @@ public class WxAppController {
     private String jscodeUrl;
     //endregion
 
+    @Resource
+    private RedisUtils redisUtils;
+
     @Autowired
     AccountService accountService;
 
@@ -56,13 +62,20 @@ public class WxAppController {
     @ResponseBody
     public ServiceResult<Account> getInfoByOpenId(@NotBlank(message = "openid不能为空")
                                                   @PathVariable String openId) {
-        Account account = accountService.findByOpenId(openId);
-        if (Objects.isNull(account)) {
+        ServiceResult result = null;
+        if (!redisUtils.hasKey(openId)) {
             return ServiceResult.asFail(openId, "用户未授权");
         }
-        return !account.hasInfo()
-                ? ServiceResult.asFail(account, "用户未授权，但已使用过小程序")
-                : ServiceResult.asSuccess(account);
+        if (Objects.nonNull(redisUtils.hGet(openId, "hasInfo"))) {
+            result = ServiceResult.asSuccess(accountService.findByOpenId(openId));
+        } else {
+            String isAdmin = (String) redisUtils.hGet(openId, "isAdmin");
+            JSONObject json = new JSONObject();
+            json.put("openId", openId);
+            json.put("isAdmin", Integer.parseInt(isAdmin));
+            result = ServiceResult.asFail(json, "用户未授权，但已使用过小程序");
+        }
+        return result;
     }
 
     /**

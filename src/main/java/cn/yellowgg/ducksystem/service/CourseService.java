@@ -72,5 +72,11 @@ public class CourseService {
     public List<Course> queryAll() {
         return courseMapper.queryByAllSelectiveOrderById(null);
     }
+
+    public List<Course> findThreeIsHot() {
+        return courseMapper.findThreeIsHot();
+    }
+
+
 }
 

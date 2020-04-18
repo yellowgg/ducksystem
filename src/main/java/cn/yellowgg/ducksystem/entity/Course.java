@@ -32,7 +32,7 @@ public class Course extends BaseEntity {
     private String imgUrl;
     @NotBlank(message = "课程名字不能为空")
     private String name;
-    @Range(min = 1, max = 100, message = "价格：1-10000")
+    @Range(min = 1, max = 1000, message = "价格：1-1000")
     private BigDecimal price;
     @Range(max = 4, message = "课程类型别乱来")
     private Integer type;

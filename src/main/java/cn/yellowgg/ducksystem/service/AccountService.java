@@ -1,7 +1,9 @@
 package cn.yellowgg.ducksystem.service;
 
+import cn.yellowgg.ducksystem.constant.UtilConstants;
 import cn.yellowgg.ducksystem.entity.Account;
 import cn.yellowgg.ducksystem.mapper.AccountMapper;
+import cn.yellowgg.ducksystem.utils.RedisUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -18,6 +20,9 @@ public class AccountService {
     @Resource
     private AccountMapper accountMapper;
 
+    @Resource
+    private RedisUtils redisUtils;
+
     public int deleteByPrimaryKey(Long id) {
         return accountMapper.deleteByPrimaryKey(id);
     }
@@ -28,11 +33,19 @@ public class AccountService {
      */
     public int register(Account record) {
         // TODO yellowgg 开通钱包、积分啥啥的 还有签到
-        return accountMapper.insertOrUpdateSelective(record);
+        int addAccountResult = accountMapper.insertOrUpdateSelective(record);
+        if (addAccountResult > UtilConstants.Number.ZERO) {
+            redisUtils.hPut(record.getOpenId(), "hasInfo", UtilConstants.Str.ONE);
+        }
+        return addAccountResult;
     }
 
     public int addRole(Account record) {
-        return accountMapper.insertOrUpdateSelective(record);
+        int addAccountResult = accountMapper.insertOrUpdateSelective(record);
+        if (addAccountResult > UtilConstants.Number.ZERO) {
+            redisUtils.hPut(record.getOpenId(), "isAdmin", record.getIsAdmin().toString());
+        }
+        return addAccountResult;
     }
 
 

@@ -34,4 +34,8 @@ public interface CourseMapper {
     int batchInsert(@Param("list") List<Course> list);
 
     List<Course> queryByAllSelectiveOrderById(Course course);
+
+    List<Course> findThreeIsHot();
+
+
 }

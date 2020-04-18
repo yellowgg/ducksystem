@@ -1,6 +1,7 @@
 package cn.yellowgg.ducksystem.service;
 
 
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import cn.yellowgg.ducksystem.constant.UtilConstants;
@@ -10,14 +11,13 @@ import cn.yellowgg.ducksystem.enums.PermissionTypeEnum;
 import cn.yellowgg.ducksystem.mapper.AdministratorMapper;
 import cn.yellowgg.ducksystem.vo.MenuInfo;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -58,11 +58,6 @@ public class AdministratorService {
     }
 
 
-    public Administrator selectByPrimaryKey(Long id) {
-        return administratorMapper.selectByPrimaryKey(id);
-    }
-
-
     public int updateByPrimaryKeySelective(Administrator record) {
         return administratorMapper.updateByPrimaryKeySelective(record);
     }
@@ -88,7 +83,7 @@ public class AdministratorService {
     }
 
     public Administrator findByUserName(String userName) {
-        return administratorMapper.findByUserName(userName);
+        return administratorMapper.findBySeleceive(MapUtil.of("userName", userName));
     }
 
     public int updateLastLoginTime(Administrator administrator) {
@@ -133,11 +128,25 @@ public class AdministratorService {
         return administratorMapper.updateRealNameAndEmailById(admin.getRealName(), admin.getEmail(), admin.getId());
     }
 
-    public Administrator findByIdAndPassword(Administrator admin) {
-        return administratorMapper.findByIdAndPassword(admin.getId(), admin.getPassword());
+    public Administrator findByIdAndPasswordAndUserName(Administrator admin) {
+        return administratorMapper.findBySeleceive(getAdminNonNullMap(admin));
     }
 
     public int updatePasswordById(Administrator admin) {
-        return administratorMapper.updatePasswordById(admin.getPassword(), admin.getId());
+        return administratorMapper.updatePasswordByIdOrUserName(getAdminNonNullMap(admin));
+    }
+
+    private HashMap<String, Object> getAdminNonNullMap(Administrator admin) {
+        HashMap<String, Object> map = Maps.newHashMap();
+        if (Objects.nonNull(admin.getUserName())) {
+            map.put("userName", admin.getUserName());
+        }
+        if (Objects.nonNull(admin.getId())) {
+            map.put("id", admin.getId());
+        }
+        if (Objects.nonNull(admin.getPassword())) {
+            map.put("password", admin.getPassword());
+        }
+        return map;
     }
 }

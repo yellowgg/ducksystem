@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Description: 按增删改查
@@ -43,14 +44,11 @@ public interface AdministratorMapper {
 
     int updateRealNameAndEmailById(@Param("realName") String realName, @Param("email") String email, @Param("id") Long id);
 
-    int updatePasswordById(@Param("pwd") String pwd, @Param("id") Long id);
+    int updatePasswordByIdOrUserName(Map<String, Object> params);
     //endregion
 
     //region 查
-    Administrator selectByPrimaryKey(Long id);
+    Administrator findBySeleceive(Map<String, Object> params);
 
-    Administrator findByUserName(@Param("userName") String userName);
-
-    Administrator findByIdAndPassword(@Param("id") Long id, @Param("password") String password);
     //endregion
 }

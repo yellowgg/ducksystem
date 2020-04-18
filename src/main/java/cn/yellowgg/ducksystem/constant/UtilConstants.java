@@ -21,6 +21,8 @@ public interface UtilConstants {
 
     class Str {
         public static final String EMPTYSTR = "";
+        public static final String ZERO = "0";
+        public static final String ONE = "1";
     }
 
     class Bool {

@@ -27,10 +27,9 @@ public class RoleService {
 
     public int deleteByPrimaryKey(Long id) {
         // 角色有人不能删
-        if (adminandroleMapper.countByRoleId(id) > 0) {
-            return UtilConstants.Number.ZERO;
-        }
-        return roleMapper.deleteByPrimaryKey(id);
+        return adminandroleMapper.countByRoleId(id) > UtilConstants.Number.ZERO
+                ? UtilConstants.Number.ZERO
+                : roleMapper.deleteByPrimaryKey(id);
     }
 
 

@@ -314,7 +314,8 @@
     <select id="countByRoleId" resultType="java.lang.Long">
         select count(1)
         from adminandrole
-        where roleId = #{roleId,jdbcType=BIGINT}
+        where isDelete = 0
+          and roleId = #{roleId,jdbcType=BIGINT}
     </select>
 
 </mapper>

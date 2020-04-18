@@ -91,12 +91,11 @@ public class RoleAndPermService {
 
 
     /**
-     * 根据角色找按钮权限
+     * 根据多角色找对应按钮权限
      */
-    public List<Permission> findButtonByRoleId(Long roleId) {
-        return permMapper.findAllByIdInAndTypeInOrderByOrderNum(rolAndPermMapper.findPermIdByRoleId(roleId),
+    public List<Permission> findButtonByRoleIds(List<Long> roleIds) {
+        return permMapper.findAllByIdInAndTypeInOrderByOrderNum(rolAndPermMapper.findDistinctPermIdByRoleIdIn(roleIds),
                 Lists.newArrayList(PermissionTypeEnum.BUTTON.getValue()));
     }
-
 
 }

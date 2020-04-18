@@ -3,6 +3,7 @@ package cn.yellowgg.ducksystem.mapper;
 import cn.yellowgg.ducksystem.entity.perm.Role;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -22,6 +23,8 @@ public interface RoleMapper {
     int insertSelective(Role record);
 
     Role selectByPrimaryKey(Long id);
+
+    List<Role> findAllByIdIn(@Param("idCollection") Collection<Long> idCollection);
 
     int updateByPrimaryKeySelective(Role record);
 

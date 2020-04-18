@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @Description:
@@ -90,28 +89,28 @@ public class AdminAndRoleService {
 
 
     /**
-     * 根据用户找角色
-     * 目前本系统只设计单用户单角色
+     * 根据单用户找角色
+     *
+     * @return
      */
-    public Role findRoleByAdminId(Long adminId) {
-        return roleMapper.selectByPrimaryKey(adminandroleMapper.findRoleIdByAdminId(adminId));
+    public List<Role> findRoleByAdminId(Long adminId) {
+        return roleMapper.findAllByIdIn(adminandroleMapper.findRoleIdByAdminId(adminId));
     }
 
     /**
-     * 根据用户找目录和菜单
+     * 根据单用户找目录和菜单
      */
     public List<Permission> findDirAndMenuByAdminId(Long adminId) {
-        Long roleId = adminandroleMapper.findRoleIdByAdminId(adminId);
-        if (Objects.isNull(roleId)) {
+        List<Long> roleIds = adminandroleMapper.findRoleIdByAdminId(adminId);
+        if (CollectionUtils.isEmpty(roleIds)) {
             return Lists.newArrayList();
         }
-        List<Long> permIds = rolAndPermMapper.findPermIdByRoleId(roleId);
+        List<Long> permIds = rolAndPermMapper.findDistinctPermIdByRoleIdIn(roleIds);
         if (CollectionUtils.isEmpty(permIds)) {
             return Lists.newArrayList();
         }
         return permMapper.findAllByIdInAndTypeInOrderByOrderNum(permIds,
                 Lists.newArrayList(PermissionTypeEnum.DIRECTORY.getValue(), PermissionTypeEnum.MENU.getValue()));
     }
-
 
 }

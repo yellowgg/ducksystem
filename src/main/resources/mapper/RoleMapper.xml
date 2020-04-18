@@ -20,7 +20,7 @@
         select
         <include refid="Base_Column_List"/>
         from `role`
-        where id = #{id,jdbcType=BIGINT}
+        where isDelete = 0 and id = #{id,jdbcType=BIGINT}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         <!--@mbg.generated-->

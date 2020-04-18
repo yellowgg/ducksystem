@@ -6,15 +6,12 @@ import cn.yellowgg.ducksystem.entity.perm.Role;
 import cn.yellowgg.ducksystem.service.AdminAndRoleService;
 import cn.yellowgg.ducksystem.service.AdministratorService;
 import cn.yellowgg.ducksystem.service.RoleAndPermService;
-import cn.yellowgg.ducksystem.utils.LogUtils;
-import com.google.common.collect.Sets;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -27,8 +24,6 @@ import java.util.stream.Collectors;
  * @Date: Created in 2020/3/26 10:58
  */
 public class MyRealm extends AuthorizingRealm {
-
-    private static final transient Logger log = LogUtils.getPlatformLogger();
 
     @Autowired
     AdministratorService adminService;
@@ -60,9 +55,10 @@ public class MyRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         Administrator admin = (Administrator) principalCollection.getPrimaryPrincipal();
-        Role role = adminandroleService.findRoleByAdminId(admin.getId());
-        info.setRoles(Sets.newHashSet(role.getName()));
-        List<Permission> perms = roleandpermService.findButtonByRoleId(role.getId());
+        List<Role> role = adminandroleService.findRoleByAdminId(admin.getId());
+        info.setRoles(role.stream().map(Role::getName).collect(Collectors.toSet()));
+        // 这里只设置button级别的权限，因为菜单是用单独的接口来控制显示的
+        List<Permission> perms = roleandpermService.findButtonByRoleIds(role.stream().map(Role::getId).collect(Collectors.toList()));
         info.setStringPermissions(perms.stream().map(Permission::getPerms).collect(Collectors.toSet()));
         return info;
     }

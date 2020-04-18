@@ -42,6 +42,7 @@ import java.util.Map;
 public class ShiroConfig {
     private static final transient Logger log = LogUtils.getPlatformLogger();
 
+    //region 过滤链
     @Bean
     public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
@@ -73,23 +74,26 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setSuccessUrl("/admin/index");
         shiroFilterFactoryBean.setUnauthorizedUrl("/403");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(fMap);
-        log.info("Shiro拦截器工厂类注入成功");
         return shiroFilterFactoryBean;
     }
+    //endregion
 
     @Bean
     public SecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-        //设置realm.，必须是@Bean
+        // 设置realm.，必须是@Bean
         securityManager.setRealm(myShiroRealm());
-        //注入缓存管理器;
+        // 注入缓存管理器;
         securityManager.setCacheManager(ehCacheManager());
         // 注入session管理器
         securityManager.setSessionManager(sessionManager());
-        /*把securityManager注入SecurityUtils*/
+        // 把securityManager注入SecurityUtils
         SecurityUtils.setSecurityManager(securityManager);
         return securityManager;
     }
+
+
+    //region 身份认证realm
 
     /**
      * 身份认证realm;
@@ -101,6 +105,7 @@ public class ShiroConfig {
         myShiroRealm.setCredentialsMatcher(hashedCredentialsMatcher());
         return myShiroRealm;
     }
+    //endregion
 
     /**
      * shiro缓存管理器;
@@ -137,6 +142,12 @@ public class ShiroConfig {
         return new LifecycleBeanPostProcessor();
     }
 
+    //region 注解开启
+
+    /**
+     * 开启shiro aop注解支持.
+     * 使用代理方式;所以需要开启代码支持;
+     */
     @Bean
     @DependsOn({"lifecycleBeanPostProcessor"})
     public DefaultAdvisorAutoProxyCreator advisorAutoProxyCreator() {
@@ -147,16 +158,13 @@ public class ShiroConfig {
         return advisorAutoProxyCreator;
     }
 
-    /**
-     * 开启shiro aop注解支持.
-     * 使用代理方式;所以需要开启代码支持;
-     */
     @Bean
     public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {
         AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
         authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
         return authorizationAttributeSourceAdvisor;
     }
+    //endregion
 
     /**
      * 配置session监听
@@ -237,11 +245,11 @@ public class ShiroConfig {
         return sessionManager;
     }
 
-    /**
-     * 页面上使用shiro标签
-     */
+    //region 页面标签启用
     @Bean(name = "shiroDialect")
     public ShiroDialect shiroDialect() {
         return new ShiroDialect();
     }
+    //endregion
+
 }

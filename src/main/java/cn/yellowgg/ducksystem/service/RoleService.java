@@ -1,11 +1,14 @@
 package cn.yellowgg.ducksystem.service;
 
+import cn.yellowgg.ducksystem.constant.UtilConstants;
 import cn.yellowgg.ducksystem.entity.perm.Role;
+import cn.yellowgg.ducksystem.mapper.AdminandroleMapper;
 import cn.yellowgg.ducksystem.mapper.RoleMapper;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -19,8 +22,14 @@ public class RoleService {
     @Resource
     private RoleMapper roleMapper;
 
+    @Resource
+    AdminandroleMapper adminandroleMapper;
 
     public int deleteByPrimaryKey(Long id) {
+        // 角色有人不能删
+        if (adminandroleMapper.countByRoleId(id) > 0) {
+            return UtilConstants.Number.ZERO;
+        }
         return roleMapper.deleteByPrimaryKey(id);
     }
 
@@ -74,9 +83,8 @@ public class RoleService {
         return roleMapper.batchInsert(list);
     }
 
-    public List<Role> findAllByIdIn(Collection<Long> idCollection) {
-        return roleMapper.findAllByIdIn(idCollection);
+    public PageInfo<Role> findByNamewithPage(int page, int pageSize, String name) {
+        PageHelper.startPage(page, pageSize);
+        return new PageInfo<>(roleMapper.findByName(name));
     }
-
-
 }

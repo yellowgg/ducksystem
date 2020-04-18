@@ -12,8 +12,9 @@ import java.util.List;
  * @Date: Created in 2020/3/26 15:26
  */
 public interface RoleMapper {
-    int deleteByPrimaryKey(Long id);
 
+
+    //region 增
     int insert(Role record);
 
     int insertOrUpdate(Role record);
@@ -22,10 +23,14 @@ public interface RoleMapper {
 
     int insertSelective(Role record);
 
-    Role selectByPrimaryKey(Long id);
+    int batchInsert(@Param("list") List<Role> list);
+    //endregion
 
-    List<Role> findAllByIdIn(@Param("idCollection") Collection<Long> idCollection);
+    //region 删
+    int deleteByPrimaryKey(Long id);
+    //endregion
 
+    //region 改
     int updateByPrimaryKeySelective(Role record);
 
     int updateByPrimaryKey(Role record);
@@ -33,6 +38,15 @@ public interface RoleMapper {
     int updateBatch(List<Role> list);
 
     int updateBatchSelective(List<Role> list);
+    //endregion
 
-    int batchInsert(@Param("list") List<Role> list);
+    //region 查
+    Role selectByPrimaryKey(Long id);
+
+    List<Role> findAllByIdIn(@Param("idCollection") Collection<Long> idCollection);
+
+    List<Role> findByName(@Param("name") String name);
+    //endregion
+
+
 }

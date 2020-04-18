@@ -42,7 +42,6 @@ public class MyRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-        log.info("----------身份验证：doGetAuthenticationInfo方法被调用----------");
         UsernamePasswordToken upToken = (UsernamePasswordToken) token;
         Administrator admin = adminService.findByUserName(upToken.getUsername());
         if (Objects.isNull(admin)) {
@@ -59,13 +58,12 @@ public class MyRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        log.info("----------身份权限：doGetAuthorizationInfo方法被调用----------");
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         Administrator admin = (Administrator) principalCollection.getPrimaryPrincipal();
         Role role = adminandroleService.findRoleByAdminId(admin.getId());
         info.setRoles(Sets.newHashSet(role.getName()));
-        List<Permission> perms = roleandpermService.findPermsByRoleId(role.getId());
-        info.setStringPermissions(perms.stream().map(x -> x.getPerms()).collect(Collectors.toSet()));
+        List<Permission> perms = roleandpermService.findButtonByRoleId(role.getId());
+        info.setStringPermissions(perms.stream().map(Permission::getPerms).collect(Collectors.toSet()));
         return info;
     }
 

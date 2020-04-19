@@ -6,6 +6,7 @@ import cn.yellowgg.ducksystem.annotation.Base64DecodeStr;
 import cn.yellowgg.ducksystem.constant.UtilConstants;
 import cn.yellowgg.ducksystem.entity.perm.Administrator;
 import cn.yellowgg.ducksystem.service.AdministratorService;
+import cn.yellowgg.ducksystem.service.PermissionService;
 import cn.yellowgg.ducksystem.service.base.ServiceResult;
 import cn.yellowgg.ducksystem.utils.Base64Utils;
 import cn.yellowgg.ducksystem.utils.ShiroUtils;
@@ -32,6 +33,8 @@ public class AdminMgr {
 
     @Autowired
     AdministratorService adminService;
+    @Autowired
+    PermissionService permissionService;
 
     //region 页面
     @GetMapping("/index")
@@ -49,7 +52,7 @@ public class AdminMgr {
     @GetMapping("/initJson/{adminId}")
     @ResponseBody
     public ServiceResult getInitMenuJson(@PathVariable String adminId) {
-        JSONObject initJson = adminService.getInitJson(Long.parseLong(
+        JSONObject initJson = permissionService.getDirAndMenuPermJsonTreeByAdminId(Long.parseLong(
                 Base64Utils.decodeStrofCount(adminId, UtilConstants.Number.THREE)));
         return Objects.nonNull(initJson)
                 ? ServiceResult.asSuccess(initJson)

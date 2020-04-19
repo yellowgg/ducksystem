@@ -43,6 +43,9 @@ public interface PermissionMapper {
     //region 查
     Permission selectByPrimaryKey(Long id);
 
+    List<Permission> findAll();
+
+
     List<Permission> findAllByIdIn(@Param("idCollection") Collection<Long> idCollection);
 
 

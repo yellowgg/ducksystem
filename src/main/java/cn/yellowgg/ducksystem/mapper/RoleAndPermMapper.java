@@ -11,7 +11,7 @@ import java.util.List;
  * @Author: yellowgg
  * @Date: Created in 2020/3/26 15:29
  */
-public interface RolAndPermMapper {
+public interface RoleAndPermMapper {
 
     //region 增
     int insert(RoleAndPerm record);
@@ -27,6 +27,8 @@ public interface RolAndPermMapper {
 
     //region 删
     int deleteByPrimaryKey(Long id);
+
+    int deleteByRoleId(@Param("roleId") Long roleId);
     //endregion
 
     //region 改
@@ -45,7 +47,5 @@ public interface RolAndPermMapper {
     List<Long> findPermIdByRoleId(@Param("roleId") Long roleId);
 
     List<Long> findDistinctPermIdByRoleIdIn(@Param("roleIdCollection") Collection<Long> roleIdCollection);
-
-
     //endregion
 }

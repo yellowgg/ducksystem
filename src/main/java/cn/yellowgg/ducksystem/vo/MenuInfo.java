@@ -12,22 +12,38 @@ import java.util.List;
  */
 @Getter
 public class MenuInfo {
+
     private String title;
     private String icon;
     private String href;
     private String target;
-    private List<MenuInfo> child;
+    /**
+     * 权限id
+     */
+    private Long id;
+    private List<MenuInfo> children;
+    /**
+     * 是否选中
+     */
+    private boolean checked;
+    /**
+     * 是否展开
+     */
+    private boolean spread;
 
-    public MenuInfo(String title, String icon, String href, boolean haveChild) {
+    public MenuInfo(String title, String icon, String href, Long id, boolean check, boolean haveChild) {
         this.title = title;
         this.icon = icon;
         this.href = href;
         this.target = "_self";
-        this.child = haveChild ? Lists.newArrayList() : null;
+        this.id = id;
+        this.spread = true;
+        this.checked = check;
+        this.children = haveChild ? Lists.newArrayList() : null;
     }
 
     public void addChild(MenuInfo menuInfo) {
-        this.child.add(menuInfo);
+        this.children.add(menuInfo);
     }
 
 }

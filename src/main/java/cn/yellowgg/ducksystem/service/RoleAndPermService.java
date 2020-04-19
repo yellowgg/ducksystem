@@ -4,11 +4,12 @@ import cn.yellowgg.ducksystem.entity.association.RoleAndPerm;
 import cn.yellowgg.ducksystem.entity.perm.Permission;
 import cn.yellowgg.ducksystem.enums.PermissionTypeEnum;
 import cn.yellowgg.ducksystem.mapper.PermissionMapper;
-import cn.yellowgg.ducksystem.mapper.RolAndPermMapper;
+import cn.yellowgg.ducksystem.mapper.RoleAndPermMapper;
 import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -20,63 +21,68 @@ import java.util.List;
 public class RoleAndPermService {
 
     @Resource
-    private RolAndPermMapper rolAndPermMapper;
+    RoleAndPermMapper roleAndPermMapper;
     @Resource
-    private PermissionMapper permMapper;
+    PermissionMapper permMapper;
 
+    public List<RoleAndPerm> getListOfPermIdsAndOneRole(Collection<Long> permIds, Long roleId) {
+        List<RoleAndPerm> result = Lists.newArrayList();
+        permIds.forEach(x -> result.add(RoleAndPerm.init(roleId, x)));
+        return result;
+    }
 
     public int deleteByPrimaryKey(Long id) {
-        return rolAndPermMapper.deleteByPrimaryKey(id);
+        return roleAndPermMapper.deleteByPrimaryKey(id);
     }
 
 
     public int insert(RoleAndPerm record) {
-        return rolAndPermMapper.insert(record);
+        return roleAndPermMapper.insert(record);
     }
 
 
     public int insertOrUpdate(RoleAndPerm record) {
-        return rolAndPermMapper.insertOrUpdate(record);
+        return roleAndPermMapper.insertOrUpdate(record);
     }
 
 
     public int insertOrUpdateSelective(RoleAndPerm record) {
-        return rolAndPermMapper.insertOrUpdateSelective(record);
+        return roleAndPermMapper.insertOrUpdateSelective(record);
     }
 
 
     public int insertSelective(RoleAndPerm record) {
-        return rolAndPermMapper.insertSelective(record);
+        return roleAndPermMapper.insertSelective(record);
     }
 
 
     public RoleAndPerm selectByPrimaryKey(Long id) {
-        return rolAndPermMapper.selectByPrimaryKey(id);
+        return roleAndPermMapper.selectByPrimaryKey(id);
     }
 
 
     public int updateByPrimaryKeySelective(RoleAndPerm record) {
-        return rolAndPermMapper.updateByPrimaryKeySelective(record);
+        return roleAndPermMapper.updateByPrimaryKeySelective(record);
     }
 
 
     public int updateByPrimaryKey(RoleAndPerm record) {
-        return rolAndPermMapper.updateByPrimaryKey(record);
+        return roleAndPermMapper.updateByPrimaryKey(record);
     }
 
 
     public int updateBatch(List<RoleAndPerm> list) {
-        return rolAndPermMapper.updateBatch(list);
+        return roleAndPermMapper.updateBatch(list);
     }
 
 
     public int updateBatchSelective(List<RoleAndPerm> list) {
-        return rolAndPermMapper.updateBatchSelective(list);
+        return roleAndPermMapper.updateBatchSelective(list);
     }
 
 
     public int batchInsert(List<RoleAndPerm> list) {
-        return rolAndPermMapper.batchInsert(list);
+        return roleAndPermMapper.batchInsert(list);
     }
 
     /**
@@ -86,7 +92,7 @@ public class RoleAndPermService {
      * @param roleId
      */
     public List<Permission> findPermsByRoleId(Long roleId) {
-        return permMapper.findAllByIdIn(rolAndPermMapper.findPermIdByRoleId(roleId));
+        return permMapper.findAllByIdIn(roleAndPermMapper.findPermIdByRoleId(roleId));
     }
 
 
@@ -94,8 +100,11 @@ public class RoleAndPermService {
      * 根据多角色找对应按钮权限
      */
     public List<Permission> findButtonByRoleIds(List<Long> roleIds) {
-        return permMapper.findAllByIdInAndTypeInOrderByOrderNum(rolAndPermMapper.findDistinctPermIdByRoleIdIn(roleIds),
+        return permMapper.findAllByIdInAndTypeInOrderByOrderNum(roleAndPermMapper.findDistinctPermIdByRoleIdIn(roleIds),
                 Lists.newArrayList(PermissionTypeEnum.BUTTON.getValue()));
     }
 
+    public int deleteByRoleId(Long roleId) {
+        return roleAndPermMapper.deleteByRoleId(roleId);
+    }
 }

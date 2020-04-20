@@ -131,7 +131,7 @@ public class AdminMgr {
                     .map(s -> Long.parseLong(s.trim()))
                     .collect(Collectors.toSet());
         }
-        return adminService.insertOrUpdateSelective(admin, releIdsSet) >= UtilConstants.Number.ZERO
+        return adminService.insertOrUpdateSelective(admin, releIdsSet) > UtilConstants.Number.ZERO
                 ? ServiceResult.asSuccess(null, "操作成功")
                 : ServiceResult.asFail("操作失败");
     }

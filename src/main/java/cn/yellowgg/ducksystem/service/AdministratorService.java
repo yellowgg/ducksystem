@@ -55,7 +55,7 @@ public class AdministratorService {
         administratorMapper.insertOrUpdateSelective(admin);
         adminandroleMapper.deleteByAdminId(admin.getId());
         return CollectionUtils.isEmpty(releIdsSet)
-                ? UtilConstants.Number.ZERO
+                ? UtilConstants.Number.ONE
                 : adminandroleMapper.batchInsert(adminAndRoleService.getListOfRoleIdsAndOneAdmin(releIdsSet, admin.getId()));
     }
 

@@ -64,7 +64,7 @@ public class RoleService {
         // 先删除此角色的权限再放回去
         roleAndPermMapper.deleteByRoleId(record.getId());
         return CollectionUtils.isEmpty(permIdsSet)
-                ? UtilConstants.Number.ZERO
+                ? UtilConstants.Number.ONE
                 : roleAndPermMapper.batchInsert(roleAndPermService.getListOfPermIdsAndOneRole(permIdsSet, record.getId()));
     }
 

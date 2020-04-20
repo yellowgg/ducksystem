@@ -45,7 +45,7 @@ public class RoleMgr {
                     .map(s -> Long.parseLong(s.trim()))
                     .collect(Collectors.toSet());
         }
-        return roleService.insertOrUpdateSelective(role, permIdsSet) >= UtilConstants.Number.ZERO
+        return roleService.insertOrUpdateSelective(role, permIdsSet) > UtilConstants.Number.ZERO
                 ? ServiceResult.asSuccess(null, "操作成功")
                 : ServiceResult.asFail("操作失败");
     }

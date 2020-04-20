@@ -44,29 +44,30 @@ layui.define(["element", "jquery"], function (exports) {
             var loading = layer.load(0, {shade: false, time: 2 * 1000});
             layuimini.initBgColor();
             layuimini.initDevice();
-            $.getJSON(url, function (data, status) {
-                data = data.data;
+            $.getJSON(url, function (datas, status) {
+                var homeInfo = {
+                    "title": "首页",
+                    "icon": "fa fa-home",
+                    "href": "/admin/home"
+                }
+                layuimini.initHome(homeInfo);
+
+                var logoInfo = {
+                    "title": "小黄鸭",
+                    "image": "/images/logo.png",
+                    "href": ""
+                }
+                layuimini.initLogo(logoInfo);
+                var clearInfo = {
+                    "clearInfo": {
+                        "clearUrl": "/layuiMini/api/clear.json"
+                    }
+                }
+                layuimini.initClear(clearInfo);
+                data = datas.data;
                 if (data == null) {
-                    layuimini.msg_error('暂无菜单信息');
+                    layuimini.msg_error(datas.msg);
                 } else {
-                    var homeInfo = {
-                        "title": "首页",
-                        "icon": "fa fa-home",
-                        "href": "/admin/home"
-                    }
-                    layuimini.initHome(homeInfo);
-                    var logoInfo = {
-                        "title": "小黄鸭",
-                        "image": "/images/logo.png",
-                        "href": ""
-                    }
-                    layuimini.initLogo(logoInfo);
-                    var clearInfo = {
-                        "clearInfo": {
-                            "clearUrl": "/layuiMini/api/clear.json"
-                        }
-                    }
-                    layuimini.initClear(clearInfo);
                     layuimini.initMenu(data.menuInfo);
                     layuimini.initTab();
                 }

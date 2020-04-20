@@ -17,4 +17,11 @@ public class AdminAndRole extends BaseEntity implements Serializable {
     private Long adminId;
 
     private Long roleId;
+
+    public static AdminAndRole init(Long roleId, Long adminId) {
+        AdminAndRole adminAndRole = new AdminAndRole();
+        adminAndRole.setAdminId(adminId);
+        adminAndRole.setRoleId(roleId);
+        return adminAndRole;
+    }
 }

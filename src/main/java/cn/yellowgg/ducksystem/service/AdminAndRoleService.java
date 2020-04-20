@@ -13,6 +13,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -94,7 +95,8 @@ public class AdminAndRoleService {
      * @return
      */
     public List<Role> findRoleByAdminId(Long adminId) {
-        return roleMapper.findAllByIdIn(adminandroleMapper.findRoleIdByAdminId(adminId));
+        List<Long> roIeIds = adminandroleMapper.findRoleIdByAdminId(adminId);
+        return CollectionUtils.isEmpty(roIeIds) ? Lists.newArrayList() : roleMapper.findAllByIdIn(roIeIds);
     }
 
     /**
@@ -112,5 +114,13 @@ public class AdminAndRoleService {
         return permMapper.findAllByIdInAndTypeInOrderByOrderNum(permIds,
                 Lists.newArrayList(PermissionTypeEnum.DIRECTORY.getValue(), PermissionTypeEnum.MENU.getValue()));
     }
+
+
+    public List<AdminAndRole> getListOfRoleIdsAndOneAdmin(Collection<Long> roleIds, Long adminId) {
+        List<AdminAndRole> result = Lists.newArrayList();
+        roleIds.forEach(x -> result.add(AdminAndRole.init(x, adminId)));
+        return result;
+    }
+
 
 }

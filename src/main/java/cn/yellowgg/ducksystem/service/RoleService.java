@@ -9,12 +9,13 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Sets;
 import org.apache.commons.collections.CollectionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * @Description:
@@ -31,14 +32,19 @@ public class RoleService {
     @Resource
     AdminandroleMapper adminandroleMapper;
 
-    @Resource
+    @Autowired
     RoleAndPermService roleAndPermService;
+    @Autowired
+    AdminAndRoleService adminAndRoleService;
 
-    public int deleteByPrimaryKey(Long id) {
-        // 角色有人不能删
-        return adminandroleMapper.countByRoleId(id) > UtilConstants.Number.ZERO
+
+    /**
+     * 删除角色
+     */
+    public int deleteByPrimaryKey(Long roleId) {
+        return adminandroleMapper.countByRoleId(roleId) > UtilConstants.Number.ZERO
                 ? UtilConstants.Number.ZERO
-                : roleMapper.deleteByPrimaryKey(id);
+                : roleMapper.deleteByPrimaryKey(roleId);
     }
 
 
@@ -52,8 +58,8 @@ public class RoleService {
     }
 
 
-    public int insertOrUpdateSelective(Role record, Set<Long> permIds) {
-        Set<Long> permIdsSet = Optional.ofNullable(permIds).orElseGet(() -> Sets.newHashSet());
+    public int insertOrUpdateSelective(Role record, Collection<Long> permIds) {
+        Collection<Long> permIdsSet = Optional.ofNullable(permIds).orElseGet(() -> Sets.newHashSet());
         roleMapper.insertOrUpdateSelective(record);
         // 先删除此角色的权限再放回去
         roleAndPermMapper.deleteByRoleId(record.getId());
@@ -100,5 +106,13 @@ public class RoleService {
     public PageInfo<Role> findByNamewithPage(int page, int pageSize, String name) {
         PageHelper.startPage(page, pageSize);
         return new PageInfo<>(roleMapper.findByName(name));
+    }
+
+    public List<Role> findAll() {
+        return roleMapper.findAll();
+    }
+
+    public List<Role> findAllByAdminId(Long id) {
+        return adminAndRoleService.findRoleByAdminId(id);
     }
 }

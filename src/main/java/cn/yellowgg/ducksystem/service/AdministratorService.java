@@ -2,17 +2,23 @@ package cn.yellowgg.ducksystem.service;
 
 
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.yellowgg.ducksystem.constant.UtilConstants;
 import cn.yellowgg.ducksystem.entity.perm.Administrator;
+import cn.yellowgg.ducksystem.mapper.AdminandroleMapper;
 import cn.yellowgg.ducksystem.mapper.AdministratorMapper;
+import cn.yellowgg.ducksystem.utils.ShiroUtils;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+import org.apache.commons.collections.CollectionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @Author: yellowgg
@@ -23,6 +29,10 @@ public class AdministratorService {
 
     @Resource
     AdministratorMapper administratorMapper;
+    @Resource
+    AdminandroleMapper adminandroleMapper;
+    @Autowired
+    AdminAndRoleService adminAndRoleService;
 
     public int deleteByPrimaryKey(Long id) {
         return administratorMapper.deleteByPrimaryKey(id);
@@ -39,8 +49,16 @@ public class AdministratorService {
     }
 
 
-    public int insertOrUpdateSelective(Administrator record) {
-        return administratorMapper.insertOrUpdateSelective(record);
+    public int insertOrUpdateSelective(Administrator admin, Collection<Long> releIds) {
+        Collection<Long> releIdsSet = Optional.ofNullable(releIds).orElseGet(() -> Sets.newHashSet());
+        // 密码再加密三次
+        admin.setPassword(ShiroUtils.createMD5Pwd(admin.getPassword(), UtilConstants.Number.THREE));
+        // 插入或更改管理员
+        administratorMapper.insertOrUpdateSelective(admin);
+        adminandroleMapper.deleteByAdminId(admin.getId());
+        return CollectionUtils.isEmpty(releIdsSet)
+                ? UtilConstants.Number.ZERO
+                : adminandroleMapper.batchInsert(adminAndRoleService.getListOfRoleIdsAndOneAdmin(releIdsSet, admin.getId()));
     }
 
 
@@ -98,15 +116,23 @@ public class AdministratorService {
 
     private HashMap<String, Object> getAdminNonNullMap(Administrator admin) {
         HashMap<String, Object> map = Maps.newHashMap();
-        if (Objects.nonNull(admin.getUserName())) {
+        if (StrUtil.isNotBlank(admin.getUserName())) {
             map.put("userName", admin.getUserName());
         }
         if (Objects.nonNull(admin.getId())) {
             map.put("id", admin.getId());
         }
-        if (Objects.nonNull(admin.getPassword())) {
+        if (StrUtil.isNotBlank(admin.getPassword())) {
             map.put("password", admin.getPassword());
         }
+        if (StrUtil.isNotBlank(admin.getEmail())) {
+            map.put("email", admin.getEmail());
+        }
         return map;
+    }
+
+    public PageInfo<Administrator> findByAllSelectivewithPage(int page, int pageSize, Administrator administrator) {
+        PageHelper.startPage(page, pageSize);
+        return new PageInfo<>(administratorMapper.findByAllSelective(administrator));
     }
 }

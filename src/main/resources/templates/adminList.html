@@ -4,7 +4,7 @@
       xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="UTF-8">
-    <title>课程列表</title>
+    <title>子用户</title>
     <link rel="stylesheet" href="/layui-v2.5.6/css/layui.css" media="all">
     <style type="text/css">
         body {
@@ -15,41 +15,29 @@
             display: none;
         }
 
-        /*layui表格显示完整图片*/
-        .layui-table-cell {
-            height: auto !important;
-            white-space: normal;
-        }
-
         #addOrUpCourseForm > div.needHidden > div > button {
             display: none;
         }
 
-        /*layui 单元格设置纵向滚动条*/
-        .laytable-cell-1-0-7, .laytable-cell-1-0-8, .laytable-cell-1-0-9 {
-            max-height: 100px;
-            overflow-y: auto;
-        }
     </style>
 </head>
 <body>
 <form class="layui-form layui-form-pane" action="" id="courseSearchForm" method="post"
       lay-filter="courseSearchForm" onsubmit="return false;">
     <div class="layui-form-item">
-        <label class="layui-form-label">课程名字</label>
+        <label class="layui-form-label">用户名</label>
         <div class="layui-input-inline" style="width: 150px;">
-            <input type="text" name="name" id="name" placeholder="请输入课程名" autocomplete="off" class="layui-input">
+            <input type="text" name="userName" id="searchForm_id" placeholder="请输入用户名" autocomplete="off"
+                   class="layui-input">
         </div>
-        <label class="layui-form-label">课程类型</label>
-        <div class="layui-input-inline" style="width: 100px;">
-            <select lay-filter="sexSelected" name="type" id="type" lay-search>
-                <option value=""></option>
-                <option th:each="result : ${courseTypes}" th:value="${result.key}" th:text="${result.value}"></option>
-            </select>
+        <label class="layui-form-label">邮箱</label>
+        <div class="layui-input-inline" style="width: 150px;">
+            <input type="text" name="email" id="searchForm_email" placeholder="请输入邮箱" autocomplete="off"
+                   class="layui-input">
         </div>
         <button class="layui-btn" lay-submit lay-filter="submit" id="queryBtn">查询</button>
         <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-        <button type="button" id="addBtn" class="layui-btn layui-btn-normal" shiro:hasPermission="course:add">添加
+        <button type="button" id="addBtn" class="layui-btn layui-btn-normal">添加
         </button>
     </div>
 </form>
@@ -57,63 +45,43 @@
 <script type="text/html" id="zizeng">
     {{d.LAY_TABLE_INDEX+1}}
 </script>
-<script type="text/html" id="imgTpl">
-    <div><img src="{{ d.imgUrl }}" style="width:150px; height:150px;"></div>
-</script>
 <script type="text/html" id="bar">
-    <a class="layui-btn layui-btn-xs" lay-event="edit" shiro:hasPermission="course:edit">编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" shiro:hasPermission="course:edit">删除</a>
+    {{# if(d.id != 1){ }}
+    <a class="layui-btn layui-btn-xs" lay-event="edit" id="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" id="del">删除</a>
+    {{# } }}
 </script>
 <div id="addOrUpCourseDialog" class="layui-form" style="display:none">
     <form class="layui-form" method="post" id="addOrUpCourseForm">
-        <label class="layui-form-label">名字</label>
+        <label class="layui-form-label">用户名</label>
         <div class="layui-input-block" style="width: 150px;">
-            <input type="text" name="name" id="form_name" required lay-verify="required" placeholder="请输入课程名"
+            <input type="text" name="userName" id="form_name" required lay-verify="required" placeholder="请输入用户名"
                    autocomplete="off" class="layui-input">
         </div>
-        <label class="layui-form-label">类型</label>
+        <label class="layui-form-label">密码</label>
         <div class="layui-input-block" style="width: 150px;">
-            <select lay-filter="typeSelected" name="type" id="form_type">
-                <option th:each="result : ${courseTypes}" th:value="${result.key}" th:text="${result.value}"></option>
-            </select>
+            <input type="password" name="password" id="form_pwd" required lay-verify="required"
+                   placeholder="请输入密码" autocomplete="off" class="layui-input">
         </div>
-        <label class="layui-form-label">是否热门</label>
+        <label class="layui-form-label">邮箱</label>
+        <div class="layui-input-block" style="width: 300px;">
+            <input type="text" name="email" id="form_email" required lay-verify="required"
+                   placeholder="请输入邮箱" autocomplete="off" class="layui-input">
+        </div>
+        <label class="layui-form-label">姓名</label>
         <div class="layui-input-block" style="width: 150px;">
-            <select lay-filter="hotSelected" name="isHotCourse" id="form_hot">
-                <option value="1">是</option>
-                <option value="0">否</option>
-            </select>
+            <input type="text" name="realName" id="form_realName" required lay-verify="required"
+                   placeholder="请输入姓名" autocomplete="off" class="layui-input">
         </div>
-        <label class="layui-form-label">价格</label>
-        <div class="layui-input-block" style="width: 150px;">
-            <input type="text" name="price" id="form_price" required lay-verify="required"
-                   placeholder="请输入价格" autocomplete="off" class="layui-input">
-        </div>
-        <label class="layui-form-label">积分</label>
-        <div class="layui-input-block" style="width: 150px;">
-            <input type="text" name="integral" id="form_integral" required lay-verify="required"
-                   placeholder="买课赠送积分" autocomplete="off" class="layui-input">
-        </div>
-        <label class="layui-form-label">简介</label>
-        <div class="layui-input-block needHidden">
-            <textarea name="introduction" id="form_introduction" style="width:70%;height:180px" required
-                      lay-verify="required" autocomplete="off" placeholder="请输入简介" class="layui-textarea"></textarea>
-        </div>
-        <label class="layui-form-label">特色</label>
-        <div class="layui-input-block needHidden">
-            <textarea name="characteristical" id="form_charac" style="width:70%;height:180px" required
-                      lay-verify="required" autocomplete="off" placeholder="请输入特色" class="layui-textarea"></textarea>
-        </div>
-        <label class="layui-form-label">详情</label>
-        <div class="layui-input-block needHidden">
-            <textarea name="details" id="form_details" style="width:70%;height:180px" required
-                      lay-verify="required" autocomplete="off" placeholder="请输入详情" class="layui-textarea"></textarea>
-        </div>
-        <label class="layui-form-label">图片</label>
-        <div class="layui-input-block">
-              <textarea name="imgUrl" id="form_srcurl" style="width:70%;height:50px" required
-                        lay-verify="required" autocomplete="off" placeholder="上传图片后保留[img]标签的内容"
-                        class="layui-textarea"></textarea>
+        <div class="layui-form-item">
+            <label class="layui-form-label">角色</label>
+            <div class="layui-input-block" id="roleCheck">
+                <input type="checkbox" name="roleCheckInput"
+                       th:each="role:${roleCheckMap}"
+                       th:value="${role.key}"
+                       th:title="${role.value}">
+                <!--th:checked="${#lists.contains(userRoleList, role.id)}"-->
+            </div>
         </div>
         <input name="id" id="form_id" hidden>
     </form>
@@ -143,31 +111,56 @@
                 title: "操作",
                 btnAlign: 'c',
                 shadeClose: true,
-                area: ['480px', '655px'],
+                area: ['600px', '400px'],
                 content: $('#addOrUpCourseDialog'),
                 success: function (layero, index) {
                     if (up) {
-                        $('#form_srcurl').val(data.imgUrl);
-                        $('#form_details').val(data.details);
-                        $('#form_charac').val(data.characteristical);
-                        $('#form_introduction').val(data.introduction);
-                        $('#form_integral').val(data.integral);
-                        $('#form_price').val(data.price);
-                        $('#form_hot').val(data.isHotCourse);
-                        $('#form_type').val(data.type);
-                        $('#form_name').val(data.name);
+                        $.ajax({
+                            type: "get",
+                            url: '/role/hasRole/' + encode(data.id.toString()),
+                            async: true,
+                            success: function (resp) {
+                                var form = layui.form; //这样才会刷新表单元素
+                                var checks = $('input[name="roleCheckInput"]');
+                                var roleIds = resp.data;
+                                for (var i = 0; i < checks.length; i++) {
+                                    checks[i].checked = false;
+                                    for (var n = 0; n < roleIds.length; n++) {
+                                        if (roleIds[n].toString() === checks[i].value) {
+                                            checks[i].checked = true;
+                                        }
+                                    }
+                                }
+                                form.render();
+                            }
+                        });
+                    }
+                    if (up) {
+                        $('#form_name').val(data.userName);
+                        $('#form_email').val(data.email);
+                        $('#form_realName').val(data.realName);
                         $('#form_id').val(data.id);
-                        form.render('select');
                     } else {
                         document.getElementById("addOrUpCourseForm").reset();
                     }
                 },
                 yes: function () {
+                    var arr_box = [];
+                    $('input[type=checkbox]:checked').each(function () {
+                        arr_box.push($(this).val());
+                    });
+                    var obj = {
+                        name: "roleIds",
+                        value: arr_box.toString()
+                    }
+                    var datas = $('#addOrUpCourseForm').serializeArray();
+                    datas.push(obj);
+                    datas[1].value = jiami(datas[1].value);
                     if (!click) {
                         click = true;
                         $.post({
-                            url: "/course/addOrUp"
-                            , data: $('#addOrUpCourseForm').serializeArray()
+                            url: "/admin/addOrUp"
+                            , data: datas
                             , success: function (resp) {
                                 layer.msg(resp.msg);
                                 setTimeout(function () {
@@ -192,25 +185,19 @@
         var tableReload = table.render({
             elem: '#courseTable'
             , id: 'id'
-            , url: '/course/data' //数据接口
+            , url: '/admin/data' //数据接口
             , page: {
-                limit: 3 //一页显示多少条
-                , limits: [1, 2, 3]
+                limit: 10 //一页显示多少条
+                , limits: [10, 20, 30]
             }
             , cellMinWidth: 80 // 开了这个，就不用全部都设置了
             , toolbar: false //不开工具栏了，基本用不到这些工具
             , even: true // 隔行背景
             , cols: [[{type: 'radio', fixed: 'left', hide: true}
-                , {field: 'zizeng', sort: true, title: '序号', align: 'center', templet: '#zizeng', width: 80}
-                , {field: 'name', sort: true, title: '课程名', width: 100, align: 'center'}
-                , {field: 'typeShow', sort: true, title: '类型', align: 'center', width: 80}
-                , {field: 'isHotShow', title: '热门', sort: true, width: 80, align: 'center'}
-                , {field: 'integral', title: '积分', sort: true, width: 100, align: 'center'}
-                , {field: 'price', title: '价格(￥)', sort: true, width: 140, align: 'center'}
-                , {field: 'introduction', title: '简介', sort: true, align: 'center'}
-                , {field: 'characteristical', title: '特色', sort: true, align: 'center'}
-                , {field: 'details', title: '详情', sort: true, align: 'center'}
-                , {field: 'imgUrl', title: '图片', align: 'center', templet: '#imgTpl'}
+                , {field: 'zizeng', sort: true, title: '序号', align: 'center', templet: '#zizeng'}
+                , {field: 'userName', sort: true, title: '用户名', align: 'center'}
+                , {field: 'email', sort: true, title: '邮箱', align: 'center'}
+                , {field: 'realName', title: '姓名', sort: true, align: 'center'}
                 , {title: '操作', width: 120, align: 'center', toolbar: '#bar'}]
             ]
             , request: {
@@ -250,7 +237,7 @@
                     shadeClose: true
                 }, function () {
                     $.post({
-                        url: "/course/del/" + encode(data.id.toString())
+                        url: "/admin/del/" + encode(data.id.toString())
                         , success: function (resp) {
                             layer.msg(resp.msg);
                             setTimeout(function () {

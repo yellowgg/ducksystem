@@ -15,4 +15,11 @@ public class RoleAndPerm extends BaseEntity {
     private Long roleId;
 
     private Long permId;
+
+    public static RoleAndPerm init(Long roleId, Long permId) {
+        RoleAndPerm roleAndPerm = new RoleAndPerm();
+        roleAndPerm.setPermId(permId);
+        roleAndPerm.setRoleId(roleId);
+        return roleAndPerm;
+    }
 }

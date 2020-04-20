@@ -1,16 +1,21 @@
 package cn.yellowgg.ducksystem.controller;
 
+import cn.hutool.core.util.StrUtil;
 import cn.yellowgg.ducksystem.constant.UtilConstants;
 import cn.yellowgg.ducksystem.entity.perm.Role;
+import cn.yellowgg.ducksystem.service.AdminAndRoleService;
 import cn.yellowgg.ducksystem.service.RoleService;
 import cn.yellowgg.ducksystem.service.base.ServiceQueryResult;
 import cn.yellowgg.ducksystem.service.base.ServiceResult;
 import cn.yellowgg.ducksystem.utils.Base64Utils;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @Author: yellowgg
@@ -28,14 +33,22 @@ public class RoleMgr {
         return "roleList";
     }
 
+    /**
+     * @param permIds 1,2,3 格式
+     */
     @PostMapping("/addOrUp")
     @ResponseBody
-    public ServiceResult insertOrUpdateSelective(@Valid Role role) {
-        return roleService.insertOrUpdateSelective(role) > UtilConstants.Number.ZERO
+    public ServiceResult insertOrUpdateSelective(@Valid Role role, String permIds) {
+        Set<Long> permIdsSet = null;
+        if (StrUtil.isNotBlank(permIds)) {
+            permIdsSet = Arrays.stream(permIds.split(StrUtil.COMMA))
+                    .map(s -> Long.parseLong(s.trim()))
+                    .collect(Collectors.toSet());
+        }
+        return roleService.insertOrUpdateSelective(role, permIdsSet) >= UtilConstants.Number.ZERO
                 ? ServiceResult.asSuccess(null, "操作成功")
                 : ServiceResult.asFail("操作失败");
     }
-
 
     @GetMapping("/data")
     @ResponseBody
@@ -53,4 +66,18 @@ public class RoleMgr {
                 ? ServiceResult.asSuccess(null, "删除成功")
                 : ServiceResult.asFail("删除失败，请检查此角色是否有管理员");
     }
+
+    /**
+     * 获取管理员对应的角色ID
+     */
+    @GetMapping("/hasRole/{adminId}")
+    @ResponseBody
+    public ServiceQueryResult hasRole(@PathVariable String adminId) {
+        long id = Long.parseLong(Base64Utils.decodeStrofCount(adminId, UtilConstants.Number.THREE));
+        Set<Long> roleIds = roleService.findAllByAdminId(id).stream().map(Role::getId).collect(Collectors.toSet());
+        return CollectionUtils.isNotEmpty(roleIds)
+                ? ServiceQueryResult.asSuccess(roleIds)
+                : ServiceQueryResult.asFail("无角色数据");
+    }
+
 }

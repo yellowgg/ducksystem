@@ -46,6 +46,10 @@ public interface RoleMapper {
     List<Role> findAllByIdIn(@Param("idCollection") Collection<Long> idCollection);
 
     List<Role> findByName(@Param("name") String name);
+
+    List<Role> findAll();
+
+
     //endregion
 
 

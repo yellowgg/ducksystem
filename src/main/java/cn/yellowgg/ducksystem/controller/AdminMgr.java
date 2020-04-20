@@ -5,19 +5,28 @@ import cn.hutool.json.JSONObject;
 import cn.yellowgg.ducksystem.annotation.Base64DecodeStr;
 import cn.yellowgg.ducksystem.constant.UtilConstants;
 import cn.yellowgg.ducksystem.entity.perm.Administrator;
+import cn.yellowgg.ducksystem.entity.perm.Role;
 import cn.yellowgg.ducksystem.service.AdministratorService;
+import cn.yellowgg.ducksystem.service.PermissionService;
+import cn.yellowgg.ducksystem.service.RoleService;
+import cn.yellowgg.ducksystem.service.base.ServiceQueryResult;
 import cn.yellowgg.ducksystem.service.base.ServiceResult;
 import cn.yellowgg.ducksystem.utils.Base64Utils;
 import cn.yellowgg.ducksystem.utils.ShiroUtils;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import java.util.Arrays;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @Description: 后台管理
@@ -32,6 +41,10 @@ public class AdminMgr {
 
     @Autowired
     AdministratorService adminService;
+    @Autowired
+    PermissionService permissionService;
+    @Autowired
+    RoleService roleService;
 
     //region 页面
     @GetMapping("/index")
@@ -43,13 +56,21 @@ public class AdminMgr {
     public String home() {
         return "home";
     }
+
+    @GetMapping("/page")
+    public String page(Model model) {
+        Map<Long, String> roleIdAndRoleNameMap = roleService.findAll()
+                .stream().collect(Collectors.toMap(Role::getId, Role::getName));
+        model.addAttribute("roleCheckMap", roleIdAndRoleNameMap);
+        return "adminList";
+    }
     //endregion
 
     //region 接口
     @GetMapping("/initJson/{adminId}")
     @ResponseBody
     public ServiceResult getInitMenuJson(@PathVariable String adminId) {
-        JSONObject initJson = adminService.getInitJson(Long.parseLong(
+        JSONObject initJson = permissionService.getDirAndMenuPermJsonTreeByAdminId(Long.parseLong(
                 Base64Utils.decodeStrofCount(adminId, UtilConstants.Number.THREE)));
         return Objects.nonNull(initJson)
                 ? ServiceResult.asSuccess(initJson)
@@ -88,6 +109,31 @@ public class AdminMgr {
         return adminService.updatePasswordById(admin) > UtilConstants.Number.ZERO
                 ? ServiceResult.asSuccess(null, "修改成功")
                 : ServiceResult.asFail("修改失败");
+    }
+
+    @GetMapping("/data")
+    @ResponseBody
+    public ServiceQueryResult getData(@RequestParam(defaultValue = "1") Integer pageNum,
+                                      @RequestParam(defaultValue = "10") Integer pageSize,
+                                      Administrator admin) {
+        return ServiceQueryResult.asSuccess(adminService.findByAllSelectivewithPage(pageNum, pageSize, admin));
+    }
+
+    /**
+     * @param roleIds 1,2,3 格式
+     */
+    @PostMapping("/addOrUp")
+    @ResponseBody
+    public ServiceResult insertOrUpdateSelective(@Valid Administrator admin, String roleIds) {
+        Set<Long> releIdsSet = null;
+        if (StrUtil.isNotBlank(roleIds)) {
+            releIdsSet = Arrays.stream(roleIds.split(StrUtil.COMMA))
+                    .map(s -> Long.parseLong(s.trim()))
+                    .collect(Collectors.toSet());
+        }
+        return adminService.insertOrUpdateSelective(admin, releIdsSet) > UtilConstants.Number.ZERO
+                ? ServiceResult.asSuccess(null, "操作成功")
+                : ServiceResult.asFail("操作失败");
     }
     //endregion
 

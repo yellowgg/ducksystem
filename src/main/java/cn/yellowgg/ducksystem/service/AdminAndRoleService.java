@@ -6,13 +6,14 @@ import cn.yellowgg.ducksystem.entity.perm.Role;
 import cn.yellowgg.ducksystem.enums.PermissionTypeEnum;
 import cn.yellowgg.ducksystem.mapper.AdminandroleMapper;
 import cn.yellowgg.ducksystem.mapper.PermissionMapper;
-import cn.yellowgg.ducksystem.mapper.RolAndPermMapper;
+import cn.yellowgg.ducksystem.mapper.RoleAndPermMapper;
 import cn.yellowgg.ducksystem.mapper.RoleMapper;
 import com.google.common.collect.Lists;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -28,7 +29,7 @@ public class AdminAndRoleService {
     @Resource
     private RoleMapper roleMapper;
     @Resource
-    private RolAndPermMapper rolAndPermMapper;
+    private RoleAndPermMapper roleAndPermMapper;
     @Resource
     private PermissionMapper permMapper;
 
@@ -94,7 +95,8 @@ public class AdminAndRoleService {
      * @return
      */
     public List<Role> findRoleByAdminId(Long adminId) {
-        return roleMapper.findAllByIdIn(adminandroleMapper.findRoleIdByAdminId(adminId));
+        List<Long> roIeIds = adminandroleMapper.findRoleIdByAdminId(adminId);
+        return CollectionUtils.isEmpty(roIeIds) ? Lists.newArrayList() : roleMapper.findAllByIdIn(roIeIds);
     }
 
     /**
@@ -105,12 +107,20 @@ public class AdminAndRoleService {
         if (CollectionUtils.isEmpty(roleIds)) {
             return Lists.newArrayList();
         }
-        List<Long> permIds = rolAndPermMapper.findDistinctPermIdByRoleIdIn(roleIds);
+        List<Long> permIds = roleAndPermMapper.findDistinctPermIdByRoleIdIn(roleIds);
         if (CollectionUtils.isEmpty(permIds)) {
             return Lists.newArrayList();
         }
         return permMapper.findAllByIdInAndTypeInOrderByOrderNum(permIds,
                 Lists.newArrayList(PermissionTypeEnum.DIRECTORY.getValue(), PermissionTypeEnum.MENU.getValue()));
     }
+
+
+    public List<AdminAndRole> getListOfRoleIdsAndOneAdmin(Collection<Long> roleIds, Long adminId) {
+        List<AdminAndRole> result = Lists.newArrayList();
+        roleIds.forEach(x -> result.add(AdminAndRole.init(x, adminId)));
+        return result;
+    }
+
 
 }

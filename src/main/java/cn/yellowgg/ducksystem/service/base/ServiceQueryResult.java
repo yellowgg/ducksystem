@@ -8,7 +8,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * @Author: yellowgg
@@ -22,13 +22,13 @@ public class ServiceQueryResult<T> {
     @ApiModelProperty(value = "附属消息")
     private String msg;
     @ApiModelProperty(value = "数据列表")
-    private List<T> data;
+    private Collection<T> data;
     @ApiModelProperty(value = "请求结果", example = "ture表示成功并存在数据")
     private boolean success;
     @ApiModelProperty(value = "列表数据数量，不是分页数据数量")
     private long totalCount;
 
-    public ServiceQueryResult(Integer respCode, String msg, List<T> data, boolean success, long totalCount) {
+    public ServiceQueryResult(Integer respCode, String msg, Collection<T> data, boolean success, long totalCount) {
         this.respCode = respCode;
         this.msg = msg;
         this.data = data;
@@ -44,7 +44,7 @@ public class ServiceQueryResult<T> {
         return new ServiceQueryResult(HttpStatus.HTTP_OK, msg, pageInfo.getList(), UtilConstants.Bool.TRUE, pageInfo.getTotal());
     }
 
-    public static <T> ServiceQueryResult asSuccess(List<T> objs) {
+    public static <T> ServiceQueryResult asSuccess(Collection<T> objs) {
         return new ServiceQueryResult(HttpStatus.HTTP_OK, UtilConstants.Str.EMPTYSTR, objs, UtilConstants.Bool.TRUE, objs.size());
     }
 

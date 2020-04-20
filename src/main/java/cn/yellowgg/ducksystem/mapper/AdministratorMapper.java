@@ -50,5 +50,8 @@ public interface AdministratorMapper {
     //region 查
     Administrator findBySeleceive(Map<String, Object> params);
 
+    List<Administrator> findByAllSelective(Administrator administrator);
+
+
     //endregion
 }

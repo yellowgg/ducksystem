@@ -26,6 +26,9 @@ public interface AdminandroleMapper {
 
     //region 删
     int deleteByPrimaryKey(Long id);
+    int deleteByAdminId(@Param("adminId")Long adminId);
+
+
     //endregion
 
     //region 改

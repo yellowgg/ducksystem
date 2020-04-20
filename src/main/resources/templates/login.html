@@ -47,7 +47,7 @@
         </div>
         <div class="btn-group">
             <button id="btn" type="button" lay-filter="btnSubmit" class="btn btn--primary">登录</button>
-            <a class="btn--text" href="#0">忘记密码？</a>
+            <a class="btn--text" href="#0" id="foget">忘记密码？</a>
         </div>
     </div>
 </form>
@@ -60,6 +60,9 @@
         var $ = layui.$,
             layer = layui.layer,
             form = layui.form;
+        $("#foget").click(function () {
+            layer.msg("请联系超级管理员修改");
+        });
         $("#btn").click(function () {
             var data = form.val("loginForm");
             var pwd = $("input[id='login-password']").val();

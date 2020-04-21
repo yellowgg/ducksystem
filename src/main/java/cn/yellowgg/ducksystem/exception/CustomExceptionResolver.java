@@ -33,6 +33,17 @@ public class CustomExceptionResolver {
     }
 
     /**
+     * 自定义异常捕捉处理
+     */
+    @ResponseBody
+    @ExceptionHandler(value = CustomException.class)
+    public ServiceResult customExceptionHandler(CustomException ex) {
+        log.info("【自定义异常捕捉】", ex);
+        return ServiceResult.asFail(ex.getMsg());
+    }
+
+
+    /**
      * 拦截捕捉 参数校验异常
      */
     @ResponseBody

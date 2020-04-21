@@ -4,40 +4,44 @@
       xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="UTF-8">
-    <title>子用户</title>
+    <title>课程视频管理</title>
     <link rel="stylesheet" href="/layui-v2.5.6/css/layui.css" media="all">
     <style type="text/css">
         body {
             padding: 20px;
         }
 
-        .layui-table-grid-down {
-            display: none;
+        /*layui表格显示完整图片*/
+        .layui-table-cell {
+            height: auto !important;
+            white-space: normal;
         }
 
         #addOrUpCourseForm > div.needHidden > div > button {
             display: none;
         }
 
+        /*layui 单元格设置纵向滚动条*/
+        .laytable-cell-1-0-7, .laytable-cell-1-0-8, .laytable-cell-1-0-9 {
+            max-height: 100px;
+            overflow-y: auto;
+        }
     </style>
 </head>
 <body>
 <form class="layui-form layui-form-pane" action="" id="courseSearchForm" method="post"
       lay-filter="courseSearchForm" onsubmit="return false;">
     <div class="layui-form-item">
-        <label class="layui-form-label">用户名</label>
+        <label class="layui-form-label">课程</label>
         <div class="layui-input-inline" style="width: 150px;">
-            <input type="text" name="userName" id="searchForm_id" placeholder="请输入用户名" autocomplete="off"
-                   class="layui-input">
-        </div>
-        <label class="layui-form-label">邮箱</label>
-        <div class="layui-input-inline" style="width: 150px;">
-            <input type="text" name="email" id="searchForm_email" placeholder="请输入邮箱" autocomplete="off"
-                   class="layui-input">
+            <select lay-filter="typeSelected" name="courseId" id="search_type">
+                <option value="0" text=""></option>
+                <option th:each="result : ${courseMap}" th:value="${result.key}" th:text="${result.value}"></option>
+            </select>
         </div>
         <button class="layui-btn" lay-submit lay-filter="submit" id="queryBtn">查询</button>
         <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-        <button type="button" id="addBtn" class="layui-btn layui-btn-normal" shiro:hasPermission="admin:add">添加
+        <button type="button" id="addBtn" class="layui-btn layui-btn-normal" shiro:hasPermission="coursevideo:add">添加
         </button>
     </div>
 </form>
@@ -45,45 +49,45 @@
 <script type="text/html" id="zizeng">
     {{d.LAY_TABLE_INDEX+1}}
 </script>
+<!--layui表格显示图片-->
+<script type="text/html" id="imgTpl">
+    <div><img src="{{ d.cover }}" style="width:150px; height:150px;"></div>
+</script>
 <script type="text/html" id="bar">
-    {{# if(d.id != 1){ }}
-    <a class="layui-btn layui-btn-xs" lay-event="edit" id="edit" shiro:hasPermission="admin:edit">编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" id="del" shiro:hasPermission="admin:del">删除</a>
-    {{# } }}
+    <a class="layui-btn layui-btn-xs" lay-event="edit" shiro:hasPermission="coursevideo:edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" shiro:hasPermission="coursevideo:del">删除</a>
 </script>
 <div id="addOrUpCourseDialog" class="layui-form" style="display:none">
     <form class="layui-form" method="post" id="addOrUpCourseForm">
-        <label class="layui-form-label">用户名</label>
+        <label class="layui-form-label">课程</label>
         <div class="layui-input-block" style="width: 150px;">
-            <input type="text" name="userName" id="form_name" required lay-verify="required" placeholder="请输入用户名"
-                   autocomplete="off" class="layui-input">
+            <select lay-filter="typeSelected" name="courseId" id="form_courseId">
+                <option th:each="result : ${courseMap}" th:value="${result.key}" th:text="${result.value}"></option>
+            </select>
         </div>
-        <label class="layui-form-label">密码</label>
+        <label class="layui-form-label">视频标题</label>
         <div class="layui-input-block" style="width: 150px;">
-            <input type="password" name="password" id="form_pwd" required lay-verify="required"
-                   placeholder="请输入密码" autocomplete="off" class="layui-input">
+            <input type="text" name="title" id="form_title" required lay-verify="required"
+                   placeholder="请输入视频标题" autocomplete="off" class="layui-input">
         </div>
-        <label class="layui-form-label">邮箱</label>
-        <div class="layui-input-block" style="width: 300px;">
-            <input type="text" name="email" id="form_email" required lay-verify="required"
-                   placeholder="请输入邮箱" autocomplete="off" class="layui-input">
-        </div>
-        <label class="layui-form-label">姓名</label>
+        <label class="layui-form-label">视频地址</label>
         <div class="layui-input-block" style="width: 150px;">
-            <input type="text" name="realName" id="form_realName" required lay-verify="required"
-                   placeholder="请输入姓名" autocomplete="off" class="layui-input">
+            <input type="text" name="videoUrl" id="form_url" required lay-verify="required"
+                   placeholder="请输入视频地址" autocomplete="off" class="layui-input">
         </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">角色</label>
-            <div class="layui-input-block" id="roleCheck">
-                <input type="checkbox" name="roleCheckInput"
-                       th:each="role:${roleCheckMap}"
-                       th:value="${role.key}"
-                       th:title="${role.value}">
-                <!--th:checked="${#lists.contains(userRoleList, role.id)}"-->
-            </div>
+        <label class="layui-form-label">视频时长</label>
+        <div class="layui-input-block" style="width: 150px;">
+            <input type="text" name="duration" id="form_duration" required lay-verify="required"
+                   placeholder="视频时长:秒" autocomplete="off" class="layui-input">
+        </div>
+        <label class="layui-form-label">视频封面</label>
+        <div class="layui-input-block">
+              <textarea name="cover" id="form_cover" style="width:70%;height:50px" required
+                        lay-verify="required" autocomplete="off" placeholder="上传图片后保留[img]标签的内容"
+                        class="layui-textarea"></textarea>
         </div>
         <input name="id" id="form_id" hidden>
+        <input name="courseName" id="form_courseName" hidden>
     </form>
 </div>
 </body>
@@ -98,8 +102,7 @@
         var table = layui.table,
             $ = layui.$,
             layer = layui.layer,
-            form = layui.form,
-            laydate = layui.laydate;
+            form = layui.form;
 
         function addAndUpDialog(up, data) {
             var click = false;
@@ -111,56 +114,29 @@
                 title: "操作",
                 btnAlign: 'c',
                 shadeClose: true,
-                area: ['600px', '400px'],
+                area: ['480px', '400px'],
                 content: $('#addOrUpCourseDialog'),
                 success: function (layero, index) {
                     if (up) {
-                        $.ajax({
-                            type: "get",
-                            url: '/role/hasRole/' + encode(data.id.toString()),
-                            async: true,
-                            success: function (resp) {
-                                var form = layui.form; //这样才会刷新表单元素
-                                var checks = $('input[name="roleCheckInput"]');
-                                var roleIds = resp.data;
-                                for (var i = 0; i < checks.length; i++) {
-                                    checks[i].checked = false;
-                                    for (var n = 0; n < roleIds.length; n++) {
-                                        if (roleIds[n].toString() === checks[i].value) {
-                                            checks[i].checked = true;
-                                        }
-                                    }
-                                }
-                                form.render();
-                            }
-                        });
-                    }
-                    if (up) {
-                        $('#form_name').val(data.userName);
-                        $('#form_email').val(data.email);
-                        $('#form_realName').val(data.realName);
+                        $('#form_courseId').val(data.courseId);
+                        $('#form_title').val(data.title);
+                        $('#form_url').val(data.videoUrl);
+                        $('#form_duration').val(data.duration);
+                        $('#form_cover').val(data.cover);
                         $('#form_id').val(data.id);
+                        form.render('select');
                     } else {
                         document.getElementById("addOrUpCourseForm").reset();
                     }
+                    var options = $("#form_courseId option:selected");//获取当前选择项.
+                    $('#form_courseName').val(options.text());
                 },
                 yes: function () {
-                    var arr_box = [];
-                    $('input[type=checkbox]:checked').each(function () {
-                        arr_box.push($(this).val());
-                    });
-                    var obj = {
-                        name: "roleIds",
-                        value: arr_box.toString()
-                    }
-                    var datas = $('#addOrUpCourseForm').serializeArray();
-                    datas.push(obj);
-                    datas[1].value = jiami(datas[1].value);
                     if (!click) {
                         click = true;
                         $.post({
-                            url: "/admin/addOrUp"
-                            , data: datas
+                            url: "/course/video/addOrUp"
+                            , data: $('#addOrUpCourseForm').serializeArray()
                             , success: function (resp) {
                                 layer.msg(resp.msg);
                                 setTimeout(function () {
@@ -185,19 +161,21 @@
         var tableReload = table.render({
             elem: '#courseTable'
             , id: 'id'
-            , url: '/admin/data' //数据接口
+            , url: '/course/video/data' //数据接口
             , page: {
-                limit: 10 //一页显示多少条
+                limit: 20 //一页显示多少条
                 , limits: [10, 20, 30]
             }
             , cellMinWidth: 80 // 开了这个，就不用全部都设置了
             , toolbar: false //不开工具栏了，基本用不到这些工具
             , even: true // 隔行背景
             , cols: [[{type: 'radio', fixed: 'left', hide: true}
-                , {field: 'zizeng', sort: true, title: '序号', align: 'center', templet: '#zizeng'}
-                , {field: 'userName', sort: true, title: '用户名', align: 'center'}
-                , {field: 'email', sort: true, title: '邮箱', align: 'center'}
-                , {field: 'realName', title: '姓名', sort: true, align: 'center'}
+                , {field: 'zizeng', sort: true, title: '序号', align: 'center', templet: '#zizeng', width: 80}
+                , {field: 'courseName', sort: true, title: '课程名', width: 200, align: 'center'}
+                , {field: 'title', sort: true, title: '视频名称', align: 'center', width: 200}
+                , {field: 'videoUrl', sort: true, title: '视频地址', align: 'center', width: 200}
+                , {field: 'duration', title: '视频时长(秒)', sort: true, width: 200, align: 'center'}
+                , {field: 'cover', title: '封面', align: 'center', widthi: 200, templet: '#imgTpl'}
                 , {title: '操作', width: 120, align: 'center', toolbar: '#bar'}]
             ]
             , request: {
@@ -232,12 +210,12 @@
         table.on('tool(courseTable)', function (obj) {
             var data = obj.data;
             if (obj.event === 'del') {
-                layer.confirm('要删除此子用户吗？', {
+                layer.confirm('要删除此课程吗？', {
                     btn: ['是的', '不了'],
                     shadeClose: true
                 }, function () {
                     $.post({
-                        url: "/admin/del/" + encode(data.id.toString())
+                        url: "/course/video/del/" + encode(data.id.toString())
                         , success: function (resp) {
                             layer.msg(resp.msg);
                             setTimeout(function () {

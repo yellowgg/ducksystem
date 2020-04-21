@@ -2,7 +2,9 @@ package cn.yellowgg.ducksystem.service;
 
 import cn.yellowgg.ducksystem.constant.UtilConstants;
 import cn.yellowgg.ducksystem.entity.Account;
+import cn.yellowgg.ducksystem.entity.Wallet;
 import cn.yellowgg.ducksystem.mapper.AccountMapper;
+import cn.yellowgg.ducksystem.mapper.WalletMapper;
 import cn.yellowgg.ducksystem.utils.RedisUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -22,6 +24,8 @@ public class AccountService {
 
     @Resource
     private AccountMapper accountMapper;
+    @Resource
+    private WalletMapper walletMapper;
 
     @Resource
     private RedisUtils redisUtils;
@@ -35,11 +39,12 @@ public class AccountService {
      * 使用微信用户信息来注册
      */
     public int register(Account record) {
-        // TODO yellowgg 开通钱包、积分啥啥的 还有签到
+        // TODO yellowgg 开通积分啥啥的 还有签到
         int addAccountResult = accountMapper.insertOrUpdateSelective(record);
         if (addAccountResult > UtilConstants.Number.ZERO) {
             redisUtils.hPut(record.getOpenId(), "hasInfo", UtilConstants.Str.ONE);
         }
+        walletMapper.insertOrUpdateSelective(new Wallet(record.getId()));
         return addAccountResult;
     }
 

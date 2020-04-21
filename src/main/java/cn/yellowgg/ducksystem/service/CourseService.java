@@ -1,13 +1,17 @@
 package cn.yellowgg.ducksystem.service;
 
+import cn.yellowgg.ducksystem.constant.UtilConstants;
 import cn.yellowgg.ducksystem.entity.Course;
 import cn.yellowgg.ducksystem.mapper.CourseMapper;
+import cn.yellowgg.ducksystem.mapper.CourseVideoInfoMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @Description:
@@ -19,6 +23,8 @@ public class CourseService {
 
     @Resource
     private CourseMapper courseMapper;
+    @Resource
+    private CourseVideoInfoMapper courseVideoInfoMapper;
 
     public PageInfo<Course> queryByAllSelectiveOrderByIdwithPage(int page, int pageSize, Course course) {
         PageHelper.startPage(page, pageSize);
@@ -38,6 +44,10 @@ public class CourseService {
     }
 
     public int insertOrUpdateSelective(Course record) {
+        // 如果是修改的话，先改下视频里绑定的名字
+        if (Objects.nonNull(record.getId())) {
+            courseVideoInfoMapper.updateCourseNameByCourseId(record.getName(), record.getId());
+        }
         return courseMapper.insertOrUpdateSelective(record);
     }
 
@@ -74,9 +84,10 @@ public class CourseService {
     }
 
     public List<Course> findThreeIsHot() {
-        return courseMapper.findThreeIsHot();
+        return courseMapper.countByIsHotCourse() < UtilConstants.Number.THREE
+                ? Lists.newArrayList()
+                : courseMapper.findThreeIsHot();
     }
-
 
 }
 

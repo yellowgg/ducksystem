@@ -14,6 +14,7 @@ import cn.yellowgg.ducksystem.service.base.ServiceResult;
 import cn.yellowgg.ducksystem.utils.Base64Utils;
 import cn.yellowgg.ducksystem.utils.ShiroUtils;
 import io.swagger.annotations.Api;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -122,6 +123,7 @@ public class AdminMgr {
     /**
      * @param roleIds 1,2,3 格式
      */
+    @RequiresPermissions({"admin:add", "admin:edit"})
     @PostMapping("/addOrUp")
     @ResponseBody
     public ServiceResult insertOrUpdateSelective(@Valid Administrator admin, String roleIds) {
@@ -136,6 +138,7 @@ public class AdminMgr {
                 : ServiceResult.asFail("操作失败");
     }
 
+    @RequiresPermissions({"admin:del"})
     @PostMapping("/del/{id}")
     @ResponseBody
     public ServiceResult del(@PathVariable String id) {

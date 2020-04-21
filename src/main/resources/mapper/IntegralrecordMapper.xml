@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.yellowgg.ducksystem.mapper.IntegralrecordMapper">
+  <resultMap id="BaseResultMap" type="cn.yellowgg.ducksystem.entity.Integralrecord">
+    <!--@mbg.generated-->
+    <!--@Table integralrecord-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="gmtCreate" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmtModify" jdbcType="TIMESTAMP" property="gmtModify" />
+    <result column="isDelete" jdbcType="INTEGER" property="isDelete" />
+    <result column="walletId" jdbcType="BIGINT" property="walletId" />
+    <result column="integral" jdbcType="BIGINT" property="integral" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, gmtCreate, gmtModify, isDelete, walletId, integral, description
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from integralrecord
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from integralrecord
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.yellowgg.ducksystem.entity.Integralrecord" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into integralrecord (gmtCreate, gmtModify, isDelete, 
+      walletId, integral, description
+      )
+    values (#{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=INTEGER}, 
+      #{walletId,jdbcType=BIGINT}, #{integral,jdbcType=BIGINT}, #{description,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.yellowgg.ducksystem.entity.Integralrecord" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into integralrecord
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="gmtCreate != null">
+        gmtCreate,
+      </if>
+      <if test="gmtModify != null">
+        gmtModify,
+      </if>
+      <if test="isDelete != null">
+        isDelete,
+      </if>
+      <if test="walletId != null">
+        walletId,
+      </if>
+      <if test="integral != null">
+        integral,
+      </if>
+      <if test="description != null and description != ''">
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null">
+        #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="walletId != null">
+        #{walletId,jdbcType=BIGINT},
+      </if>
+      <if test="integral != null">
+        #{integral,jdbcType=BIGINT},
+      </if>
+      <if test="description != null and description != ''">
+        #{description,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.yellowgg.ducksystem.entity.Integralrecord">
+    <!--@mbg.generated-->
+    update integralrecord
+    <set>
+      <if test="gmtCreate != null">
+        gmtCreate = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null">
+        gmtModify = #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        isDelete = #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="walletId != null">
+        walletId = #{walletId,jdbcType=BIGINT},
+      </if>
+      <if test="integral != null">
+        integral = #{integral,jdbcType=BIGINT},
+      </if>
+      <if test="description != null and description != ''">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.yellowgg.ducksystem.entity.Integralrecord">
+    <!--@mbg.generated-->
+    update integralrecord
+    set gmtCreate = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmtModify = #{gmtModify,jdbcType=TIMESTAMP},
+      isDelete = #{isDelete,jdbcType=INTEGER},
+      walletId = #{walletId,jdbcType=BIGINT},
+      integral = #{integral,jdbcType=BIGINT},
+      description = #{description,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update integralrecord
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="gmtCreate = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.gmtCreate,jdbcType=TIMESTAMP}
+        </foreach>
+      </trim>
+      <trim prefix="gmtModify = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.gmtModify,jdbcType=TIMESTAMP}
+        </foreach>
+      </trim>
+      <trim prefix="isDelete = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.isDelete,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="walletId = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.walletId,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="integral = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.integral,jdbcType=BIGINT}
+        </foreach>
+      </trim>
+      <trim prefix="description = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id,jdbcType=BIGINT} then #{item.description,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=BIGINT}
+    </foreach>
+  </update>
+  <update id="updateBatchSelective" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update integralrecord
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="gmtCreate = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.gmtCreate != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.gmtCreate,jdbcType=TIMESTAMP}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="gmtModify = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.gmtModify != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.gmtModify,jdbcType=TIMESTAMP}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="isDelete = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.isDelete != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.isDelete,jdbcType=INTEGER}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="walletId = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.walletId != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.walletId,jdbcType=BIGINT}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="integral = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.integral != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.integral,jdbcType=BIGINT}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="description = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.description != null">
+            when id = #{item.id,jdbcType=BIGINT} then #{item.description,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id,jdbcType=BIGINT}
+    </foreach>
+  </update>
+  <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into integralrecord
+    (gmtCreate, gmtModify, isDelete, walletId, integral, description)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.gmtCreate,jdbcType=TIMESTAMP}, #{item.gmtModify,jdbcType=TIMESTAMP}, #{item.isDelete,jdbcType=INTEGER}, 
+        #{item.walletId,jdbcType=BIGINT}, #{item.integral,jdbcType=BIGINT}, #{item.description,jdbcType=VARCHAR}
+        )
+    </foreach>
+  </insert>
+  <insert id="insertOrUpdate" keyColumn="id" keyProperty="id" parameterType="cn.yellowgg.ducksystem.entity.Integralrecord" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into integralrecord
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      gmtCreate,
+      gmtModify,
+      isDelete,
+      walletId,
+      integral,
+      description,
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      #{gmtCreate,jdbcType=TIMESTAMP},
+      #{gmtModify,jdbcType=TIMESTAMP},
+      #{isDelete,jdbcType=INTEGER},
+      #{walletId,jdbcType=BIGINT},
+      #{integral,jdbcType=BIGINT},
+      #{description,jdbcType=VARCHAR},
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=BIGINT},
+      </if>
+      gmtCreate = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmtModify = #{gmtModify,jdbcType=TIMESTAMP},
+      isDelete = #{isDelete,jdbcType=INTEGER},
+      walletId = #{walletId,jdbcType=BIGINT},
+      integral = #{integral,jdbcType=BIGINT},
+      description = #{description,jdbcType=VARCHAR},
+    </trim>
+  </insert>
+  <insert id="insertOrUpdateSelective" keyColumn="id" keyProperty="id" parameterType="cn.yellowgg.ducksystem.entity.Integralrecord" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into integralrecord
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="gmtCreate != null">
+        gmtCreate,
+      </if>
+      <if test="gmtModify != null">
+        gmtModify,
+      </if>
+      <if test="isDelete != null">
+        isDelete,
+      </if>
+      <if test="walletId != null">
+        walletId,
+      </if>
+      <if test="integral != null">
+        integral,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null">
+        #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="walletId != null">
+        #{walletId,jdbcType=BIGINT},
+      </if>
+      <if test="integral != null">
+        #{integral,jdbcType=BIGINT},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=BIGINT},
+      </if>
+      <if test="gmtCreate != null">
+        gmtCreate = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null">
+        gmtModify = #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        isDelete = #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="walletId != null">
+        walletId = #{walletId,jdbcType=BIGINT},
+      </if>
+      <if test="integral != null">
+        integral = #{integral,jdbcType=BIGINT},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

@@ -2,9 +2,11 @@ package cn.yellowgg.ducksystem.entity;
 
 import cn.yellowgg.ducksystem.constant.UtilConstants;
 import cn.yellowgg.ducksystem.entity.base.BaseEntity;
+import cn.yellowgg.ducksystem.exception.CustomException;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
@@ -15,6 +17,7 @@ import java.math.BigDecimal;
 @Data
 @ApiModel(value = "个人钱包")
 @EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
 public class Wallet extends BaseEntity {
     private Long accountId;
     /**
@@ -35,5 +38,16 @@ public class Wallet extends BaseEntity {
         this.balance = BigDecimal.ZERO;
         this.totalConsumption = BigDecimal.ZERO;
         this.integral = UtilConstants.Number.ZERO;
+    }
+
+    /**
+     * 余额是否充足
+     *
+     * @return true 充足
+     */
+    public void checkAdequate(BigDecimal amount) throws CustomException {
+        if (getBalance().compareTo(amount) == UtilConstants.Number.MINUSONE) {
+            throw new CustomException("余额不足，请充值");
+        }
     }
 }

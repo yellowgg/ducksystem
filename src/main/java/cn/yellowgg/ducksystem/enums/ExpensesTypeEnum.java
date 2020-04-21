@@ -1,14 +1,16 @@
 package cn.yellowgg.ducksystem.enums;
 
 import cn.yellowgg.ducksystem.constant.UtilConstants;
+import lombok.Getter;
 
 /**
  * @Description: 流水类型枚举
  * @Author: yellowgg
  * @Date: Created in 2020/3/25 11:31
  */
+@Getter
 public enum ExpensesTypeEnum {
-    REFUND(UtilConstants.Number.ZERO, "退款", UtilConstants.Number.ONE),
+    // REFUND(UtilConstants.Number.ZERO, "提现", UtilConstants.Number.ONE),
     RECHARGE(UtilConstants.Number.ONE, "充值", UtilConstants.Number.ZERO),
     BUYCLASS(UtilConstants.Number.TWO, "买课", UtilConstants.Number.ZERO),
     ;

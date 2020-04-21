@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.yellowgg.ducksystem.mapper.CourseVideoInfoMapper">
+    <resultMap id="BaseResultMap" type="cn.yellowgg.ducksystem.entity.CourseVideoInfo">
+        <!--@mbg.generated-->
+        <!--@Table coursevideoinfo-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="gmtCreate" jdbcType="TIMESTAMP" property="gmtCreate"/>
+        <result column="gmtModify" jdbcType="TIMESTAMP" property="gmtModify"/>
+        <result column="isDelete" jdbcType="INTEGER" property="isDelete"/>
+        <result column="courseId" jdbcType="BIGINT" property="courseId"/>
+        <result column="duration" jdbcType="INTEGER" property="duration"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="videoUrl" jdbcType="VARCHAR" property="videoUrl"/>
+        <result column="cover" jdbcType="VARCHAR" property="cover"/>
+        <result column="courseName" jdbcType="VARCHAR" property="courseName"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, gmtCreate, gmtModify, isDelete, courseId, duration, title, videoUrl, cover, courseName
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from coursevideoinfo
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        <!--@mbg.generated-->
+        update coursevideoinfo set isDelete = 1,gmtModify = now()
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.yellowgg.ducksystem.entity.CourseVideoInfo"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into coursevideoinfo (gmtCreate, gmtModify, isDelete,
+        courseId, duration, title,
+        videoUrl, cover, courseName
+        )
+        values (#{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=INTEGER},
+        #{courseId,jdbcType=BIGINT}, #{duration,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR},
+        #{videoUrl,jdbcType=VARCHAR}, #{cover,jdbcType=VARCHAR}, #{courseName,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id"
+            parameterType="cn.yellowgg.ducksystem.entity.CourseVideoInfo" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into coursevideoinfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="gmtCreate != null">
+                gmtCreate,
+            </if>
+            <if test="gmtModify != null">
+                gmtModify,
+            </if>
+            <if test="isDelete != null">
+                isDelete,
+            </if>
+            <if test="courseId != null">
+                courseId,
+            </if>
+            <if test="duration != null">
+                duration,
+            </if>
+            <if test="title != null and title != ''">
+                title,
+            </if>
+            <if test="videoUrl != null and videoUrl != ''">
+                videoUrl,
+            </if>
+            <if test="cover != null and cover != ''">
+                cover,
+            </if>
+            <if test="courseName != null and courseName != ''">
+                courseName,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModify != null">
+                #{gmtModify,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete,jdbcType=INTEGER},
+            </if>
+            <if test="courseId != null">
+                #{courseId,jdbcType=BIGINT},
+            </if>
+            <if test="duration != null">
+                #{duration,jdbcType=INTEGER},
+            </if>
+            <if test="title != null and title != ''">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="videoUrl != null and videoUrl != ''">
+                #{videoUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="cover != null and cover != ''">
+                #{cover,jdbcType=VARCHAR},
+            </if>
+            <if test="courseName != null and courseName != ''">
+                #{courseName,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.yellowgg.ducksystem.entity.CourseVideoInfo">
+        <!--@mbg.generated-->
+        update coursevideoinfo
+        <set>
+            <if test="gmtCreate != null">
+                gmtCreate = #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModify != null">
+                gmtModify = #{gmtModify,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDelete != null">
+                isDelete = #{isDelete,jdbcType=INTEGER},
+            </if>
+            <if test="courseId != null">
+                courseId = #{courseId,jdbcType=BIGINT},
+            </if>
+            <if test="duration != null">
+                duration = #{duration,jdbcType=INTEGER},
+            </if>
+            <if test="title != null and title != ''">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="videoUrl != null and videoUrl != ''">
+                videoUrl = #{videoUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="cover != null and cover != ''">
+                cover = #{cover,jdbcType=VARCHAR},
+            </if>
+            <if test="courseName != null and courseName != ''">
+                courseName = #{courseName,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.yellowgg.ducksystem.entity.CourseVideoInfo">
+        <!--@mbg.generated-->
+        update coursevideoinfo
+        set gmtCreate = #{gmtCreate,jdbcType=TIMESTAMP},
+        gmtModify = #{gmtModify,jdbcType=TIMESTAMP},
+        isDelete = #{isDelete,jdbcType=INTEGER},
+        courseId = #{courseId,jdbcType=BIGINT},
+        duration = #{duration,jdbcType=INTEGER},
+        title = #{title,jdbcType=VARCHAR},
+        videoUrl = #{videoUrl,jdbcType=VARCHAR},
+        cover = #{cover,jdbcType=VARCHAR},
+        courseName = #{courseName,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateBatch" parameterType="java.util.List">
+        <!--@mbg.generated-->
+        update coursevideoinfo
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="gmtCreate = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=BIGINT} then #{item.gmtCreate,jdbcType=TIMESTAMP}
+                </foreach>
+            </trim>
+            <trim prefix="gmtModify = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=BIGINT} then #{item.gmtModify,jdbcType=TIMESTAMP}
+                </foreach>
+            </trim>
+            <trim prefix="isDelete = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=BIGINT} then #{item.isDelete,jdbcType=INTEGER}
+                </foreach>
+            </trim>
+            <trim prefix="courseId = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=BIGINT} then #{item.courseId,jdbcType=BIGINT}
+                </foreach>
+            </trim>
+            <trim prefix="duration = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=BIGINT} then #{item.duration,jdbcType=INTEGER}
+                </foreach>
+            </trim>
+            <trim prefix="title = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=BIGINT} then #{item.title,jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+            <trim prefix="videoUrl = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=BIGINT} then #{item.videoUrl,jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+            <trim prefix="cover = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=BIGINT} then #{item.cover,jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+            <trim prefix="courseName = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id,jdbcType=BIGINT} then #{item.courseName,jdbcType=VARCHAR}
+                </foreach>
+            </trim>
+        </trim>
+        where id in
+        <foreach close=")" collection="list" item="item" open="(" separator=", ">
+            #{item.id,jdbcType=BIGINT}
+        </foreach>
+    </update>
+    <update id="updateBatchSelective" parameterType="java.util.List">
+        <!--@mbg.generated-->
+        update coursevideoinfo
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="gmtCreate = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.gmtCreate != null">
+                        when id = #{item.id,jdbcType=BIGINT} then #{item.gmtCreate,jdbcType=TIMESTAMP}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="gmtModify = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.gmtModify != null">
+                        when id = #{item.id,jdbcType=BIGINT} then #{item.gmtModify,jdbcType=TIMESTAMP}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="isDelete = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.isDelete != null">
+                        when id = #{item.id,jdbcType=BIGINT} then #{item.isDelete,jdbcType=INTEGER}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="courseId = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.courseId != null">
+                        when id = #{item.id,jdbcType=BIGINT} then #{item.courseId,jdbcType=BIGINT}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="duration = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.duration != null">
+                        when id = #{item.id,jdbcType=BIGINT} then #{item.duration,jdbcType=INTEGER}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="title = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.title != null">
+                        when id = #{item.id,jdbcType=BIGINT} then #{item.title,jdbcType=VARCHAR}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="videoUrl = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.videoUrl != null">
+                        when id = #{item.id,jdbcType=BIGINT} then #{item.videoUrl,jdbcType=VARCHAR}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="cover = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.cover != null">
+                        when id = #{item.id,jdbcType=BIGINT} then #{item.cover,jdbcType=VARCHAR}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="courseName = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.courseName != null">
+                        when id = #{item.id,jdbcType=BIGINT} then #{item.courseName,jdbcType=VARCHAR}
+                    </if>
+                </foreach>
+            </trim>
+        </trim>
+        where id in
+        <foreach close=")" collection="list" item="item" open="(" separator=", ">
+            #{item.id,jdbcType=BIGINT}
+        </foreach>
+    </update>
+    <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into coursevideoinfo
+        (gmtCreate, gmtModify, isDelete, courseId, duration, title, videoUrl, cover, courseName
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.gmtCreate,jdbcType=TIMESTAMP}, #{item.gmtModify,jdbcType=TIMESTAMP},
+            #{item.isDelete,jdbcType=INTEGER},
+            #{item.courseId,jdbcType=BIGINT}, #{item.duration,jdbcType=INTEGER}, #{item.title,jdbcType=VARCHAR},
+            #{item.videoUrl,jdbcType=VARCHAR}, #{item.cover,jdbcType=VARCHAR}, #{item.courseName,jdbcType=VARCHAR}
+            )
+        </foreach>
+    </insert>
+    <insert id="insertOrUpdate" keyColumn="id" keyProperty="id"
+            parameterType="cn.yellowgg.ducksystem.entity.CourseVideoInfo" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into coursevideoinfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            gmtCreate,
+            gmtModify,
+            isDelete,
+            courseId,
+            duration,
+            title,
+            videoUrl,
+            cover,
+            courseName,
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            #{gmtCreate,jdbcType=TIMESTAMP},
+            #{gmtModify,jdbcType=TIMESTAMP},
+            #{isDelete,jdbcType=INTEGER},
+            #{courseId,jdbcType=BIGINT},
+            #{duration,jdbcType=INTEGER},
+            #{title,jdbcType=VARCHAR},
+            #{videoUrl,jdbcType=VARCHAR},
+            #{cover,jdbcType=VARCHAR},
+            #{courseName,jdbcType=VARCHAR},
+        </trim>
+        on duplicate key update
+        <trim suffixOverrides=",">
+            <if test="id != null">
+                id = #{id,jdbcType=BIGINT},
+            </if>
+            gmtCreate = #{gmtCreate,jdbcType=TIMESTAMP},
+            gmtModify = #{gmtModify,jdbcType=TIMESTAMP},
+            isDelete = #{isDelete,jdbcType=INTEGER},
+            courseId = #{courseId,jdbcType=BIGINT},
+            duration = #{duration,jdbcType=INTEGER},
+            title = #{title,jdbcType=VARCHAR},
+            videoUrl = #{videoUrl,jdbcType=VARCHAR},
+            cover = #{cover,jdbcType=VARCHAR},
+            courseName = #{courseName,jdbcType=VARCHAR},
+        </trim>
+    </insert>
+    <insert id="insertOrUpdateSelective" keyColumn="id" keyProperty="id"
+            parameterType="cn.yellowgg.ducksystem.entity.CourseVideoInfo" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into coursevideoinfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="gmtCreate != null">
+                gmtCreate,
+            </if>
+            <if test="gmtModify != null">
+                gmtModify,
+            </if>
+            <if test="isDelete != null">
+                isDelete,
+            </if>
+            <if test="courseId != null">
+                courseId,
+            </if>
+            <if test="duration != null">
+                duration,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="videoUrl != null">
+                videoUrl,
+            </if>
+            <if test="cover != null">
+                cover,
+            </if>
+            <if test="courseName != null">
+                courseName,
+            </if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModify != null">
+                #{gmtModify,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete,jdbcType=INTEGER},
+            </if>
+            <if test="courseId != null">
+                #{courseId,jdbcType=BIGINT},
+            </if>
+            <if test="duration != null">
+                #{duration,jdbcType=INTEGER},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="videoUrl != null">
+                #{videoUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="cover != null">
+                #{cover,jdbcType=VARCHAR},
+            </if>
+            <if test="courseName != null">
+                #{courseName,jdbcType=VARCHAR},
+            </if>
+        </trim>
+        on duplicate key update
+        <trim suffixOverrides=",">
+            <if test="gmtModify != null">
+                gmtModify = #{gmtModify,jdbcType=TIMESTAMP},
+            </if>
+            <if test="courseId != null">
+                courseId = #{courseId,jdbcType=BIGINT},
+            </if>
+            <if test="duration != null">
+                duration = #{duration,jdbcType=INTEGER},
+            </if>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="videoUrl != null">
+                videoUrl = #{videoUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="cover != null">
+                cover = #{cover,jdbcType=VARCHAR},
+            </if>
+            <if test="courseName != null">
+                courseName = #{courseName,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <!--auto generated by MybatisCodeHelper on 2020-04-21-->
+    <select id="selectAllByCourseId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from coursevideoinfo
+        <where>
+            isDelete = 0
+            <if test="courseId != null">
+                and courseId = #{courseId,jdbcType=BIGINT}
+            </if>
+        </where>
+    </select>
+</mapper>

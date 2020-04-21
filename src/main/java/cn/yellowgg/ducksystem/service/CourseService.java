@@ -1,9 +1,11 @@
 package cn.yellowgg.ducksystem.service;
 
+import cn.yellowgg.ducksystem.constant.UtilConstants;
 import cn.yellowgg.ducksystem.entity.Course;
 import cn.yellowgg.ducksystem.mapper.CourseMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -74,9 +76,10 @@ public class CourseService {
     }
 
     public List<Course> findThreeIsHot() {
-        return courseMapper.findThreeIsHot();
+        return courseMapper.countByIsHotCourse() < UtilConstants.Number.THREE
+                ? Lists.newArrayList()
+                : courseMapper.findThreeIsHot();
     }
-
 
 }
 

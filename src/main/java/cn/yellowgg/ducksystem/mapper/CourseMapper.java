@@ -11,8 +11,9 @@ import java.util.List;
  * @Date: Created in 2020/4/15 19:43
  */
 public interface CourseMapper {
-    int deleteByPrimaryKey(Long id);
 
+
+    //region 增
     int insert(Course record);
 
     int insertOrUpdate(Course record);
@@ -21,8 +22,14 @@ public interface CourseMapper {
 
     int insertSelective(Course record);
 
-    Course selectByPrimaryKey(Long id);
+    int batchInsert(@Param("list") List<Course> list);
+    //endregion
 
+    //region 删
+    int deleteByPrimaryKey(Long id);
+    //endregion
+
+    //region 改
     int updateByPrimaryKeySelective(Course record);
 
     int updateByPrimaryKey(Course record);
@@ -30,12 +37,15 @@ public interface CourseMapper {
     int updateBatch(List<Course> list);
 
     int updateBatchSelective(List<Course> list);
+    //endregion
 
-    int batchInsert(@Param("list") List<Course> list);
+    //region 查
+    Course selectByPrimaryKey(Long id);
 
     List<Course> queryByAllSelectiveOrderById(Course course);
 
     List<Course> findThreeIsHot();
 
-
+    Long countByIsHotCourse();
+    //endregion
 }

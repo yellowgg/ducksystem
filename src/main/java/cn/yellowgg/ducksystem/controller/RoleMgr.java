@@ -3,18 +3,19 @@ package cn.yellowgg.ducksystem.controller;
 import cn.hutool.core.util.StrUtil;
 import cn.yellowgg.ducksystem.constant.UtilConstants;
 import cn.yellowgg.ducksystem.entity.perm.Role;
-import cn.yellowgg.ducksystem.service.AdminAndRoleService;
 import cn.yellowgg.ducksystem.service.RoleService;
 import cn.yellowgg.ducksystem.service.base.ServiceQueryResult;
 import cn.yellowgg.ducksystem.service.base.ServiceResult;
 import cn.yellowgg.ducksystem.utils.Base64Utils;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -36,6 +37,7 @@ public class RoleMgr {
     /**
      * @param permIds 1,2,3 格式
      */
+    @RequiresPermissions({"role:add", "role:edit"})
     @PostMapping("/addOrUp")
     @ResponseBody
     public ServiceResult insertOrUpdateSelective(@Valid Role role, String permIds) {
@@ -58,6 +60,7 @@ public class RoleMgr {
         return ServiceQueryResult.asSuccess(roleService.findByNamewithPage(pageNum, pageSize, name));
     }
 
+    @RequiresPermissions({"role:del"})
     @PostMapping("/del/{id}")
     @ResponseBody
     public ServiceResult del(@PathVariable String id) {

@@ -38,7 +38,7 @@
         </div>
         <button class="layui-btn" lay-submit lay-filter="submit" id="queryBtn">查询</button>
         <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-        <button type="button" id="addBtn" class="layui-btn layui-btn-normal" shiro:hasPermission="course:add">添加
+        <button type="button" id="addBtn" class="layui-btn layui-btn-normal" shiro:hasPermission="role:add">添加
         </button>
     </div>
 </form>
@@ -64,9 +64,9 @@
     {{d.LAY_TABLE_INDEX+1}}
 </script>
 <script type="text/html" id="bar">
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     {{# if(d.id != 1){ }}
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" id="del">删除</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit" shiro:hasPermission="role:edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" id="del" shiro:hasPermission="role:del">删除</a>
     {{# } }}
 </script>
 </body>

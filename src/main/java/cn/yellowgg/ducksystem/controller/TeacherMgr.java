@@ -7,8 +7,7 @@ import cn.yellowgg.ducksystem.service.base.ServiceQueryResult;
 import cn.yellowgg.ducksystem.service.base.ServiceResult;
 import cn.yellowgg.ducksystem.utils.Base64Utils;
 import io.swagger.annotations.Api;
-import org.apache.shiro.authz.annotation.Logical;
-import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +21,6 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/teacher")
 @Api(tags = "教师后台")
-@RequiresRoles(value = {"superAdmin", "teacherAdmin"}, logical = Logical.OR)
 public class TeacherMgr {
 
     @Autowired
@@ -41,6 +39,7 @@ public class TeacherMgr {
         return ServiceQueryResult.asSuccess(teacherService.queryByAllOrderByIdwithPage(pageNum, pageSize, teacher));
     }
 
+    @RequiresPermissions({"teacher:add", "teacher:edit"})
     @PostMapping("/addOrUp")
     @ResponseBody
     public ServiceResult insertOrUpdateSelective(@Valid Teacher teacher) {
@@ -49,6 +48,7 @@ public class TeacherMgr {
                 : ServiceResult.asFail("操作失败");
     }
 
+    @RequiresPermissions({"teacher:del"})
     @PostMapping("/del/{id}")
     @ResponseBody
     public ServiceResult del(@PathVariable String id) {

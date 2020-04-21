@@ -11,8 +11,30 @@ import java.util.List;
  * @Date: Created in 2020/4/21 23:43
  */
 public interface WalletMapper {
-    int deleteByPrimaryKey(Long id);
 
+    //region 查
+    Wallet selectByPrimaryKey(Long id);
+
+    Wallet findByAccountId(@Param("accountId") Long accountId);
+
+    Long findIdByAccountId(@Param("accountId") Long accountId);
+    //endregion
+
+    //region 删
+    int deleteByPrimaryKey(Long id);
+    //endregion
+
+    //region 改
+    int updateByPrimaryKeySelective(Wallet record);
+
+    int updateByPrimaryKey(Wallet record);
+
+    int updateBatch(List<Wallet> list);
+
+    int updateBatchSelective(List<Wallet> list);
+    //endregion
+
+    //region 增
     int insert(Wallet record);
 
     int insertOrUpdate(Wallet record);
@@ -21,15 +43,7 @@ public interface WalletMapper {
 
     int insertSelective(Wallet record);
 
-    Wallet selectByPrimaryKey(Long id);
-
-    int updateByPrimaryKeySelective(Wallet record);
-
-    int updateByPrimaryKey(Wallet record);
-
-    int updateBatch(List<Wallet> list);
-
-    int updateBatchSelective(List<Wallet> list);
-
     int batchInsert(@Param("list") List<Wallet> list);
+    //endregion
+
 }

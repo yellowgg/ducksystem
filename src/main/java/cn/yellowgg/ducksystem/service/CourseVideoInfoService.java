@@ -21,7 +21,6 @@ public class CourseVideoInfoService {
     @Resource
     private CourseVideoInfoMapper coursevideoinfoMapper;
 
-
     public int deleteByPrimaryKey(Long id) {
         return coursevideoinfoMapper.deleteByPrimaryKey(id);
     }

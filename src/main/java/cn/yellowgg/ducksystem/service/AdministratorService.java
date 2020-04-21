@@ -35,19 +35,17 @@ public class AdministratorService {
     AdminAndRoleService adminAndRoleService;
 
     public int deleteByPrimaryKey(Long id) {
+        adminandroleMapper.deleteByAdminId(id);
         return administratorMapper.deleteByPrimaryKey(id);
     }
-
 
     public int insert(Administrator record) {
         return administratorMapper.insert(record);
     }
 
-
     public int insertOrUpdate(Administrator record) {
         return administratorMapper.insertOrUpdate(record);
     }
-
 
     public int insertOrUpdateSelective(Administrator admin, Collection<Long> releIds) {
         Collection<Long> releIdsSet = Optional.ofNullable(releIds).orElseGet(() -> Sets.newHashSet());
@@ -57,7 +55,7 @@ public class AdministratorService {
         administratorMapper.insertOrUpdateSelective(admin);
         adminandroleMapper.deleteByAdminId(admin.getId());
         return CollectionUtils.isEmpty(releIdsSet)
-                ? UtilConstants.Number.ZERO
+                ? UtilConstants.Number.ONE
                 : adminandroleMapper.batchInsert(adminAndRoleService.getListOfRoleIdsAndOneAdmin(releIdsSet, admin.getId()));
     }
 

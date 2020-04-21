@@ -135,6 +135,15 @@ public class AdminMgr {
                 ? ServiceResult.asSuccess(null, "操作成功")
                 : ServiceResult.asFail("操作失败");
     }
+
+    @PostMapping("/del/{id}")
+    @ResponseBody
+    public ServiceResult del(@PathVariable String id) {
+        return adminService.deleteByPrimaryKey(Long.parseLong(Base64Utils.decodeStrofCount(id,
+                UtilConstants.Number.THREE))) > UtilConstants.Number.ZERO
+                ? ServiceResult.asSuccess(null, "删除成功")
+                : ServiceResult.asFail("删除失败");
+    }
     //endregion
 
 }

@@ -96,9 +96,9 @@ public class CourseMgr {
 
     @GetMapping("/video/data")
     @ResponseBody
-    public ServiceQueryResult getData(@RequestParam(defaultValue = "1") Integer pageNum,
-                                      @RequestParam(defaultValue = "10") Integer pageSize,
-                                      String courseId) {
+    public ServiceQueryResult getVideoData(@RequestParam(defaultValue = "1") Integer pageNum,
+                                           @RequestParam(defaultValue = "10") Integer pageSize,
+                                           String courseId) {
         long id = StrUtil.isNotBlank(courseId) ? Long.parseLong(courseId) : UtilConstants.Number.ZERO;
         return ServiceQueryResult.asSuccess(courseVideoInfoService.selectAllByCourseIdwithPage(pageNum, pageSize, id));
     }

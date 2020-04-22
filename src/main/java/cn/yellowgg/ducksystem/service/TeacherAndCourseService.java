@@ -2,6 +2,9 @@ package cn.yellowgg.ducksystem.service;
 
 import cn.yellowgg.ducksystem.entity.association.TeacherAndCourse;
 import cn.yellowgg.ducksystem.mapper.TeacherAndCourseMapper;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -17,6 +20,8 @@ public class TeacherAndCourseService {
 
     @Resource
     private TeacherAndCourseMapper teacherandcourseMapper;
+    @Autowired
+    private TeacherAndCourseMapper teacherAndCourseMapper;
 
     public int deleteByPrimaryKey(Long id) {
         return teacherandcourseMapper.deleteByPrimaryKey(id);
@@ -66,5 +71,13 @@ public class TeacherAndCourseService {
         return teacherandcourseMapper.countByTeacherId(teacherId);
     }
 
+	public List<TeacherAndCourse> findByAll(TeacherAndCourse teacherAndCourse){
+		 return teacherAndCourseMapper.findByAll(teacherAndCourse);
+	}
 
+
+    public PageInfo<TeacherAndCourse> findByAllwithPage(int page, int pageSize, TeacherAndCourse teacherAndCourse) {
+        PageHelper.startPage(page, pageSize);
+        return new PageInfo<>(teacherAndCourseMapper.findByAll(teacherAndCourse));
+    }
 }

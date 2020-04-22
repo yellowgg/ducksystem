@@ -12,63 +12,40 @@ import java.util.List;
  * @Date: Created in 2020/4/13 13:46
  */
 public interface TeacherAndCourseMapper {
-    /**
-     * delete by primary key
-     *
-     * @param id primaryKey
-     * @return deleteCount
-     */
-    int deleteByPrimaryKey(Long id);
 
-    /**
-     * insert record to table
-     *
-     * @param record the record
-     * @return insert count
-     */
+
+    //region 删
+    int deleteByPrimaryKey(Long id);
+    //endregion
+
+    //region 增
     int insert(TeacherAndCourse record);
 
     int insertOrUpdate(TeacherAndCourse record);
 
     int insertOrUpdateSelective(TeacherAndCourse record);
 
-    /**
-     * insert record to table selective
-     *
-     * @param record the record
-     * @return insert count
-     */
     int insertSelective(TeacherAndCourse record);
 
-    /**
-     * select by primary key
-     *
-     * @param id primary key
-     * @return object by primary key
-     */
-    TeacherAndCourse selectByPrimaryKey(Long id);
+    int batchInsert(@Param("list") List<TeacherAndCourse> list);
+    //endregion
 
-    /**
-     * update record selective
-     *
-     * @param record the updated record
-     * @return update count
-     */
+    //region 改
     int updateByPrimaryKeySelective(TeacherAndCourse record);
 
-    /**
-     * update record
-     *
-     * @param record the updated record
-     * @return update count
-     */
     int updateByPrimaryKey(TeacherAndCourse record);
 
     int updateBatch(List<TeacherAndCourse> list);
 
     int updateBatchSelective(List<TeacherAndCourse> list);
+    //endregion
 
-    int batchInsert(@Param("list") List<TeacherAndCourse> list);
+    //region 查
+    TeacherAndCourse selectByPrimaryKey(Long id);
+
+    List<TeacherAndCourse> findByAll(TeacherAndCourse teacherAndCourse);
+
 
     Long countByTeacherId(@Param("teacherId") Long teacherId);
+    //endregion
 }

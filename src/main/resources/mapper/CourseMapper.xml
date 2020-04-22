@@ -598,7 +598,7 @@
                 and c.`type`=#{type,jdbcType=INTEGER}
             </if>
             <if test="isHotCourse != null">
-                and c.`isHot` = #{isHotCourse,jdbcType=INTEGER},
+                and c.`isHot` = #{isHotCourse,jdbcType=INTEGER}
             </if>
         </where>
         order by c.id asc

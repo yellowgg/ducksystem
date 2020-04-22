@@ -1,5 +1,6 @@
 package cn.yellowgg.ducksystem.controller;
 
+import cn.yellowgg.ducksystem.constant.UtilConstants;
 import cn.yellowgg.ducksystem.entity.association.TeacherAndCourse;
 import cn.yellowgg.ducksystem.entity.result.CourseResult;
 import cn.yellowgg.ducksystem.entity.result.TeacherResult;
@@ -7,14 +8,14 @@ import cn.yellowgg.ducksystem.service.CourseService;
 import cn.yellowgg.ducksystem.service.TeacherAndCourseService;
 import cn.yellowgg.ducksystem.service.TeacherService;
 import cn.yellowgg.ducksystem.service.base.ServiceQueryResult;
+import cn.yellowgg.ducksystem.service.base.ServiceResult;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.stream.Collectors;
 
 /**
@@ -53,7 +54,12 @@ public class TeacherAndCourseMgr {
         return ServiceQueryResult.asSuccess(teacherandcourseService.findByAllwithPage(pageNum, pageSize, teacherAndCourse));
     }
 
-    public void getDonteacher() {
-
+    @RequiresPermissions({"teaandcou:edit"})
+    @PostMapping("/up")
+    @ResponseBody
+    public ServiceResult updateSelective(@Valid TeacherAndCourse teacherAndCourse) {
+        return teacherandcourseService.updateTeacherIdByCourseId(teacherAndCourse) > UtilConstants.Number.ZERO
+                ? ServiceResult.asSuccess(null, "操作成功")
+                : ServiceResult.asFail("操作失败");
     }
 }

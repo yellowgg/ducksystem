@@ -1,6 +1,7 @@
 package cn.yellowgg.ducksystem.service;
 
 import cn.yellowgg.ducksystem.entity.association.TeacherAndCourse;
+import cn.yellowgg.ducksystem.entity.expand.TeacherAndCourseExpand;
 import cn.yellowgg.ducksystem.mapper.TeacherAndCourseMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -67,17 +68,12 @@ public class TeacherAndCourseService {
         return teacherandcourseMapper.batchInsert(list);
     }
 
-    public Long countByTeacherId(Long teacherId) {
-        return teacherandcourseMapper.countByTeacherId(teacherId);
-    }
-
-	public List<TeacherAndCourse> findByAll(TeacherAndCourse teacherAndCourse){
-		 return teacherAndCourseMapper.findByAll(teacherAndCourse);
-	}
-
-
-    public PageInfo<TeacherAndCourse> findByAllwithPage(int page, int pageSize, TeacherAndCourse teacherAndCourse) {
+    public PageInfo<TeacherAndCourseExpand> findByAllwithPage(int page, int pageSize, TeacherAndCourse teacherAndCourse) {
         PageHelper.startPage(page, pageSize);
         return new PageInfo<>(teacherAndCourseMapper.findByAll(teacherAndCourse));
+    }
+
+    public int updateTeacherIdByCourseId(TeacherAndCourse teacherAndCourse) {
+        return teacherAndCourseMapper.updateTeacherIdByCourseId(teacherAndCourse.getTeacherId(), teacherAndCourse.getCourseId());
     }
 }

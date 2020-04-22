@@ -95,7 +95,7 @@ public class AccountController {
         try {
             result = walletService.trading(Long.parseLong(accountId), amountBigDecimal,
                     StrUtil.isNotBlank(courseId) ? Long.parseLong(courseId) : null) > UtilConstants.Number.ZERO
-                    ? ServiceResult.asSuccess(null, "操作成功")
+                    ? ServiceResult.asSuccess(null)
                     : ServiceResult.asFail("操作失败,请重试");
         } catch (CustomException e) {
             log.info("用户使用钱包交易出错,{}", e.getMsg());

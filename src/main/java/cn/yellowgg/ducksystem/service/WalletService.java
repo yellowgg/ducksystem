@@ -104,7 +104,7 @@ public class WalletService {
      * 获取交易记录
      */
     public List<ExpensesRecord> getExpensesRecordList(Long accountId) {
-        return expensesRecordMapper.findByWalletId(walletMapper.findIdByAccountId(accountId));
+        return expensesRecordMapper.findByWalletIdOrderByIdDesc(walletMapper.findIdByAccountId(accountId));
     }
 
     public int deleteByPrimaryKey(Long id) {

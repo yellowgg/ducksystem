@@ -76,7 +76,7 @@ public class ExpensesRecordService {
     }
 
     public List<ExpensesRecord> findByWalletId(Long walletId) {
-        return expensesRecordMapper.findByWalletId(walletId);
+        return expensesRecordMapper.findByWalletIdOrderByIdDesc(walletId);
     }
 
 }

@@ -6,13 +6,14 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * @Description:  
+ * @Description:
  * @Author: yellowgg
  * @Date: Created in 2020/4/22 00:59
  */
 public interface IntegralrecordMapper {
-    int deleteByPrimaryKey(Long id);
 
+
+    //region 增
     int insert(IntegralRecord record);
 
     int insertOrUpdate(IntegralRecord record);
@@ -21,8 +22,14 @@ public interface IntegralrecordMapper {
 
     int insertSelective(IntegralRecord record);
 
-    IntegralRecord selectByPrimaryKey(Long id);
+    int batchInsert(@Param("list") List<IntegralRecord> list);
+    //endregion
 
+    //region 删
+    int deleteByPrimaryKey(Long id);
+    //endregion
+
+    //region 改
     int updateByPrimaryKeySelective(IntegralRecord record);
 
     int updateByPrimaryKey(IntegralRecord record);
@@ -30,6 +37,13 @@ public interface IntegralrecordMapper {
     int updateBatch(List<IntegralRecord> list);
 
     int updateBatchSelective(List<IntegralRecord> list);
+    //endregion
 
-    int batchInsert(@Param("list") List<IntegralRecord> list);
+    //region 查
+    IntegralRecord selectByPrimaryKey(Long id);
+
+    List<IntegralRecord> findByWalletIdOrderByIdDesc(@Param("walletId") Long walletId);
+    //endregion
+
+
 }

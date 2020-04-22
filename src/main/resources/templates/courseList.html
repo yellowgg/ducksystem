@@ -77,6 +77,13 @@
                 <option th:each="result : ${courseTypes}" th:value="${result.key}" th:text="${result.value}"></option>
             </select>
         </div>
+        <label class="layui-form-label">教师</label>
+        <div class="layui-input-block" style="width: 150px;">
+            <select lay-filter="teacherSelect" name="tId" id="teacherSelect" lay-search>
+                <option value=""></option>
+                <option th:each="result : ${teacherMap}" th:value="${result.key}" th:text="${result.value}"></option>
+            </select>
+        </div>
         <label class="layui-form-label">是否热门</label>
         <div class="layui-input-block" style="width: 150px;">
             <select lay-filter="hotSelected" name="isHotCourse" id="form_hot">
@@ -155,6 +162,7 @@
                         $('#form_price').val(data.price);
                         $('#form_hot').val(data.isHotCourse);
                         $('#form_type').val(data.type);
+                        $('#teacherSelect').val(data.tid);
                         $('#form_name').val(data.name);
                         $('#form_id').val(data.id);
                         form.render('select');

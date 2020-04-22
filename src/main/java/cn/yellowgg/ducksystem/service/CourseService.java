@@ -2,8 +2,12 @@ package cn.yellowgg.ducksystem.service;
 
 import cn.yellowgg.ducksystem.constant.UtilConstants;
 import cn.yellowgg.ducksystem.entity.Course;
+import cn.yellowgg.ducksystem.entity.CourseExpand;
+import cn.yellowgg.ducksystem.entity.association.TeacherAndCourse;
+import cn.yellowgg.ducksystem.entity.result.CourseResult;
 import cn.yellowgg.ducksystem.mapper.CourseMapper;
 import cn.yellowgg.ducksystem.mapper.CourseVideoInfoMapper;
+import cn.yellowgg.ducksystem.mapper.TeacherAndCourseMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
@@ -27,10 +31,12 @@ public class CourseService {
     private CourseMapper courseMapper;
     @Resource
     private CourseVideoInfoMapper courseVideoInfoMapper;
+    @Resource
+    private TeacherAndCourseMapper teacherAndCourseMapper;
 
-    public PageInfo<Course> queryByAllSelectiveOrderByIdwithPage(int page, int pageSize, Course course) {
+    public PageInfo<CourseExpand> queryByAllSelectiveOrderByIdwithPage(int page, int pageSize, CourseExpand courseExpand) {
         PageHelper.startPage(page, pageSize);
-        return new PageInfo<>(courseMapper.queryByAllSelectiveOrderById(course));
+        return new PageInfo<>(courseMapper.queryByAllSelectiveOrderById(courseExpand));
     }
 
     public int deleteByPrimaryKey(Long id) {
@@ -45,12 +51,14 @@ public class CourseService {
         return courseMapper.insertOrUpdate(record);
     }
 
-    public int insertOrUpdateSelective(Course record) {
+    public int insertOrUpdateSelective(CourseExpand courseExpand) {
         // 如果是修改的话，先改下视频里绑定的名字
-        if (Objects.nonNull(record.getId())) {
-            courseVideoInfoMapper.updateCourseNameByCourseId(record.getName(), record.getId());
+        if (Objects.nonNull(courseExpand.getId())) {
+            courseVideoInfoMapper.updateCourseNameByCourseId(courseExpand.getName(), courseExpand.getId());
         }
-        return courseMapper.insertOrUpdateSelective(record);
+        // 教课表
+        teacherAndCourseMapper.insertOrUpdate(new TeacherAndCourse(courseExpand.getTId(), courseExpand.getId()));
+        return courseMapper.insertOrUpdateSelective(courseExpand);
     }
 
     public int insertSelective(Course record) {
@@ -81,7 +89,7 @@ public class CourseService {
         return courseMapper.batchInsert(list);
     }
 
-    public List<Course> queryAll() {
+    public List<CourseExpand> queryAll() {
         return courseMapper.queryByAllSelectiveOrderById(null);
     }
 
@@ -99,5 +107,8 @@ public class CourseService {
         return CollectionUtils.isEmpty(resultList) ? Lists.newArrayList() : resultList;
     }
 
+    public List<CourseResult> findIdAndName() {
+        return courseMapper.findIdAndName();
+    }
 }
 

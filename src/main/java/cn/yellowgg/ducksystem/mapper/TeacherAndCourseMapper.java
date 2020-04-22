@@ -11,7 +11,7 @@ import java.util.List;
  * @Author: yellowgg
  * @Date: Created in 2020/4/13 13:46
  */
-public interface TeacherandcourseMapper {
+public interface TeacherAndCourseMapper {
     /**
      * delete by primary key
      *

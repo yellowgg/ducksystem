@@ -1,7 +1,7 @@
 package cn.yellowgg.ducksystem.service;
 
 import cn.yellowgg.ducksystem.entity.association.TeacherAndCourse;
-import cn.yellowgg.ducksystem.mapper.TeacherandcourseMapper;
+import cn.yellowgg.ducksystem.mapper.TeacherAndCourseMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -13,10 +13,10 @@ import java.util.List;
  * @Date: Created in 2020/4/13 13:46
  */
 @Service
-public class TeacherandcourseService {
+public class TeacherAndCourseService {
 
     @Resource
-    private TeacherandcourseMapper teacherandcourseMapper;
+    private TeacherAndCourseMapper teacherandcourseMapper;
 
     public int deleteByPrimaryKey(Long id) {
         return teacherandcourseMapper.deleteByPrimaryKey(id);

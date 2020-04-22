@@ -1,8 +1,9 @@
 package cn.yellowgg.ducksystem.mapper;
 
-import cn.yellowgg.ducksystem.entity.Integralrecord;
-import java.util.List;
+import cn.yellowgg.ducksystem.entity.IntegralRecord;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * @Description:  
@@ -12,23 +13,23 @@ import org.apache.ibatis.annotations.Param;
 public interface IntegralrecordMapper {
     int deleteByPrimaryKey(Long id);
 
-    int insert(Integralrecord record);
+    int insert(IntegralRecord record);
 
-    int insertOrUpdate(Integralrecord record);
+    int insertOrUpdate(IntegralRecord record);
 
-    int insertOrUpdateSelective(Integralrecord record);
+    int insertOrUpdateSelective(IntegralRecord record);
 
-    int insertSelective(Integralrecord record);
+    int insertSelective(IntegralRecord record);
 
-    Integralrecord selectByPrimaryKey(Long id);
+    IntegralRecord selectByPrimaryKey(Long id);
 
-    int updateByPrimaryKeySelective(Integralrecord record);
+    int updateByPrimaryKeySelective(IntegralRecord record);
 
-    int updateByPrimaryKey(Integralrecord record);
+    int updateByPrimaryKey(IntegralRecord record);
 
-    int updateBatch(List<Integralrecord> list);
+    int updateBatch(List<IntegralRecord> list);
 
-    int updateBatchSelective(List<Integralrecord> list);
+    int updateBatchSelective(List<IntegralRecord> list);
 
-    int batchInsert(@Param("list") List<Integralrecord> list);
+    int batchInsert(@Param("list") List<IntegralRecord> list);
 }

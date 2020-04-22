@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.yellowgg.ducksystem.mapper.IntegralrecordMapper">
-  <resultMap id="BaseResultMap" type="cn.yellowgg.ducksystem.entity.Integralrecord">
+  <resultMap id="BaseResultMap" type="cn.yellowgg.ducksystem.entity.IntegralRecord">
     <!--@mbg.generated-->
     <!--@Table integralrecord-->
     <id column="id" jdbcType="BIGINT" property="id" />
@@ -28,7 +28,7 @@
     delete from integralrecord
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.yellowgg.ducksystem.entity.Integralrecord" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.yellowgg.ducksystem.entity.IntegralRecord" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into integralrecord (gmtCreate, gmtModify, isDelete, 
       walletId, integral, description
@@ -37,7 +37,7 @@
       #{walletId,jdbcType=BIGINT}, #{integral,jdbcType=BIGINT}, #{description,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.yellowgg.ducksystem.entity.Integralrecord" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.yellowgg.ducksystem.entity.IntegralRecord" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into integralrecord
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -81,7 +81,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.yellowgg.ducksystem.entity.Integralrecord">
+  <update id="updateByPrimaryKeySelective" parameterType="cn.yellowgg.ducksystem.entity.IntegralRecord">
     <!--@mbg.generated-->
     update integralrecord
     <set>
@@ -106,7 +106,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="cn.yellowgg.ducksystem.entity.Integralrecord">
+  <update id="updateByPrimaryKey" parameterType="cn.yellowgg.ducksystem.entity.IntegralRecord">
     <!--@mbg.generated-->
     update integralrecord
     set gmtCreate = #{gmtCreate,jdbcType=TIMESTAMP},
@@ -220,7 +220,7 @@
         )
     </foreach>
   </insert>
-  <insert id="insertOrUpdate" keyColumn="id" keyProperty="id" parameterType="cn.yellowgg.ducksystem.entity.Integralrecord" useGeneratedKeys="true">
+  <insert id="insertOrUpdate" keyColumn="id" keyProperty="id" parameterType="cn.yellowgg.ducksystem.entity.IntegralRecord" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into integralrecord
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -259,7 +259,7 @@
       description = #{description,jdbcType=VARCHAR},
     </trim>
   </insert>
-  <insert id="insertOrUpdateSelective" keyColumn="id" keyProperty="id" parameterType="cn.yellowgg.ducksystem.entity.Integralrecord" useGeneratedKeys="true">
+  <insert id="insertOrUpdateSelective" keyColumn="id" keyProperty="id" parameterType="cn.yellowgg.ducksystem.entity.IntegralRecord" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into integralrecord
     <trim prefix="(" suffix=")" suffixOverrides=",">

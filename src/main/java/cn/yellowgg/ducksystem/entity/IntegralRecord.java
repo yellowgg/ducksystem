@@ -11,14 +11,14 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class Integralrecord extends BaseEntity {
+public class IntegralRecord extends BaseEntity {
     private Long walletId;
 
     private Long integral;
 
     private String description;
 
-    public Integralrecord(Long walletId) {
+    public IntegralRecord(Long walletId) {
         this.walletId = walletId;
     }
 }

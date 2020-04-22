@@ -1,10 +1,11 @@
 package cn.yellowgg.ducksystem.service;
 
+import cn.yellowgg.ducksystem.entity.IntegralRecord;
+import cn.yellowgg.ducksystem.mapper.IntegralrecordMapper;
 import org.springframework.stereotype.Service;
+
 import javax.annotation.Resource;
 import java.util.List;
-import cn.yellowgg.ducksystem.mapper.IntegralrecordMapper;
-import cn.yellowgg.ducksystem.entity.Integralrecord;
 /**
  * @Description:  
  * @Author: yellowgg
@@ -22,52 +23,52 @@ public class IntegralrecordService{
     }
 
     
-    public int insert(Integralrecord record) {
+    public int insert(IntegralRecord record) {
         return integralrecordMapper.insert(record);
     }
 
     
-    public int insertOrUpdate(Integralrecord record) {
+    public int insertOrUpdate(IntegralRecord record) {
         return integralrecordMapper.insertOrUpdate(record);
     }
 
     
-    public int insertOrUpdateSelective(Integralrecord record) {
+    public int insertOrUpdateSelective(IntegralRecord record) {
         return integralrecordMapper.insertOrUpdateSelective(record);
     }
 
     
-    public int insertSelective(Integralrecord record) {
+    public int insertSelective(IntegralRecord record) {
         return integralrecordMapper.insertSelective(record);
     }
 
     
-    public Integralrecord selectByPrimaryKey(Long id) {
+    public IntegralRecord selectByPrimaryKey(Long id) {
         return integralrecordMapper.selectByPrimaryKey(id);
     }
 
     
-    public int updateByPrimaryKeySelective(Integralrecord record) {
+    public int updateByPrimaryKeySelective(IntegralRecord record) {
         return integralrecordMapper.updateByPrimaryKeySelective(record);
     }
 
     
-    public int updateByPrimaryKey(Integralrecord record) {
+    public int updateByPrimaryKey(IntegralRecord record) {
         return integralrecordMapper.updateByPrimaryKey(record);
     }
 
     
-    public int updateBatch(List<Integralrecord> list) {
+    public int updateBatch(List<IntegralRecord> list) {
         return integralrecordMapper.updateBatch(list);
     }
 
     
-    public int updateBatchSelective(List<Integralrecord> list) {
+    public int updateBatchSelective(List<IntegralRecord> list) {
         return integralrecordMapper.updateBatchSelective(list);
     }
 
     
-    public int batchInsert(List<Integralrecord> list) {
+    public int batchInsert(List<IntegralRecord> list) {
         return integralrecordMapper.batchInsert(list);
     }
 

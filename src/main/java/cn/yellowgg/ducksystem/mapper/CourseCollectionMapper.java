@@ -27,6 +27,8 @@ public interface CourseCollectionMapper {
 
     //region 删
     int deleteByPrimaryKey(Long id);
+
+    int deleteByAccountIdAndCourseId(@Param("accountId") Long accountId, @Param("courseId") Long courseId);
     //endregion
 
     //region 改

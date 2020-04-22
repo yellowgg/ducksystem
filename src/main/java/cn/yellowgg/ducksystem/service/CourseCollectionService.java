@@ -1,7 +1,6 @@
 package cn.yellowgg.ducksystem.service;
 
 import cn.yellowgg.ducksystem.entity.CourseCollection;
-import cn.yellowgg.ducksystem.mapper.CourseMapper;
 import cn.yellowgg.ducksystem.mapper.CourseCollectionMapper;
 import com.google.common.collect.Lists;
 import org.apache.commons.collections.CollectionUtils;
@@ -21,8 +20,7 @@ public class CourseCollectionService {
     @Resource
     private CourseCollectionMapper coursecollectionMapper;
     @Resource
-    private CourseMapper courseMapper;
-
+    private CourseCollectionMapper courseCollectionMapper;
 
     public int deleteByPrimaryKey(Long id) {
         return coursecollectionMapper.deleteByPrimaryKey(id);
@@ -91,4 +89,7 @@ public class CourseCollectionService {
         return CollectionUtils.isEmpty(resultList) ? Lists.newArrayList() : resultList;
     }
 
+    public int deleteByAccountIdAndCourseId(Long accountId, Long courseId) {
+        return courseCollectionMapper.deleteByAccountIdAndCourseId(accountId, courseId);
+    }
 }

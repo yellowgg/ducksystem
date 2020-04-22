@@ -159,4 +159,13 @@ public class AccountController {
                 : ServiceResult.asFail("保存失败");
     }
 
+    @ApiOperation("删除收藏课程")
+    @PostMapping("/delCollect")
+    public ServiceResult delCollect(@NotBlank(message = "用户ID不许为空") String accountId,
+                                    @NotBlank(message = "课程ID不许为空") String courseId) {
+        return coursecollectionService.deleteByAccountIdAndCourseId(Long.parseLong(accountId),
+                Long.parseLong(courseId)) > UtilConstants.Number.ZERO
+                ? ServiceResult.asSuccess(null)
+                : ServiceResult.asFail("删除失败");
+    }
 }

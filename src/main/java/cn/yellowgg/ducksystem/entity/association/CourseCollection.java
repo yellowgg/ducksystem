@@ -1,4 +1,4 @@
-package cn.yellowgg.ducksystem.entity;
+package cn.yellowgg.ducksystem.entity.association;
 
 import cn.yellowgg.ducksystem.entity.base.BaseEntity;
 import io.swagger.annotations.ApiModel;

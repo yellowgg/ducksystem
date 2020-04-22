@@ -5,6 +5,7 @@ import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import cn.yellowgg.ducksystem.constant.UtilConstants;
 import cn.yellowgg.ducksystem.entity.*;
+import cn.yellowgg.ducksystem.entity.association.CourseCollection;
 import cn.yellowgg.ducksystem.exception.CustomException;
 import cn.yellowgg.ducksystem.service.AccountService;
 import cn.yellowgg.ducksystem.service.CourseService;

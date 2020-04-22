@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.yellowgg.ducksystem.mapper.CourseCollectionMapper">
-    <resultMap id="BaseResultMap" type="cn.yellowgg.ducksystem.entity.CourseCollection">
+    <resultMap id="BaseResultMap" type="cn.yellowgg.ducksystem.entity.association.CourseCollection">
         <!--@mbg.generated-->
         <!--@Table coursecollection-->
         <id column="id" jdbcType="BIGINT" property="id"/>
@@ -27,7 +27,7 @@
         delete from coursecollection
         where id = #{id,jdbcType=BIGINT}
     </delete>
-    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.yellowgg.ducksystem.entity.CourseCollection"
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.yellowgg.ducksystem.entity.association.CourseCollection"
             useGeneratedKeys="true">
         <!--@mbg.generated-->
         insert into coursecollection (gmtCreate, gmtModify, isDelete,
@@ -36,7 +36,7 @@
         #{accountId,jdbcType=BIGINT}, #{courseId,jdbcType=BIGINT})
     </insert>
     <insert id="insertSelective" keyColumn="id" keyProperty="id"
-            parameterType="cn.yellowgg.ducksystem.entity.CourseCollection" useGeneratedKeys="true">
+            parameterType="cn.yellowgg.ducksystem.entity.association.CourseCollection" useGeneratedKeys="true">
         <!--@mbg.generated-->
         insert into coursecollection
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -74,7 +74,7 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="cn.yellowgg.ducksystem.entity.CourseCollection">
+    <update id="updateByPrimaryKeySelective" parameterType="cn.yellowgg.ducksystem.entity.association.CourseCollection">
         <!--@mbg.generated-->
         update coursecollection
         <set>
@@ -96,7 +96,7 @@
         </set>
         where id = #{id,jdbcType=BIGINT}
     </update>
-    <update id="updateByPrimaryKey" parameterType="cn.yellowgg.ducksystem.entity.CourseCollection">
+    <update id="updateByPrimaryKey" parameterType="cn.yellowgg.ducksystem.entity.association.CourseCollection">
         <!--@mbg.generated-->
         update coursecollection
         set gmtCreate = #{gmtCreate,jdbcType=TIMESTAMP},
@@ -199,7 +199,7 @@
     </insert>
     <insert
             id="insertOrUpdate" keyColumn="record.id" keyProperty="record.id"
-            parameterType="cn.yellowgg.ducksystem.entity.CourseCollection" useGeneratedKeys="true">
+            parameterType="cn.yellowgg.ducksystem.entity.association.CourseCollection" useGeneratedKeys="true">
         <!--@mbg.generated-->
         insert into coursecollection
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -229,7 +229,7 @@
         </trim>
     </insert>
     <insert id="insertOrUpdateSelective" keyColumn="id" keyProperty="id"
-            parameterType="cn.yellowgg.ducksystem.entity.CourseCollection" useGeneratedKeys="true">
+            parameterType="cn.yellowgg.ducksystem.entity.association.CourseCollection" useGeneratedKeys="true">
         <!--@mbg.generated-->
         insert into coursecollection
         <trim prefix="(" suffix=")" suffixOverrides=",">

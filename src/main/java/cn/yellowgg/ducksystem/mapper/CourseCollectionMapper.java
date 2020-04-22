@@ -1,6 +1,6 @@
 package cn.yellowgg.ducksystem.mapper;
 
-import cn.yellowgg.ducksystem.entity.CourseCollection;
+import cn.yellowgg.ducksystem.entity.association.CourseCollection;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

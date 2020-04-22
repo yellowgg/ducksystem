@@ -1,6 +1,6 @@
 package cn.yellowgg.ducksystem.service;
 
-import cn.yellowgg.ducksystem.entity.CourseCollection;
+import cn.yellowgg.ducksystem.entity.association.CourseCollection;
 import cn.yellowgg.ducksystem.mapper.CourseCollectionMapper;
 import com.google.common.collect.Lists;
 import org.apache.commons.collections.CollectionUtils;

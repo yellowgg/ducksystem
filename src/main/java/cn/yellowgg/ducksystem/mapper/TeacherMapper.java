@@ -1,4 +1,5 @@
 package cn.yellowgg.ducksystem.mapper;
+import cn.yellowgg.ducksystem.entity.result.TeacherResult;
 
 import cn.yellowgg.ducksystem.entity.Teacher;
 import org.apache.ibatis.annotations.Param;
@@ -41,5 +42,8 @@ public interface TeacherMapper {
     int updateBatch(List<Teacher> list);
 
     int updateBatchSelective(List<Teacher> list);
+
+    List<TeacherResult> findIdAndName();
+
     //endregion
 }

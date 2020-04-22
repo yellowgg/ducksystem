@@ -3,7 +3,7 @@ package cn.yellowgg.ducksystem.service;
 import cn.hutool.core.util.StrUtil;
 import cn.yellowgg.ducksystem.entity.Course;
 import cn.yellowgg.ducksystem.entity.ExpensesRecord;
-import cn.yellowgg.ducksystem.entity.Integralrecord;
+import cn.yellowgg.ducksystem.entity.IntegralRecord;
 import cn.yellowgg.ducksystem.entity.Wallet;
 import cn.yellowgg.ducksystem.enums.ExpensesTypeEnum;
 import cn.yellowgg.ducksystem.exception.CustomException;
@@ -71,7 +71,7 @@ public class WalletService {
         // 加积分
         wallet.setIntegral(course.getIntegral());
         //  插入积分记录
-        Integralrecord integralrecord = new Integralrecord(wallet.getId());
+        IntegralRecord integralrecord = new IntegralRecord(wallet.getId());
         integralrecord.setIntegral(course.getIntegral().longValue());
         integralrecord.setDescription(StrUtil.format(
                 "{}：{}，+{}积分",
@@ -104,7 +104,7 @@ public class WalletService {
      * 获取交易记录
      */
     public List<ExpensesRecord> getExpensesRecordList(Long accountId) {
-        return expensesRecordMapper.findByWalletId(walletMapper.findIdByAccountId(accountId));
+        return expensesRecordMapper.findByWalletIdOrderByIdDesc(walletMapper.findIdByAccountId(accountId));
     }
 
     public int deleteByPrimaryKey(Long id) {

@@ -1,6 +1,7 @@
 package cn.yellowgg.ducksystem.controller.portal;
 
 import cn.yellowgg.ducksystem.entity.Course;
+import cn.yellowgg.ducksystem.entity.expand.CourseExpand;
 import cn.yellowgg.ducksystem.entity.CourseVideoInfo;
 import cn.yellowgg.ducksystem.service.CourseService;
 import cn.yellowgg.ducksystem.service.CourseVideoInfoService;
@@ -33,8 +34,8 @@ public class CoursePortal {
 
     @ApiOperation("获取课程信息列表")
     @GetMapping("/allData")
-    public ServiceQueryResult<Course> getData() {
-        List<Course> result = courseService.queryAll();
+    public ServiceQueryResult<CourseExpand> getData() {
+        List<CourseExpand> result = courseService.queryAll();
         return CollectionUtils.isNotEmpty(result)
                 ? ServiceQueryResult.asSuccess(result)
                 : ServiceQueryResult.asFail("暂无数据");

@@ -2,8 +2,9 @@ package cn.yellowgg.ducksystem.service;
 
 import cn.yellowgg.ducksystem.constant.UtilConstants;
 import cn.yellowgg.ducksystem.entity.Teacher;
+import cn.yellowgg.ducksystem.entity.result.TeacherResult;
 import cn.yellowgg.ducksystem.mapper.TeacherMapper;
-import cn.yellowgg.ducksystem.mapper.TeacherandcourseMapper;
+import cn.yellowgg.ducksystem.mapper.TeacherAndCourseMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class TeacherService {
     @Resource
     private TeacherMapper teacherMapper;
     @Autowired
-    TeacherandcourseMapper teacherandcourseMapper;
+    TeacherAndCourseMapper teacherandcourseMapper;
 
     /**
      * 删除老师之前先看有没有在教课
@@ -92,4 +93,7 @@ public class TeacherService {
         return teacherMapper.queryByAllOrderById(null);
     }
 
+    public List<TeacherResult> findIdAndName() {
+        return teacherMapper.findIdAndName();
+    }
 }

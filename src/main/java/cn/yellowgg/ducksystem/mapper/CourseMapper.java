@@ -1,8 +1,10 @@
 package cn.yellowgg.ducksystem.mapper;
-
 import cn.yellowgg.ducksystem.entity.Course;
+import cn.yellowgg.ducksystem.entity.expand.CourseExpand;
+import cn.yellowgg.ducksystem.entity.result.CourseResult;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -42,9 +44,13 @@ public interface CourseMapper {
     //region 查
     Course selectByPrimaryKey(Long id);
 
-    List<Course> queryByAllSelectiveOrderById(Course course);
+    List<Course> findAllByIdIn(@Param("idCollection") Collection<Long> idCollection);
+
+    List<CourseExpand> queryByAllSelectiveOrderById(CourseExpand courseExpand);
 
     List<Course> findThreeIsHot();
+
+    List<CourseResult> findIdAndName();
 
     Long countByIsHotCourse();
     //endregion

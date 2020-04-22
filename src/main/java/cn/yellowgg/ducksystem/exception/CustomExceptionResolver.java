@@ -3,6 +3,7 @@ package cn.yellowgg.ducksystem.exception;
 import cn.hutool.http.HttpStatus;
 import cn.yellowgg.ducksystem.service.base.ServiceResult;
 import cn.yellowgg.ducksystem.utils.LogUtils;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -65,5 +66,14 @@ public class CustomExceptionResolver {
                 .map(x -> x.getDefaultMessage()).collect(Collectors.joining(",")));
     }
 
+    /**
+     * 拦截捕捉 身份权限异常
+     */
+    @ResponseBody
+    @ExceptionHandler({UnauthorizedException.class})
+    public ServiceResult unauthorizedExceptionHandler(UnauthorizedException ex) {
+        log.info("【身份权限异常捕捉】", ex);
+        return ServiceResult.asFail(HttpStatus.HTTP_PRECON_FAILED, ex.getMessage());
+    }
 
 }

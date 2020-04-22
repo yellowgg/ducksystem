@@ -2,22 +2,23 @@ package cn.yellowgg.ducksystem.controller;
 
 import cn.hutool.core.util.StrUtil;
 import cn.yellowgg.ducksystem.constant.UtilConstants;
-import cn.yellowgg.ducksystem.entity.Course;
+import cn.yellowgg.ducksystem.entity.expand.CourseExpand;
 import cn.yellowgg.ducksystem.entity.CourseVideoInfo;
+import cn.yellowgg.ducksystem.entity.Teacher;
+import cn.yellowgg.ducksystem.entity.result.CourseResult;
 import cn.yellowgg.ducksystem.enums.CourseTypeEnum;
 import cn.yellowgg.ducksystem.service.CourseService;
 import cn.yellowgg.ducksystem.service.CourseVideoInfoService;
+import cn.yellowgg.ducksystem.service.TeacherService;
 import cn.yellowgg.ducksystem.service.base.ServiceQueryResult;
 import cn.yellowgg.ducksystem.service.base.ServiceResult;
 import cn.yellowgg.ducksystem.utils.Base64Utils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -25,42 +26,46 @@ import java.util.stream.Collectors;
  * @Author: yellowgg
  * @Date: Created in 2020/4/15 15:42
  */
-@Controller
+@RestController
 @RequestMapping("/course")
 public class CourseMgr {
     @Autowired
     CourseService courseService;
     @Autowired
+    TeacherService teacherService;
+    @Autowired
     CourseVideoInfoService courseVideoInfoService;
 
     @GetMapping("/page")
-    public String page(Model model) {
-        Map<Integer, String> map = CourseTypeEnum.getValueAndNameMap();
-        model.addAttribute("courseTypes", map);
-        return "courseList";
+    public ModelAndView page() {
+        ModelAndView mv = new ModelAndView("courseList");
+        mv.getModel().put("courseTypes", CourseTypeEnum.getValueAndNameMap());
+        mv.getModel().put("teacherMap",
+                teacherService.queryAll().stream().collect(Collectors.toMap(Teacher::getId, Teacher::getName)));
+        return mv;
     }
 
     @GetMapping("/video/page")
-    public String videoPage(Model model) {
-        Map<Long, String> courseIdAndRoleNameMap = courseService.queryAll()
-                .stream().collect(Collectors.toMap(Course::getId, Course::getName));
-        model.addAttribute("courseMap", courseIdAndRoleNameMap);
-        return "courseVideoList";
+    public ModelAndView videoPage() {
+        ModelAndView mv = new ModelAndView("courseVideoList");
+        mv.getModel().put("courseMap",
+                courseService.findIdAndName().stream().collect(Collectors.toMap(CourseResult::getId, CourseResult::getName)));
+        return mv;
     }
 
     @GetMapping("/data")
     @ResponseBody
     public ServiceQueryResult getData(@RequestParam(defaultValue = "1") Integer pageNum,
                                       @RequestParam(defaultValue = "10") Integer pageSize,
-                                      Course course) {
-        return ServiceQueryResult.asSuccess(courseService.queryByAllSelectiveOrderByIdwithPage(pageNum, pageSize, course));
+                                      CourseExpand courseExpand) {
+        return ServiceQueryResult.asSuccess(courseService.queryByAllSelectiveOrderByIdwithPage(pageNum, pageSize, courseExpand));
     }
 
     @RequiresPermissions({"course:add", "course:edit"})
     @PostMapping("/addOrUp")
     @ResponseBody
-    public ServiceResult insertOrUpdateSelective(@Valid Course course) {
-        return courseService.insertOrUpdateSelective(course) > UtilConstants.Number.ZERO
+    public ServiceResult insertOrUpdateSelective(@Valid CourseExpand courseExpand) {
+        return courseService.insertOrUpdateSelective(courseExpand) > UtilConstants.Number.ZERO
                 ? ServiceResult.asSuccess(null, "操作成功")
                 : ServiceResult.asFail("操作失败");
     }
@@ -74,6 +79,9 @@ public class CourseMgr {
                 : ServiceResult.asFail("操作失败");
     }
 
+    /**
+     * 删掉课程，客户端的收藏会失效 至于观看，看情况
+     */
     @RequiresPermissions({"course:del"})
     @PostMapping("/del/{id}")
     @ResponseBody
@@ -96,9 +104,9 @@ public class CourseMgr {
 
     @GetMapping("/video/data")
     @ResponseBody
-    public ServiceQueryResult getData(@RequestParam(defaultValue = "1") Integer pageNum,
-                                      @RequestParam(defaultValue = "10") Integer pageSize,
-                                      String courseId) {
+    public ServiceQueryResult getVideoData(@RequestParam(defaultValue = "1") Integer pageNum,
+                                           @RequestParam(defaultValue = "10") Integer pageSize,
+                                           String courseId) {
         long id = StrUtil.isNotBlank(courseId) ? Long.parseLong(courseId) : UtilConstants.Number.ZERO;
         return ServiceQueryResult.asSuccess(courseVideoInfoService.selectAllByCourseIdwithPage(pageNum, pageSize, id));
     }

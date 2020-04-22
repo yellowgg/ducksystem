@@ -1,7 +1,11 @@
 package cn.yellowgg.ducksystem.service;
 
 import cn.yellowgg.ducksystem.entity.association.TeacherAndCourse;
-import cn.yellowgg.ducksystem.mapper.TeacherandcourseMapper;
+import cn.yellowgg.ducksystem.entity.expand.TeacherAndCourseExpand;
+import cn.yellowgg.ducksystem.mapper.TeacherAndCourseMapper;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -13,10 +17,12 @@ import java.util.List;
  * @Date: Created in 2020/4/13 13:46
  */
 @Service
-public class TeacherandcourseService {
+public class TeacherAndCourseService {
 
     @Resource
-    private TeacherandcourseMapper teacherandcourseMapper;
+    private TeacherAndCourseMapper teacherandcourseMapper;
+    @Autowired
+    private TeacherAndCourseMapper teacherAndCourseMapper;
 
     public int deleteByPrimaryKey(Long id) {
         return teacherandcourseMapper.deleteByPrimaryKey(id);
@@ -62,9 +68,12 @@ public class TeacherandcourseService {
         return teacherandcourseMapper.batchInsert(list);
     }
 
-    public Long countByTeacherId(Long teacherId) {
-        return teacherandcourseMapper.countByTeacherId(teacherId);
+    public PageInfo<TeacherAndCourseExpand> findByAllwithPage(int page, int pageSize, TeacherAndCourse teacherAndCourse) {
+        PageHelper.startPage(page, pageSize);
+        return new PageInfo<>(teacherAndCourseMapper.findByAll(teacherAndCourse));
     }
 
-
+    public int updateTeacherIdByCourseId(TeacherAndCourse teacherAndCourse) {
+        return teacherAndCourseMapper.updateTeacherIdByCourseId(teacherAndCourse.getTeacherId(), teacherAndCourse.getCourseId());
+    }
 }

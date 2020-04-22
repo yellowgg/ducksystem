@@ -32,7 +32,7 @@ public interface ExpensesRecordMapper {
     //region 查
     ExpensesRecord selectByPrimaryKey(Long id);
 
-    List<ExpensesRecord> findByWalletId(@Param("walletId") Long walletId);
+    List<ExpensesRecord> findByWalletIdOrderByIdDesc(@Param("walletId") Long walletId);
     //endregion
 
     //region 改

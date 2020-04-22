@@ -5,12 +5,10 @@ import cn.yellowgg.ducksystem.entity.Course;
 import cn.yellowgg.ducksystem.entity.ExpensesRecord;
 import cn.yellowgg.ducksystem.entity.IntegralRecord;
 import cn.yellowgg.ducksystem.entity.Wallet;
+import cn.yellowgg.ducksystem.entity.association.AccountAndCourse;
 import cn.yellowgg.ducksystem.enums.ExpensesTypeEnum;
 import cn.yellowgg.ducksystem.exception.CustomException;
-import cn.yellowgg.ducksystem.mapper.CourseMapper;
-import cn.yellowgg.ducksystem.mapper.ExpensesRecordMapper;
-import cn.yellowgg.ducksystem.mapper.IntegralrecordMapper;
-import cn.yellowgg.ducksystem.mapper.WalletMapper;
+import cn.yellowgg.ducksystem.mapper.*;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -33,6 +31,8 @@ public class WalletService {
     @Resource
     ExpensesRecordMapper expensesRecordMapper;
     @Resource
+    AccountAndCourseMapper accountAndCourseMapper;
+    @Resource
     CourseMapper courseMapper;
 
     /**
@@ -49,7 +49,7 @@ public class WalletService {
             recharge(wallet, amount);
         } else {
             // 消费
-            useAmount(wallet, amount, courseMapper.selectByPrimaryKey(courseId));
+            useAmount(wallet, amount, courseMapper.selectByPrimaryKey(courseId), accountId);
         }
         // 保存钱包
         return walletMapper.updateByPrimaryKey(wallet);
@@ -58,7 +58,7 @@ public class WalletService {
     /**
      * 消费
      */
-    public void useAmount(Wallet wallet, BigDecimal amount, Course course) throws CustomException {
+    public void useAmount(Wallet wallet, BigDecimal amount, Course course, Long accountId) throws CustomException {
         if (Objects.isNull(wallet) || Objects.isNull(course)) {
             throw new CustomException("购买失败，请重试");
         }
@@ -69,7 +69,7 @@ public class WalletService {
         //  累计消费
         wallet.setTotalConsumption(wallet.getTotalConsumption().add(amount));
         // 加积分
-        wallet.setIntegral(course.getIntegral());
+        wallet.setIntegral(wallet.getIntegral() + course.getIntegral());
         //  插入积分记录
         IntegralRecord integralrecord = new IntegralRecord(wallet.getId());
         integralrecord.setIntegral(course.getIntegral().longValue());
@@ -82,6 +82,8 @@ public class WalletService {
         expensesRecord.setDescription(StrUtil.format(
                 "{}：{},使用了{}元",
                 ExpensesTypeEnum.BUYCLASS.getName(), course.getName(), amount));
+        // 插入买课记录
+        accountAndCourseMapper.insert(new AccountAndCourse(accountId, course.getId()));
         expensesRecordMapper.insert(expensesRecord);
     }
 
@@ -105,6 +107,13 @@ public class WalletService {
      */
     public List<ExpensesRecord> getExpensesRecordList(Long accountId) {
         return expensesRecordMapper.findByWalletIdOrderByIdDesc(walletMapper.findIdByAccountId(accountId));
+    }
+
+    /**
+     * 获取积分记录
+     */
+    public List<IntegralRecord> getIntegralRecordList(Long accountId) {
+        return integralrecordMapper.findByWalletIdOrderByIdDesc(walletMapper.findIdByAccountId(accountId));
     }
 
     public int deleteByPrimaryKey(Long id) {

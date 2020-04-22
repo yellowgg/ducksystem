@@ -5,12 +5,10 @@ import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import cn.yellowgg.ducksystem.constant.UtilConstants;
 import cn.yellowgg.ducksystem.entity.*;
+import cn.yellowgg.ducksystem.entity.association.AccountAndCourse;
 import cn.yellowgg.ducksystem.entity.association.CourseCollection;
 import cn.yellowgg.ducksystem.exception.CustomException;
-import cn.yellowgg.ducksystem.service.AccountService;
-import cn.yellowgg.ducksystem.service.CourseService;
-import cn.yellowgg.ducksystem.service.CourseCollectionService;
-import cn.yellowgg.ducksystem.service.WalletService;
+import cn.yellowgg.ducksystem.service.*;
 import cn.yellowgg.ducksystem.service.base.ServiceQueryResult;
 import cn.yellowgg.ducksystem.service.base.ServiceResult;
 import cn.yellowgg.ducksystem.utils.LogUtils;
@@ -55,6 +53,8 @@ public class AccountController {
     CourseCollectionService coursecollectionService;
     @Autowired
     CourseService courseService;
+    @Autowired
+    AccountAndCourseService accountAndCourseService;
 
     @ApiOperation("保存微信用户信息")
     @PostMapping("/saveAccount")
@@ -168,5 +168,49 @@ public class AccountController {
                 Long.parseLong(courseId)) > UtilConstants.Number.ZERO
                 ? ServiceResult.asSuccess(null)
                 : ServiceResult.asFail("删除失败");
+    }
+
+    @ApiOperation("获取积分列表")
+    @GetMapping("/getScoreRecords")
+    public ServiceQueryResult getIntegralrecords(@NotBlank(message = "用户ID不许为空") String accountId) {
+        List<IntegralRecord> recordList = walletService.getIntegralRecordList(Long.parseLong(accountId));
+        return CollectionUtils.isEmpty(recordList)
+                ? ServiceQueryResult.asFail("暂无积分明细")
+                : ServiceQueryResult.asSuccess(recordList);
+    }
+
+    @ApiOperation("查询这个课买了没")
+    @GetMapping("/findCourseIsBuy")
+    public ServiceResult findCourseIsBuy(@NotBlank(message = "用户ID不许为空") String accountId,
+                                         @NotBlank(message = "课程ID不许为空") String courseId) {
+        AccountAndCourse result = accountAndCourseService.findByAccountIdAndCourseId(Long.parseLong(accountId), Long.parseLong(courseId));
+        return Objects.nonNull(result) ? ServiceResult.asSuccess(null) : ServiceResult.asFail("未购买");
+    }
+
+    @ApiOperation("已购买的课程列表")
+    @GetMapping("/buyList")
+    public ServiceResult buyList(@NotBlank(message = "用户ID不许为空") String accountId) {
+        JSONObject json = new JSONObject();
+        // 收藏的课程ID
+        List<Long> collectCourseIds = accountAndCourseService.findCourseIdByAccountId(Long.parseLong(accountId));
+        // 课程 有的课程可能会被删
+        List<Course> courseList = courseService.findAllByIdIn(collectCourseIds);
+        // 找出被删除的课程的ID
+        json.put("failureCourseIds",
+                courseList.stream()
+                        .filter(x -> UtilConstants.Number.ONE == x.getIsDelete())
+                        .map(Course::getId)
+                        .collect(Collectors.toList()));
+        json.put("courseList", courseList);
+        //region 因为是这样返回的json，所以需要手动去掉字段
+        JSONArray jsonArray = (JSONArray) json.get("courseList");
+        for (int i = 0; i < jsonArray.size(); i++) {
+            JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+            jsonObject.remove("isDelete");
+            jsonObject.remove("gmtCreate");
+            jsonObject.remove("gmtModify");
+        }
+        //endregion
+        return ServiceResult.asSuccess(json);
     }
 }

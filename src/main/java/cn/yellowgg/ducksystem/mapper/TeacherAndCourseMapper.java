@@ -45,7 +45,6 @@ public interface TeacherAndCourseMapper {
 
     List<TeacherAndCourse> findByAll(TeacherAndCourse teacherAndCourse);
 
-
     Long countByTeacherId(@Param("teacherId") Long teacherId);
     //endregion
 }

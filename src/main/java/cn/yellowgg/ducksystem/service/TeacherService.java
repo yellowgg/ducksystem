@@ -2,6 +2,7 @@ package cn.yellowgg.ducksystem.service;
 
 import cn.yellowgg.ducksystem.constant.UtilConstants;
 import cn.yellowgg.ducksystem.entity.Teacher;
+import cn.yellowgg.ducksystem.entity.result.TeacherResult;
 import cn.yellowgg.ducksystem.mapper.TeacherMapper;
 import cn.yellowgg.ducksystem.mapper.TeacherAndCourseMapper;
 import com.github.pagehelper.PageHelper;
@@ -92,4 +93,7 @@ public class TeacherService {
         return teacherMapper.queryByAllOrderById(null);
     }
 
+    public List<TeacherResult> findIdAndName() {
+        return teacherMapper.findIdAndName();
+    }
 }

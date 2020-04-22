@@ -1,5 +1,6 @@
-package cn.yellowgg.ducksystem.entity;
+package cn.yellowgg.ducksystem.entity.expand;
 
+import cn.yellowgg.ducksystem.entity.Course;
 import lombok.Data;
 import lombok.ToString;
 

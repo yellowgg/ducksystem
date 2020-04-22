@@ -2,7 +2,7 @@ package cn.yellowgg.ducksystem.service;
 
 import cn.yellowgg.ducksystem.constant.UtilConstants;
 import cn.yellowgg.ducksystem.entity.Course;
-import cn.yellowgg.ducksystem.entity.CourseExpand;
+import cn.yellowgg.ducksystem.entity.expand.CourseExpand;
 import cn.yellowgg.ducksystem.entity.association.TeacherAndCourse;
 import cn.yellowgg.ducksystem.entity.result.CourseResult;
 import cn.yellowgg.ducksystem.mapper.CourseMapper;

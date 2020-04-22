@@ -23,7 +23,7 @@
         <result column="isHot" jdbcType="INTEGER" property="isHotCourse"/>
     </resultMap>
 
-    <resultMap id="QueryResultMap" type="cn.yellowgg.ducksystem.entity.CourseExpand">
+    <resultMap id="QueryResultMap" type="cn.yellowgg.ducksystem.entity.expand.CourseExpand">
         <!--@mbg.generated-->
         <!--@Table course-->
         <id column="id" jdbcType="BIGINT" property="id"/>

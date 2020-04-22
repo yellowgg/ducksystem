@@ -2,7 +2,7 @@ package cn.yellowgg.ducksystem.controller;
 
 import cn.hutool.core.util.StrUtil;
 import cn.yellowgg.ducksystem.constant.UtilConstants;
-import cn.yellowgg.ducksystem.entity.CourseExpand;
+import cn.yellowgg.ducksystem.entity.expand.CourseExpand;
 import cn.yellowgg.ducksystem.entity.CourseVideoInfo;
 import cn.yellowgg.ducksystem.entity.Teacher;
 import cn.yellowgg.ducksystem.entity.result.CourseResult;

@@ -1,6 +1,6 @@
 package cn.yellowgg.ducksystem.mapper;
 import cn.yellowgg.ducksystem.entity.Course;
-import cn.yellowgg.ducksystem.entity.CourseExpand;
+import cn.yellowgg.ducksystem.entity.expand.CourseExpand;
 import cn.yellowgg.ducksystem.entity.result.CourseResult;
 import org.apache.ibatis.annotations.Param;
 

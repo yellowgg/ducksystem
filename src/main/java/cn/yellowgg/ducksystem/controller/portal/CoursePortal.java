@@ -1,7 +1,7 @@
 package cn.yellowgg.ducksystem.controller.portal;
 
 import cn.yellowgg.ducksystem.entity.Course;
-import cn.yellowgg.ducksystem.entity.CourseExpand;
+import cn.yellowgg.ducksystem.entity.expand.CourseExpand;
 import cn.yellowgg.ducksystem.entity.CourseVideoInfo;
 import cn.yellowgg.ducksystem.service.CourseService;
 import cn.yellowgg.ducksystem.service.CourseVideoInfoService;

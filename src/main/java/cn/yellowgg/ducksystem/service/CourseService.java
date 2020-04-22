@@ -7,9 +7,11 @@ import cn.yellowgg.ducksystem.mapper.CourseVideoInfoMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -87,6 +89,14 @@ public class CourseService {
         return courseMapper.countByIsHotCourse() < UtilConstants.Number.THREE
                 ? Lists.newArrayList()
                 : courseMapper.findThreeIsHot();
+    }
+
+    public List<Course> findAllByIdIn(Collection<Long> idCollection) {
+        if (CollectionUtils.isEmpty(idCollection)) {
+            return Lists.newArrayList();
+        }
+        List<Course> resultList = courseMapper.findAllByIdIn(idCollection);
+        return CollectionUtils.isEmpty(resultList) ? Lists.newArrayList() : resultList;
     }
 
 }

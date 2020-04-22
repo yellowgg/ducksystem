@@ -1,18 +1,21 @@
 package cn.yellowgg.ducksystem.controller.portal;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONArray;
+import cn.hutool.json.JSONObject;
 import cn.yellowgg.ducksystem.constant.UtilConstants;
-import cn.yellowgg.ducksystem.entity.Account;
-import cn.yellowgg.ducksystem.entity.ExpensesRecord;
-import cn.yellowgg.ducksystem.entity.Wallet;
+import cn.yellowgg.ducksystem.entity.*;
 import cn.yellowgg.ducksystem.exception.CustomException;
 import cn.yellowgg.ducksystem.service.AccountService;
+import cn.yellowgg.ducksystem.service.CourseService;
+import cn.yellowgg.ducksystem.service.CourseCollectionService;
 import cn.yellowgg.ducksystem.service.WalletService;
 import cn.yellowgg.ducksystem.service.base.ServiceQueryResult;
 import cn.yellowgg.ducksystem.service.base.ServiceResult;
 import cn.yellowgg.ducksystem.utils.LogUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.apache.commons.collections.CollectionUtils;
 import org.hibernate.validator.constraints.Range;
 import org.slf4j.Logger;
@@ -29,6 +32,7 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @Author: yellowgg
@@ -46,12 +50,16 @@ public class AccountController {
     AccountService accountService;
     @Autowired
     WalletService walletService;
+    @Autowired
+    CourseCollectionService coursecollectionService;
+    @Autowired
+    CourseService courseService;
 
     @ApiOperation("保存微信用户信息")
     @PostMapping("/saveAccount")
     public ServiceResult saveAccount(@Valid Account accout) {
         return accountService.register(accout) > UtilConstants.Number.ZERO
-                ? ServiceResult.asSuccess(null, "保存成功")
+                ? ServiceResult.asSuccess(accout.getId(), "保存成功")
                 : ServiceResult.asFail("保存失败");
     }
 
@@ -103,4 +111,52 @@ public class AccountController {
         }
         return result;
     }
+
+    @ApiOperation("收藏的课程列表")
+    @GetMapping("/collectList")
+    public ServiceResult collectList(@NotBlank(message = "用户ID不许为空") String accountId) {
+        JSONObject json = new JSONObject();
+        // 收藏的课程ID
+        List<Long> collectCourseIds = coursecollectionService.findCourseIdByAccountId(Long.parseLong(accountId));
+        // 课程 有的课程可能会被删
+        List<Course> courseList = courseService.findAllByIdIn(collectCourseIds);
+        // 找出被删除的课程的ID
+        json.put("failureCourseIds",
+                courseList.stream()
+                        .filter(x -> UtilConstants.Number.ONE == x.getIsDelete())
+                        .map(Course::getId)
+                        .collect(Collectors.toList()));
+        json.put("courseList", courseList);
+        //region 因为是这样返回的json，所以需要手动去掉字段
+        JSONArray jsonArray = (JSONArray) json.get("courseList");
+        for (int i = 0; i < jsonArray.size(); i++) {
+            JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+            jsonObject.remove("isDelete");
+            jsonObject.remove("gmtCreate");
+            jsonObject.remove("gmtModify");
+        }
+        //endregion
+        return ServiceResult.asSuccess(json);
+    }
+
+    @ApiOperation("查询是否收藏")
+    @GetMapping("/isCollect")
+    public ServiceResult isCollect(@NotBlank(message = "用户ID不许为空") String accountId,
+                                   @NotBlank(message = "课程ID不许为空") String courseId) {
+        CourseCollection collection = coursecollectionService.findByAccountIdAndCourseId(Long.parseLong(accountId), Long.parseLong(courseId));
+        return Objects.nonNull(collection) ? ServiceResult.asSuccess(collection.getIsDelete()) : ServiceResult.asFail("暂无收藏");
+    }
+
+    @ApiOperation("课程的收藏与否动作")
+    @PostMapping("/collectCourse")
+    public ServiceResult collectCourse(@Range(max = 1L, message = "只能0或1来收藏") @ApiParam(value = "1取消收藏 0收藏")
+                                       @NotNull(message = "收藏不能空") Integer isCollect,
+                                       @NotBlank(message = "用户ID不许为空") String accountId,
+                                       @NotBlank(message = "课程ID不许为空") String courseId) {
+        return coursecollectionService.insertOrUpdate(new CourseCollection(
+                Long.parseLong(accountId), Long.parseLong(courseId)), isCollect) > UtilConstants.Number.ZERO
+                ? ServiceResult.asSuccess("保存成功")
+                : ServiceResult.asFail("保存失败");
+    }
+
 }

@@ -43,6 +43,7 @@
         <result column="t_name" jdbcType="VARCHAR" property="tName"/>
         <result column="jobTitle" jdbcType="VARCHAR" property="tJobTitle"/>
         <result column="education" jdbcType="VARCHAR" property="tEducation"/>
+        <result column="picUrl" jdbcType="VARCHAR" property="tImgUrl"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -54,7 +55,7 @@
     <sql id="CourseAndTeacher_Column_List">
         <!--@mbg.generated-->
         c.id,c.gmtCreate, c.gmtModify, c.isDelete, c.Introduction, c.characteristical, c.details, c.integral,
-        c.`name`, c.price, c.`type`, c.imgUrl, c.isHot,t.id t_id,t.name t_name,t.jobTitle,t.education
+        c.`name`, c.price, c.`type`, c.imgUrl, c.isHot,t.id t_id,t.name t_name,t.jobTitle,t.education,t.picUrl
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         <!--@mbg.generated-->

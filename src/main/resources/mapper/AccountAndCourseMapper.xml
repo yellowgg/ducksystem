@@ -1,47 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.yellowgg.ducksystem.mapper.IntegralrecordMapper">
-    <resultMap id="BaseResultMap" type="cn.yellowgg.ducksystem.entity.IntegralRecord">
+<mapper namespace="cn.yellowgg.ducksystem.mapper.AccountAndCourseMapper">
+    <resultMap id="BaseResultMap" type="cn.yellowgg.ducksystem.entity.association.AccountAndCourse">
         <!--@mbg.generated-->
-        <!--@Table integralrecord-->
+        <!--@Table accountandcourse-->
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="gmtCreate" jdbcType="TIMESTAMP" property="gmtCreate"/>
         <result column="gmtModify" jdbcType="TIMESTAMP" property="gmtModify"/>
         <result column="isDelete" jdbcType="INTEGER" property="isDelete"/>
-        <result column="walletId" jdbcType="BIGINT" property="walletId"/>
-        <result column="integral" jdbcType="BIGINT" property="integral"/>
-        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="accountId" jdbcType="BIGINT" property="accountId"/>
+        <result column="courseId" jdbcType="BIGINT" property="courseId"/>
     </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
-        id, gmtCreate, gmtModify, isDelete, walletId, integral, description
+        id, gmtCreate, gmtModify, isDelete, accountId, courseId
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         <!--@mbg.generated-->
         select
         <include refid="Base_Column_List"/>
-        from integralrecord
+        from accountandcourse
         where id = #{id,jdbcType=BIGINT}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         <!--@mbg.generated-->
-        delete from integralrecord
+        delete from accountandcourse
         where id = #{id,jdbcType=BIGINT}
     </delete>
-    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.yellowgg.ducksystem.entity.IntegralRecord"
-            useGeneratedKeys="true">
+    <insert id="insert" keyColumn="id" keyProperty="id"
+            parameterType="cn.yellowgg.ducksystem.entity.association.AccountAndCourse" useGeneratedKeys="true">
         <!--@mbg.generated-->
-        insert into integralrecord (gmtCreate, gmtModify, isDelete,
-        walletId, integral, description
-        )
+        insert into accountandcourse (gmtCreate, gmtModify, isDelete,
+        accountId, courseId)
         values (#{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=INTEGER},
-        #{walletId,jdbcType=BIGINT}, #{integral,jdbcType=BIGINT}, #{description,jdbcType=VARCHAR}
-        )
+        #{accountId,jdbcType=BIGINT}, #{courseId,jdbcType=BIGINT})
     </insert>
     <insert id="insertSelective" keyColumn="id" keyProperty="id"
-            parameterType="cn.yellowgg.ducksystem.entity.IntegralRecord" useGeneratedKeys="true">
+            parameterType="cn.yellowgg.ducksystem.entity.association.AccountAndCourse" useGeneratedKeys="true">
         <!--@mbg.generated-->
-        insert into integralrecord
+        insert into accountandcourse
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="gmtCreate != null">
                 gmtCreate,
@@ -52,14 +49,11 @@
             <if test="isDelete != null">
                 isDelete,
             </if>
-            <if test="walletId != null">
-                walletId,
+            <if test="accountId != null">
+                accountId,
             </if>
-            <if test="integral != null">
-                integral,
-            </if>
-            <if test="description != null and description != ''">
-                description,
+            <if test="courseId != null">
+                courseId,
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -72,20 +66,17 @@
             <if test="isDelete != null">
                 #{isDelete,jdbcType=INTEGER},
             </if>
-            <if test="walletId != null">
-                #{walletId,jdbcType=BIGINT},
+            <if test="accountId != null">
+                #{accountId,jdbcType=BIGINT},
             </if>
-            <if test="integral != null">
-                #{integral,jdbcType=BIGINT},
-            </if>
-            <if test="description != null and description != ''">
-                #{description,jdbcType=VARCHAR},
+            <if test="courseId != null">
+                #{courseId,jdbcType=BIGINT},
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="cn.yellowgg.ducksystem.entity.IntegralRecord">
+    <update id="updateByPrimaryKeySelective" parameterType="cn.yellowgg.ducksystem.entity.association.AccountAndCourse">
         <!--@mbg.generated-->
-        update integralrecord
+        update accountandcourse
         <set>
             <if test="gmtCreate != null">
                 gmtCreate = #{gmtCreate,jdbcType=TIMESTAMP},
@@ -96,32 +87,28 @@
             <if test="isDelete != null">
                 isDelete = #{isDelete,jdbcType=INTEGER},
             </if>
-            <if test="walletId != null">
-                walletId = #{walletId,jdbcType=BIGINT},
+            <if test="accountId != null">
+                accountId = #{accountId,jdbcType=BIGINT},
             </if>
-            <if test="integral != null">
-                integral = #{integral,jdbcType=BIGINT},
-            </if>
-            <if test="description != null and description != ''">
-                description = #{description,jdbcType=VARCHAR},
+            <if test="courseId != null">
+                courseId = #{courseId,jdbcType=BIGINT},
             </if>
         </set>
         where id = #{id,jdbcType=BIGINT}
     </update>
-    <update id="updateByPrimaryKey" parameterType="cn.yellowgg.ducksystem.entity.IntegralRecord">
+    <update id="updateByPrimaryKey" parameterType="cn.yellowgg.ducksystem.entity.association.AccountAndCourse">
         <!--@mbg.generated-->
-        update integralrecord
+        update accountandcourse
         set gmtCreate = #{gmtCreate,jdbcType=TIMESTAMP},
         gmtModify = #{gmtModify,jdbcType=TIMESTAMP},
         isDelete = #{isDelete,jdbcType=INTEGER},
-        walletId = #{walletId,jdbcType=BIGINT},
-        integral = #{integral,jdbcType=BIGINT},
-        description = #{description,jdbcType=VARCHAR}
+        accountId = #{accountId,jdbcType=BIGINT},
+        courseId = #{courseId,jdbcType=BIGINT}
         where id = #{id,jdbcType=BIGINT}
     </update>
     <update id="updateBatch" parameterType="java.util.List">
         <!--@mbg.generated-->
-        update integralrecord
+        update accountandcourse
         <trim prefix="set" suffixOverrides=",">
             <trim prefix="gmtCreate = case" suffix="end,">
                 <foreach collection="list" index="index" item="item">
@@ -138,19 +125,14 @@
                     when id = #{item.id,jdbcType=BIGINT} then #{item.isDelete,jdbcType=INTEGER}
                 </foreach>
             </trim>
-            <trim prefix="walletId = case" suffix="end,">
+            <trim prefix="accountId = case" suffix="end,">
                 <foreach collection="list" index="index" item="item">
-                    when id = #{item.id,jdbcType=BIGINT} then #{item.walletId,jdbcType=BIGINT}
+                    when id = #{item.id,jdbcType=BIGINT} then #{item.accountId,jdbcType=BIGINT}
                 </foreach>
             </trim>
-            <trim prefix="integral = case" suffix="end,">
+            <trim prefix="courseId = case" suffix="end,">
                 <foreach collection="list" index="index" item="item">
-                    when id = #{item.id,jdbcType=BIGINT} then #{item.integral,jdbcType=BIGINT}
-                </foreach>
-            </trim>
-            <trim prefix="description = case" suffix="end,">
-                <foreach collection="list" index="index" item="item">
-                    when id = #{item.id,jdbcType=BIGINT} then #{item.description,jdbcType=VARCHAR}
+                    when id = #{item.id,jdbcType=BIGINT} then #{item.courseId,jdbcType=BIGINT}
                 </foreach>
             </trim>
         </trim>
@@ -161,7 +143,7 @@
     </update>
     <update id="updateBatchSelective" parameterType="java.util.List">
         <!--@mbg.generated-->
-        update integralrecord
+        update accountandcourse
         <trim prefix="set" suffixOverrides=",">
             <trim prefix="gmtCreate = case" suffix="end,">
                 <foreach collection="list" index="index" item="item">
@@ -184,24 +166,17 @@
                     </if>
                 </foreach>
             </trim>
-            <trim prefix="walletId = case" suffix="end,">
+            <trim prefix="accountId = case" suffix="end,">
                 <foreach collection="list" index="index" item="item">
-                    <if test="item.walletId != null">
-                        when id = #{item.id,jdbcType=BIGINT} then #{item.walletId,jdbcType=BIGINT}
+                    <if test="item.accountId != null">
+                        when id = #{item.id,jdbcType=BIGINT} then #{item.accountId,jdbcType=BIGINT}
                     </if>
                 </foreach>
             </trim>
-            <trim prefix="integral = case" suffix="end,">
+            <trim prefix="courseId = case" suffix="end,">
                 <foreach collection="list" index="index" item="item">
-                    <if test="item.integral != null">
-                        when id = #{item.id,jdbcType=BIGINT} then #{item.integral,jdbcType=BIGINT}
-                    </if>
-                </foreach>
-            </trim>
-            <trim prefix="description = case" suffix="end,">
-                <foreach collection="list" index="index" item="item">
-                    <if test="item.description != null">
-                        when id = #{item.id,jdbcType=BIGINT} then #{item.description,jdbcType=VARCHAR}
+                    <if test="item.courseId != null">
+                        when id = #{item.id,jdbcType=BIGINT} then #{item.courseId,jdbcType=BIGINT}
                     </if>
                 </foreach>
             </trim>
@@ -213,20 +188,19 @@
     </update>
     <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
         <!--@mbg.generated-->
-        insert into integralrecord
-        (gmtCreate, gmtModify, isDelete, walletId, integral, description)
+        insert into accountandcourse
+        (gmtCreate, gmtModify, isDelete, accountId, courseId)
         values
         <foreach collection="list" item="item" separator=",">
             (#{item.gmtCreate,jdbcType=TIMESTAMP}, #{item.gmtModify,jdbcType=TIMESTAMP},
             #{item.isDelete,jdbcType=INTEGER},
-            #{item.walletId,jdbcType=BIGINT}, #{item.integral,jdbcType=BIGINT}, #{item.description,jdbcType=VARCHAR}
-            )
+            #{item.accountId,jdbcType=BIGINT}, #{item.courseId,jdbcType=BIGINT})
         </foreach>
     </insert>
     <insert id="insertOrUpdate" keyColumn="id" keyProperty="id"
-            parameterType="cn.yellowgg.ducksystem.entity.IntegralRecord" useGeneratedKeys="true">
+            parameterType="cn.yellowgg.ducksystem.entity.association.AccountAndCourse" useGeneratedKeys="true">
         <!--@mbg.generated-->
-        insert into integralrecord
+        insert into accountandcourse
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
                 id,
@@ -234,9 +208,8 @@
             gmtCreate,
             gmtModify,
             isDelete,
-            walletId,
-            integral,
-            description,
+            accountId,
+            courseId,
         </trim>
         values
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -246,9 +219,8 @@
             #{gmtCreate,jdbcType=TIMESTAMP},
             #{gmtModify,jdbcType=TIMESTAMP},
             #{isDelete,jdbcType=INTEGER},
-            #{walletId,jdbcType=BIGINT},
-            #{integral,jdbcType=BIGINT},
-            #{description,jdbcType=VARCHAR},
+            #{accountId,jdbcType=BIGINT},
+            #{courseId,jdbcType=BIGINT},
         </trim>
         on duplicate key update
         <trim suffixOverrides=",">
@@ -258,15 +230,14 @@
             gmtCreate = #{gmtCreate,jdbcType=TIMESTAMP},
             gmtModify = #{gmtModify,jdbcType=TIMESTAMP},
             isDelete = #{isDelete,jdbcType=INTEGER},
-            walletId = #{walletId,jdbcType=BIGINT},
-            integral = #{integral,jdbcType=BIGINT},
-            description = #{description,jdbcType=VARCHAR},
+            accountId = #{accountId,jdbcType=BIGINT},
+            courseId = #{courseId,jdbcType=BIGINT},
         </trim>
     </insert>
     <insert id="insertOrUpdateSelective" keyColumn="id" keyProperty="id"
-            parameterType="cn.yellowgg.ducksystem.entity.IntegralRecord" useGeneratedKeys="true">
+            parameterType="cn.yellowgg.ducksystem.entity.association.AccountAndCourse" useGeneratedKeys="true">
         <!--@mbg.generated-->
-        insert into integralrecord
+        insert into accountandcourse
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
                 id,
@@ -280,14 +251,11 @@
             <if test="isDelete != null">
                 isDelete,
             </if>
-            <if test="walletId != null">
-                walletId,
+            <if test="accountId != null">
+                accountId,
             </if>
-            <if test="integral != null">
-                integral,
-            </if>
-            <if test="description != null">
-                description,
+            <if test="courseId != null">
+                courseId,
             </if>
         </trim>
         values
@@ -304,14 +272,11 @@
             <if test="isDelete != null">
                 #{isDelete,jdbcType=INTEGER},
             </if>
-            <if test="walletId != null">
-                #{walletId,jdbcType=BIGINT},
+            <if test="accountId != null">
+                #{accountId,jdbcType=BIGINT},
             </if>
-            <if test="integral != null">
-                #{integral,jdbcType=BIGINT},
-            </if>
-            <if test="description != null">
-                #{description,jdbcType=VARCHAR},
+            <if test="courseId != null">
+                #{courseId,jdbcType=BIGINT},
             </if>
         </trim>
         on duplicate key update
@@ -328,23 +293,28 @@
             <if test="isDelete != null">
                 isDelete = #{isDelete,jdbcType=INTEGER},
             </if>
-            <if test="walletId != null">
-                walletId = #{walletId,jdbcType=BIGINT},
+            <if test="accountId != null">
+                accountId = #{accountId,jdbcType=BIGINT},
             </if>
-            <if test="integral != null">
-                integral = #{integral,jdbcType=BIGINT},
-            </if>
-            <if test="description != null">
-                description = #{description,jdbcType=VARCHAR},
+            <if test="courseId != null">
+                courseId = #{courseId,jdbcType=BIGINT},
             </if>
         </trim>
     </insert>
 
     <!--auto generated by MybatisCodeHelper on 2020-04-23-->
-    <select id="findByWalletIdOrderByIdDesc" resultMap="BaseResultMap">
+    <select id="findByAccountIdAndCourseId" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        from integralrecord
-        where isDelete = 0 and walletId=#{walletId,jdbcType=BIGINT} order by id desc
+        from accountandcourse
+        where isDelete = 0 and accountId=#{accountId,jdbcType=BIGINT} and courseId=#{courseId,jdbcType=BIGINT}
+    </select>
+
+    <!--auto generated by MybatisCodeHelper on 2020-04-23-->
+    <select id="findCourseIdByAccountId" resultType="java.lang.Long">
+        select courseId
+        from accountandcourse
+        where isDelete = 0
+          and accountId = #{accountId,jdbcType=BIGINT}
     </select>
 </mapper>

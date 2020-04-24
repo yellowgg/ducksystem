@@ -1,6 +1,9 @@
 package cn.yellowgg.ducksystem.entity;
 
+import cn.hutool.core.date.DateUtil;
+import cn.yellowgg.ducksystem.constant.UtilConstants;
 import cn.yellowgg.ducksystem.entity.base.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonGetter;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -12,6 +15,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class IntegralRecord extends BaseEntity {
+
     private Long walletId;
 
     private Long integral;
@@ -21,4 +25,10 @@ public class IntegralRecord extends BaseEntity {
     public IntegralRecord(Long walletId) {
         this.walletId = walletId;
     }
+
+    @JsonGetter("createTime")
+    public String createShow() {
+        return DateUtil.format(getGmtCreate(), UtilConstants.DateFormatStr.NORM_DATETIME_PATTERN);
+    }
+
 }

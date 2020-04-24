@@ -16,4 +16,5 @@ public class CourseExpand extends Course {
     private Long tId;
     private String tJobTitle;
     private String tEducation;
+    private String tImgUrl;
 }

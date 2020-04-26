@@ -108,7 +108,7 @@ public class AccountController {
                     : ServiceResult.asFail("操作失败,请重试");
         } catch (CustomException e) {
             log.info("用户使用钱包交易出错,{}", e.getMsg());
-            return ServiceResult.asFail("操作失败，请重试");
+            return ServiceResult.asFail("余额不足");
         }
         return result;
     }

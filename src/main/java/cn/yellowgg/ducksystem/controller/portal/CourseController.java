@@ -25,7 +25,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/coursePortal")
 @Api(tags = "课程信息门户")
-public class CoursePortal {
+public class CourseController {
 
     @Autowired
     CourseService courseService;

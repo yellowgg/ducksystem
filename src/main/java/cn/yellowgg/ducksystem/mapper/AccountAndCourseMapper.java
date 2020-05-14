@@ -1,6 +1,7 @@
 package cn.yellowgg.ducksystem.mapper;
 
 import cn.yellowgg.ducksystem.entity.association.AccountAndCourse;
+import cn.yellowgg.ducksystem.entity.expand.AccountAndCourseExpand;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -45,6 +46,8 @@ public interface AccountAndCourseMapper {
     AccountAndCourse findByAccountIdAndCourseId(@Param("accountId") Long accountId, @Param("courseId") Long courseId);
 
     List<Long> findCourseIdByAccountId(@Param("accountId") Long accountId);
+
+    List<AccountAndCourseExpand> findAllByNickName(@Param("nickName") String nickName);
 
     //endregion
 

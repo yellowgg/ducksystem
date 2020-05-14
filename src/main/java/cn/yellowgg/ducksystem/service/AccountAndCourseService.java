@@ -1,7 +1,10 @@
 package cn.yellowgg.ducksystem.service;
 
 import cn.yellowgg.ducksystem.entity.association.AccountAndCourse;
+import cn.yellowgg.ducksystem.entity.expand.AccountAndCourseExpand;
 import cn.yellowgg.ducksystem.mapper.AccountAndCourseMapper;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Service;
@@ -84,4 +87,8 @@ public class AccountAndCourseService {
         return CollectionUtils.isEmpty(resultList) ? Lists.newArrayList() : resultList;
     }
 
+    public PageInfo<AccountAndCourseExpand> findAllByNickNamewithPage(int page, int pageSize, String nickName) {
+        PageHelper.startPage(page, pageSize);
+        return new PageInfo<>(accountAndCourseMapper.findAllByNickName(nickName));
+    }
 }

@@ -191,7 +191,7 @@ public class AccountController {
     @GetMapping("/buyList")
     public ServiceResult buyList(@NotBlank(message = "用户ID不许为空") String accountId) {
         JSONObject json = new JSONObject();
-        // 收藏的课程ID
+        // 已购买的课程ID
         List<Long> collectCourseIds = accountAndCourseService.findCourseIdByAccountId(Long.parseLong(accountId));
         // 课程 有的课程可能会被删
         List<Course> courseList = courseService.findAllByIdIn(collectCourseIds);

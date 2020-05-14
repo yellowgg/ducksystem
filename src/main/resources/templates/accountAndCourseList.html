@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>买课列表</title>
+    <link rel="stylesheet" href="/layui-v2.5.6/css/layui.css" media="all">
+    <style type="text/css">
+        body {
+            padding: 20px;
+        }
+
+
+        .layui-table-view .layui-table {
+            position: relative;
+            width: 100%;
+            margin: 0;
+        }
+
+        #addTeacherForm > div.layui-input-block.addTeacherForm_introduction > div > button {
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+<form class="layui-form layui-form-pane" action="" id="teacherSearchForm" method="post"
+      lay-filter="teacherSearchForm" onsubmit="return false;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户名</label>
+        <div class="layui-input-inline" style="width: 150px;">
+            <input type="text" name="nickName" id="nickName" placeholder="请输入微信用户名" autocomplete="off"
+                   class="layui-input">
+        </div>
+        <button class="layui-btn" lay-submit lay-filter="submit" id="queryBtn">查询</button>
+        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+    </div>
+</form>
+<table class="layui-hide" id="teacherTable" lay-filter="teacherTable"></table>
+<script type="text/html" id="zizeng">
+    {{d.LAY_TABLE_INDEX+1}}
+</script>
+</body>
+<script src="/layui-v2.5.6/layui.js" type="text/javascript"></script>
+<script src="/layuiMini/libs/jquery-3.4.1/jquery-3.4.1.min.js" type="text/javascript"></script>
+<script src="/js/myUtils.js" type="text/javascript"></script>
+<script type="text/javascript">
+    // 表格
+    layui.use(['table', 'jquery', 'layer', 'form', 'laydate'], function () {
+        var table = layui.table,
+            $ = layui.$,
+            form = layui.form;
+
+        //执行一个 table 实例
+        var tableReload = table.render({
+            elem: '#teacherTable'
+            , id: 'id'
+            , url: '/accandcou/data' //数据接口
+            , page: {
+                limit: 10 //一页显示多少条
+                , limits: [10, 20, 30]
+            }
+            , cellMinWidth: 80 // 开了这个，就不用全部都设置了
+            , toolbar: false //不开工具栏了，基本用不到这些工具
+            , even: true // 隔行背景
+            , cols: [[{type: 'radio', fixed: 'left', hide: true}
+                , {field: 'zizeng', sort: true, title: '序号', align: 'center', templet: '#zizeng', width: 80}
+                , {field: 'nickName', sort: true, title: '用户名', align: 'center'}
+                , {field: 'courseName', sort: true, title: '课程名', align: 'center'}]
+            ]
+            , request: {
+                pageName: 'pageNum' //页码的参数名称，默认：page
+                , limitName: 'pageSize' //每页数据量的参数名，默认：limit
+            }
+            , response: {
+                statusName: 'respCode' //数据状态的字段名称，默认：code
+                , statusCode: 200 //成功的状态码，默认：0
+                , countName: 'totalCount' //数据总数的字段名称，默认：count
+            }
+        });
+
+        // 表格的重载
+        function tableReloadmethod() {
+            tableReload.reload({
+                where: form.val("teacherSearchForm")
+                , page: {curr: 1}
+            });
+        }
+
+        // 查询按钮，因为重载方法的范围是在layui.use里，所以外边调用不到，需要用点击事件的方法来处理
+        $(document).on('click', '#queryBtn', function () {
+            tableReloadmethod();
+        });
+    });
+</script>
+</html>

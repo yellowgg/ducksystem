@@ -6,6 +6,7 @@ import cn.yellowgg.ducksystem.service.TeacherService;
 import cn.yellowgg.ducksystem.service.base.ServiceQueryResult;
 import cn.yellowgg.ducksystem.service.base.ServiceResult;
 import cn.yellowgg.ducksystem.utils.Base64Utils;
+import cn.yellowgg.ducksystem.vo.WxAppTeacherPickerMapVo;
 import io.swagger.annotations.Api;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.stream.Collectors;
 
 /**
  * @Author: yellowgg
@@ -37,6 +39,17 @@ public class TeacherMgr {
                                       @RequestParam(defaultValue = "10") Integer pageSize,
                                       Teacher teacher) {
         return ServiceQueryResult.asSuccess(teacherService.queryByAllOrderByIdwithPage(pageNum, pageSize, teacher));
+    }
+
+
+    /**
+     * 获取教师的下拉框数据
+     */
+    @GetMapping("/selectData")
+    @ResponseBody
+    public ServiceResult getTeacherSelectMap() {
+        return ServiceResult.asSuccess(teacherService.queryAll().stream().map(x -> new WxAppTeacherPickerMapVo(x.getId(),
+                x.getName())).collect(Collectors.toList()));
     }
 
     @RequiresPermissions({"teacher:add", "teacher:edit"})

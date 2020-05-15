@@ -27,13 +27,13 @@ public class Account extends BaseEntity implements Serializable {
     @NotBlank(message = "微信用户名不可为空")
     @ApiModelProperty(value = "微信用户名", required = true)
     private String nickName;
-    @NotBlank(message = "国家不能为空")
+    // @NotBlank(message = "国家不能为空")
     @ApiModelProperty(value = "国家", required = true)
     private String country;
-    @NotBlank(message = "省份不能为空")
+    // @NotBlank(message = "省份不能为空")
     @ApiModelProperty(value = "省份", required = true)
     private String province;
-    @NotBlank(message = "城市不能为空")
+    // @NotBlank(message = "城市不能为空")
     @ApiModelProperty(value = "城市", required = true)
     private String city;
     @NotBlank(message = "头像不能为空")

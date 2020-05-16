@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -69,5 +70,15 @@ public class TeacherMgr {
                 UtilConstants.Number.THREE))) > UtilConstants.Number.ZERO
                 ? ServiceResult.asSuccess(null, "删除成功")
                 : ServiceResult.asFail("删除失败,检查老师是否有在教课");
+    }
+
+    @GetMapping("/find/{id}")
+    @ResponseBody
+    public ServiceResult findById(@PathVariable String id) {
+        Teacher teacher = teacherService.selectByPrimaryKey(Long.parseLong(Base64Utils.decodeStrofCount(id,
+                UtilConstants.Number.THREE)));
+        return Objects.nonNull(teacher)
+                ? ServiceResult.asSuccess(teacher)
+                : ServiceResult.asFail("查找失败,请稍后重试");
     }
 }

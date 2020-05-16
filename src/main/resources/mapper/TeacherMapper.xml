@@ -454,6 +454,7 @@
         </trim>
         on duplicate key update
         <trim suffixOverrides=",">
+            gmtModify = #{gmtModify,jdbcType=TIMESTAMP},
             <if test="birthday != null">
                 birthday = #{birthday,jdbcType=TIMESTAMP},
             </if>

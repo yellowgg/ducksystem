@@ -2,9 +2,9 @@ package cn.yellowgg.ducksystem.controller;
 
 import cn.hutool.core.util.StrUtil;
 import cn.yellowgg.ducksystem.constant.UtilConstants;
-import cn.yellowgg.ducksystem.entity.expand.CourseExpand;
 import cn.yellowgg.ducksystem.entity.CourseVideoInfo;
 import cn.yellowgg.ducksystem.entity.Teacher;
+import cn.yellowgg.ducksystem.entity.expand.CourseExpand;
 import cn.yellowgg.ducksystem.entity.result.CourseResult;
 import cn.yellowgg.ducksystem.enums.CourseTypeEnum;
 import cn.yellowgg.ducksystem.service.CourseService;
@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -91,6 +92,16 @@ public class CourseMgr {
                 ? ServiceResult.asSuccess(null, "删除成功")
                 : ServiceResult.asFail("删除失败,请稍后重试");
     }
+
+    @GetMapping("/find/{id}")
+    @ResponseBody
+    public ServiceResult findById(@PathVariable String id) {
+        CourseExpand course = courseService.findById(Long.parseLong(Base64Utils.decodeStrofCount(id, UtilConstants.Number.THREE)));
+        return Objects.nonNull(course)
+                ? ServiceResult.asSuccess(course)
+                : ServiceResult.asFail("查找失败,请稍后重试");
+    }
+
 
     @RequiresPermissions({"coursevideo:del"})
     @PostMapping("/video/del/{id}")

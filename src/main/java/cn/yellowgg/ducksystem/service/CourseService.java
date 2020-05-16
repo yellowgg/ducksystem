@@ -56,9 +56,9 @@ public class CourseService {
         if (Objects.nonNull(courseExpand.getId())) {
             courseVideoInfoMapper.updateCourseNameByCourseId(courseExpand.getName(), courseExpand.getId());
         }
+        courseMapper.insertOrUpdateSelective(courseExpand);
         // 教课表
-        teacherAndCourseMapper.insertOrUpdate(new TeacherAndCourse(courseExpand.getTId(), courseExpand.getId()));
-        return courseMapper.insertOrUpdateSelective(courseExpand);
+        return teacherAndCourseMapper.insertOrUpdate(new TeacherAndCourse(courseExpand.getTId(), courseExpand.getId()));
     }
 
     public int insertSelective(Course record) {
@@ -109,6 +109,10 @@ public class CourseService {
 
     public List<CourseResult> findIdAndName() {
         return courseMapper.findIdAndName();
+    }
+
+    public CourseExpand findById(Long id) {
+        return courseMapper.findById(id);
     }
 }
 

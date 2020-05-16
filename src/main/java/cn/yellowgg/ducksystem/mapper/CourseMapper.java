@@ -1,4 +1,5 @@
 package cn.yellowgg.ducksystem.mapper;
+
 import cn.yellowgg.ducksystem.entity.Course;
 import cn.yellowgg.ducksystem.entity.expand.CourseExpand;
 import cn.yellowgg.ducksystem.entity.result.CourseResult;
@@ -47,6 +48,8 @@ public interface CourseMapper {
     List<Course> findAllByIdIn(@Param("idCollection") Collection<Long> idCollection);
 
     List<CourseExpand> queryByAllSelectiveOrderById(CourseExpand courseExpand);
+
+    CourseExpand findById(Long id);
 
     List<Course> findThreeIsHot();
 

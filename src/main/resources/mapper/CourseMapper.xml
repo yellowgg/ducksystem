@@ -639,4 +639,16 @@
         from course
         where isDelete = 0
     </select>
+
+    <select id="findById" parameterType="java.lang.Long" resultMap="QueryResultMap">
+        select
+        <include refid="CourseAndTeacher_Column_List"/>
+        from course c
+        left join teacherAndcourse tc on c.id = tc.courseId
+        left join teacher t on t.id = tc.teacherId
+        where c.isDelete = 0
+        and t.isDelete = 0
+        and c. id = #{id,jdbcType=BIGINT}
+        order by c.id asc
+    </select>
 </mapper>
